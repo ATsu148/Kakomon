@@ -1,33 +1,627 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Notion Search</title>
+  <title>過去問検索システム</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    #results { margin-top: 20px; }
+    * {
+      box-sizing: border-box;
+    }
+    body { 
+      font-family: 'Arial', sans-serif; 
+      margin: 0;
+      padding: 10px;
+      background-color: #f5f5f5;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+    .search-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    #searchInput {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    #searchInput:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    button {
+      padding: 15px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    button:hover, button:active {
+      background-color: #0056b3;
+    }
+    
+    /* タブレット以上のサイズ */
+    @media (min-width: 768px) {
+      body {
+        padding: 20px;
+      }
+      .container {
+        padding: 30px;
+      }
+      h1 {
+        margin-bottom: 30px;
+        font-size: 2rem;
+      }
+      .search-box {
+        flex-direction: row;
+        margin-bottom: 30px;
+      }
+      #searchInput {
+        flex: 1;
+        padding: 12px;
+      }
+      button {
+        padding: 12px 20px;
+        min-height: auto;
+      }
+    }
+    .result-item {
+      border: 1px solid #ddd;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+    .result-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+      cursor: pointer;
+      line-height: 1.4;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .result-title:hover, .result-title:active {
+      color: #007bff;
+    }
+    .result-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .meta-item {
+      padding: 6px 10px;
+      background: #e9ecef;
+      border-radius: 15px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    
+    /* タブレット以上のサイズ */
+    @media (min-width: 768px) {
+      .result-item {
+        margin: 15px 0;
+        padding: 20px;
+      }
+      .result-title {
+        font-size: 18px;
+        min-height: auto;
+      }
+      .result-meta {
+        gap: 15px;
+      }
+      .meta-item {
+        padding: 4px 8px;
+      }
+    }
+    .subject {
+      background: #d4edda;
+      color: #155724;
+    }
+    .grade {
+      background: #cce5ff;
+      color: #004085;
+    }
+    .period {
+      background: #e2d4ff;
+      color: #4b0082;
+    }
+    .files-section {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+    .pdf-icon {
+      color: #dc3545;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .file-link {
+      color: #007bff;
+      text-decoration: none;
+      flex: 1;
+      font-size: 14px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .file-link:hover, .file-link:active {
+      text-decoration: underline;
+    }
+    .file-actions {
+      display: flex;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .file-btn {
+      padding: 8px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      min-height: 36px;
+      white-space: nowrap;
+    }
+    .file-btn.open-tab {
+      background-color: #17a2b8;
+    }
+    .file-btn:hover, .file-btn:active {
+      opacity: 0.8;
+    }
+    .pdf-viewer {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
+    /* タブレット以上のサイズ */
+    @media (min-width: 768px) {
+      .file-item {
+        padding: 8px;
+      }
+      .file-link {
+        min-height: auto;
+      }
+      .file-btn {
+        min-height: auto;
+      }
+      .pdf-viewer {
+        height: 600px;
+      }
+    }
+    .loading {
+      text-align: center;
+      color: #666;
+      padding: 20px;
+    }
+    .error {
+      color: #dc3545;
+      background: #f8d7da;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .filters {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .filter-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+    }
+    .filter-label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+    }
+    select {
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+      min-height: 44px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    select:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+    .clear-filters {
+      padding: 12px 16px;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      min-height: 44px;
+      margin-top: 10px;
+    }
+    .clear-filters:hover, .clear-filters:active {
+      background-color: #5a6268;
+    }
+    
+    /* タブレット以上のサイズ */
+    @media (min-width: 768px) {
+      .filters {
+        flex-direction: row;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+      .filter-row {
+        flex-direction: row;
+        flex: 1;
+      }
+      select {
+        padding: 8px 12px;
+        font-size: 14px;
+        min-height: auto;
+      }
+      .clear-filters {
+        padding: 8px 16px;
+        min-height: auto;
+        margin-top: 0;
+        align-self: flex-end;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Search Notion Database</h1>
-  <input type="text" id="searchInput" placeholder="Enter search term" />
-  <button onclick="search()">Search</button>
-  <div id="results"></div>
+  <div class="container">
+    <h1>過去問検索システム</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+      <button onclick="search()">検索</button>
+    </div>
+    
+    <!-- フィルタセクション -->
+    <div class="filters">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">教科</label>
+          <select id="subjectFilter">
+            <option value="">すべて</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">学年</label>
+          <select id="gradeFilter">
+            <option value="">すべて</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">時期</label>
+          <select id="periodFilter">
+            <option value="">すべて</option>
+          </select>
+        </div>
+      </div>
+      <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
+    </div>
+    
+    <div id="results"></div>
+  </div>
 
   <script>
-    async function search() {
-      const query = document.getElementById('searchInput').value;
-      const response = await fetch('/search?q=' + encodeURIComponent(query));
-      const data = await response.json();
-      const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = '';
-      data.forEach(item => {
-        const div = document.createElement('div');
-        div.textContent = JSON.stringify(item.properties);
-        resultsDiv.appendChild(div);
+    // フィルタオプションを格納する変数
+    let filterOptions = {
+      subjects: new Set(),
+      grades: new Set(),
+      periods: new Set()
+    };
+
+    // データを整理して表示する関数
+    function formatProperty(property) {
+      if (property.type === 'title') {
+        return property.title.map(t => t.plain_text).join('');
+      } else if (property.type === 'multi_select') {
+        return property.multi_select.map(s => s.name).join(', ');
+      } else if (property.type === 'select' && property.select) {
+        return property.select.name;
+      } else if (property.type === 'date' && property.date) {
+        return property.date.start;
+      } else if (property.type === 'number' && property.number !== null) {
+        return property.number.toString();
+      } else if (property.type === 'rich_text') {
+        return property.rich_text.map(t => t.plain_text).join('');
+      }
+      return '';
+    }
+
+    // フィルタオプションを初期化
+    async function initializeFilters() {
+      try {
+        const response = await fetch('/filters');
+        const data = await response.json();
+        
+        filterOptions = data;
+        
+        // セレクトボックスにオプションを追加
+        populateFilterOptions('subjectFilter', data.subjects);
+        populateFilterOptions('gradeFilter', data.grades);
+        populateFilterOptions('periodFilter', data.periods);
+      } catch (error) {
+        console.error('フィルタ初期化エラー:', error);
+      }
+    }
+
+    function populateFilterOptions(selectId, options) {
+      const select = document.getElementById(selectId);
+      // 既存のオプション（"すべて"以外）をクリア
+      while (select.children.length > 1) {
+        select.removeChild(select.lastChild);
+      }
+      
+      // 新しいオプションを追加
+      options.forEach(option => {
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        select.appendChild(optionElement);
       });
     }
+
+    function clearFilters() {
+      document.getElementById('subjectFilter').value = '';
+      document.getElementById('gradeFilter').value = '';
+      document.getElementById('periodFilter').value = '';
+      search(); // フィルタクリア後に再検索
+    }
+
+    async function search() {
+      const query = document.getElementById('searchInput').value;
+      const subject = document.getElementById('subjectFilter').value;
+      const grade = document.getElementById('gradeFilter').value;
+      const period = document.getElementById('periodFilter').value;
+      const resultsDiv = document.getElementById('results');
+      
+      resultsDiv.innerHTML = '<div class="loading">検索中...</div>';
+      
+      // URLパラメータを構築
+      const params = new URLSearchParams();
+      if (query) params.append('q', query);
+      if (subject) params.append('subject', subject);
+      if (grade) params.append('grade', grade);
+      if (period) params.append('period', period);
+      
+      try {
+        const response = await fetch('/search?' + params.toString());
+        const data = await response.json();
+        
+        resultsDiv.innerHTML = '';
+        
+        if (data.length === 0) {
+          resultsDiv.innerHTML = '<div class="error">検索結果が見つかりませんでした。</div>';
+          return;
+        }
+        
+        for (const item of data) {
+          const resultDiv = document.createElement('div');
+          resultDiv.className = 'result-item';
+          
+          // タイトル
+          const title = formatProperty(item.properties['名前']) || 'タイトル不明';
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'result-title';
+          titleDiv.textContent = title;
+          titleDiv.onclick = () => loadPageDetails(item.id, resultDiv);
+          
+          // メタ情報
+          const metaDiv = document.createElement('div');
+          metaDiv.className = 'result-meta';
+          
+          // 教科
+          const subjects = formatProperty(item.properties['教科']);
+          if (subjects) {
+            const subjectSpan = document.createElement('span');
+            subjectSpan.className = 'meta-item subject';
+            subjectSpan.textContent = `教科: ${subjects}`;
+            metaDiv.appendChild(subjectSpan);
+          }
+          
+          // 学年
+          const grade = formatProperty(item.properties['学年']);
+          if (grade) {
+            const gradeSpan = document.createElement('span');
+            gradeSpan.className = 'meta-item grade';
+            gradeSpan.textContent = `学年: ${grade}`;
+            metaDiv.appendChild(gradeSpan);
+          }
+          
+          // 時期
+          const period = formatProperty(item.properties['時期']);
+          if (period) {
+            const periodSpan = document.createElement('span');
+            periodSpan.className = 'meta-item period';
+            periodSpan.textContent = `時期: ${period}`;
+            metaDiv.appendChild(periodSpan);
+          }
+          
+          resultDiv.appendChild(titleDiv);
+          resultDiv.appendChild(metaDiv);
+          
+          // ファイル読み込み用のプレースホルダー
+          const filesDiv = document.createElement('div');
+          filesDiv.className = 'files-section';
+          filesDiv.innerHTML = '<div style="color: #666; font-size: 14px;">クリックしてファイルを表示</div>';
+          resultDiv.appendChild(filesDiv);
+          
+          resultsDiv.appendChild(resultDiv);
+        }
+      } catch (error) {
+        console.error('検索エラー:', error);
+        resultsDiv.innerHTML = '<div class="error">検索中にエラーが発生しました。</div>';
+      }
+    }
+
+    async function loadPageDetails(pageId, resultDiv) {
+      const filesDiv = resultDiv.querySelector('.files-section');
+      filesDiv.innerHTML = '<div class="loading">ファイルを読み込み中...</div>';
+      
+      console.log('Loading page details for:', pageId);
+      
+      try {
+        const response = await fetch(`/page/${pageId}`);
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const contentType = response.headers.get('content-type');
+        console.log('Content type:', contentType);
+        
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          console.error('Non-JSON response:', text);
+          throw new Error('Server returned non-JSON response');
+        }
+        
+        const data = await response.json();
+        console.log('Page data:', data);
+        
+        if (data.files && data.files.length > 0) {
+          filesDiv.innerHTML = '<h4>添付ファイル:</h4>';
+          
+          data.files.forEach(file => {
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'file-item';
+            
+            const icon = document.createElement('span');
+            icon.className = 'pdf-icon';
+            icon.textContent = '📄';
+            
+            const link = document.createElement('a');
+            link.className = 'file-link';
+            link.href = '#';
+            link.textContent = file.name;
+            link.onclick = (e) => {
+              e.preventDefault();
+              showPDF(file.url, file.name, resultDiv);
+            };
+            
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'file-actions';
+            
+            const viewBtn = document.createElement('button');
+            viewBtn.className = 'file-btn';
+            viewBtn.textContent = '表示';
+            viewBtn.onclick = (e) => {
+              e.preventDefault();
+              showPDF(file.url, file.name, resultDiv);
+            };
+            
+            const openTabBtn = document.createElement('button');
+            openTabBtn.className = 'file-btn open-tab';
+            openTabBtn.textContent = '新しいタブで開く';
+            openTabBtn.onclick = (e) => {
+              e.preventDefault();
+              window.open(file.url, '_blank', 'noopener,noreferrer');
+            };
+            
+            actionsDiv.appendChild(viewBtn);
+            actionsDiv.appendChild(openTabBtn);
+            
+            fileDiv.appendChild(icon);
+            fileDiv.appendChild(link);
+            fileDiv.appendChild(actionsDiv);
+            filesDiv.appendChild(fileDiv);
+          });
+        } else {
+          filesDiv.innerHTML = '<div style="color: #666; font-size: 14px;">添付ファイルはありません</div>';
+        }
+      } catch (error) {
+        console.error('ファイル読み込みエラー:', error);
+        filesDiv.innerHTML = `<div class="error">ファイルの読み込みに失敗しました: ${error.message}</div>`;
+      }
+    }
+
+    function showPDF(url, filename, parentDiv) {
+      // 既存のPDFビューアーを削除
+      const existingViewer = parentDiv.querySelector('.pdf-viewer');
+      if (existingViewer) {
+        existingViewer.remove();
+      }
+      
+      // PDFビューアーを作成
+      const iframe = document.createElement('iframe');
+      iframe.className = 'pdf-viewer';
+      iframe.src = url;
+      iframe.title = filename;
+      
+      parentDiv.appendChild(iframe);
+    }
+
+    // Enterキーで検索
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        search();
+      }
+    });
+
+    // フィルタ変更時に自動検索
+    document.getElementById('subjectFilter').addEventListener('change', search);
+    document.getElementById('gradeFilter').addEventListener('change', search);
+    document.getElementById('periodFilter').addEventListener('change', search);
+
+    // ページ読み込み時にフィルタ初期化
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeFilters();
+    });
   </script>
 </body>
 </html>
