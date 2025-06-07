@@ -183,8 +183,24 @@ app.get('/page/:pageId', async (req, res) => {
     const blocks = await notion.blocks.children.list({ block_id: pageId });
     console.log(`Found ${blocks.results.length} blocks`);
     
+    // テーブルブロックの子ブロック（行）も取得
+    const allBlocks = [];
+    for (const block of blocks.results) {
+      allBlocks.push(block);
+      
+      // テーブルブロックの場合、その子ブロック（テーブル行）も取得
+      if (block.type === 'table' && block.has_children) {
+        try {
+          const tableRows = await notion.blocks.children.list({ block_id: block.id });
+          allBlocks.push(...tableRows.results);
+        } catch (error) {
+          console.error(`Error fetching table rows for block ${block.id}:`, error);
+        }
+      }
+    }
+    
     // ファイルブロックを抽出
-    const files = blocks.results.filter(block => 
+    const files = allBlocks.filter(block => 
       block.type === 'file' || block.type === 'pdf'
     ).map(block => {
       console.log(`Processing block type: ${block.type}`);
@@ -213,6 +229,7 @@ app.get('/page/:pageId', async (req, res) => {
         id: page.id,
         properties: page.properties
       },
+      content: allBlocks,
       files: files
     };
     
