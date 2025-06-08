@@ -129,47 +129,23 @@ app.get('/filters', async (req, res) => {
       return;
     }
     
-    console.log('Cache miss for filters - fetching from Notion');
-    
-    let results = [];
-    let cursor = undefined;
-    do {
-      const response = await notion.databases.query({
-        database_id: databaseId,
-        page_size: 100,
-        start_cursor: cursor
-      });
-      results = results.concat(response.results);
-      cursor = response.has_more ? response.next_cursor : undefined;
-    } while (cursor);
+    console.log('Cache miss for filters - fetching distinct values from Notion');
 
-    const subjects = new Set();
-    const grades = new Set();
-    const periods = new Set();
-    
-    results.forEach(page => {
-      // 教科
-      if (page.properties['教科'] && page.properties['教科'].type === 'multi_select') {
-        page.properties['教科'].multi_select.forEach(item => {
-          if (item && item.name) subjects.add(item.name);
-        });
-      }
-      // 学年
-      if (page.properties['学年'] && page.properties['学年'].type === 'select' && page.properties['学年'].select) {
-        grades.add(page.properties['学年'].select.name);
-      }
-      // 時期
-      if (page.properties['時期'] && page.properties['時期'].type === 'multi_select') {
-        page.properties['時期'].multi_select.forEach(item => {
-          if (item && item.name) periods.add(item.name);
-        });
-      }
-    });
+    // データベーススキーマから選択肢を取得する
+    const db = await notion.databases.retrieve({ database_id: databaseId });
+
+    const subjectOptions = db.properties['教科']?.multi_select?.options || [];
+    const gradeOptions = db.properties['学年']?.select?.options || [];
+    const periodOptions = db.properties['時期']?.multi_select?.options || [];
+
+    const subjects = subjectOptions.map(opt => opt.name);
+    const grades = gradeOptions.map(opt => opt.name);
+    const periods = periodOptions.map(opt => opt.name);
     
     const filterResults = {
-      subjects: Array.from(subjects).sort(),
-      grades: Array.from(grades).sort(),
-      periods: Array.from(periods).sort()
+      subjects: subjects.sort(),
+      grades: grades.sort(),
+      periods: periods.sort()
     };
     
     // フィルター結果をキャッシュに保存
