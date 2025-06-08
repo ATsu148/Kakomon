@@ -1601,7 +1601,14 @@
             viewBtn.onclick = () => {
               // Google Analytics: ファイル表示イベントを追跡
               trackFileAction('file_view', file.name, file.url);
-              showPDF(file.url, file.name, resultDiv);
+              
+              // iOS の場合は新しいタブで開く
+              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+              if (isIOS) {
+                window.open(file.url, '_blank', 'noopener,noreferrer');
+              } else {
+                showPDF(file.url, file.name, resultDiv);
+              }
             };
             
             const openTabBtn = document.createElement('button');
@@ -1614,7 +1621,12 @@
             };
             
             actionsDiv.appendChild(viewBtn);
-            actionsDiv.appendChild(openTabBtn);
+            
+            // iOS の場合は「新しいタブで開く」ボタンを非表示にする
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            if (!isIOS) {
+              actionsDiv.appendChild(openTabBtn);
+            }
             
             fileDiv.appendChild(icon);
             fileDiv.appendChild(link);
