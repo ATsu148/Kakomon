@@ -84,7 +84,7 @@ function cleanupCache() {
 // 2分ごとにキャッシュクリーンアップ（より頻繁に）
 setInterval(cleanupCache, 2 * 60 * 1000);
 
-app.use(express.static('public'));
+app.use(express.static('public', { maxAge: '1d', etag: true }));
 app.use(express.json());
 
 // テスト用エンドポイント
