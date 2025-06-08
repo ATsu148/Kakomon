@@ -1,9 +1,11 @@
 const express = require('express');
+const compression = require('compression');
 const { Client } = require('@notionhq/client');
 const path = require('path');
 require('dotenv').config();
 
 const app = express();
+app.use(compression());
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
@@ -84,7 +86,7 @@ function cleanupCache() {
 // 2分ごとにキャッシュクリーンアップ（より頻繁に）
 setInterval(cleanupCache, 2 * 60 * 1000);
 
-app.use(express.static('public'));
+app.use(express.static('public', { maxAge: '1d' }));
 app.use(express.json());
 
 // テスト用エンドポイント
@@ -184,7 +186,7 @@ app.get('/filters', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-  const { q: query = '', subject, grade, period } = req.query;
+  const { q: query = '', subject, grade, period, limit } = req.query;
   
   try {
     // キャッシュキーを生成
@@ -253,8 +255,11 @@ app.get('/search', async (req, res) => {
       };
     }
     
+    const pageSize = Math.min(parseInt(limit, 10) || 50, 100);
+
     const queryOptions = {
-      database_id: databaseId
+      database_id: databaseId,
+      page_size: pageSize
     };
     
     if (filter) {
@@ -262,10 +267,15 @@ app.get('/search', async (req, res) => {
     }
     
     const response = await notion.databases.query(queryOptions);
-    
+
     const results = response.results.map(page => ({
       id: page.id,
-      properties: page.properties
+      properties: {
+        '名前': page.properties['名前'],
+        '教科': page.properties['教科'],
+        '学年': page.properties['学年'],
+        '時期': page.properties['時期']
+      }
     }));
     
     // 結果をキャッシュに保存
