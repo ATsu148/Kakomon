@@ -1366,6 +1366,41 @@
     // ページ詳細のキャッシュ
     const pageDetailsCache = new Map();
 
+    // プリロード用のキューと同時実行数制限
+    const preloadQueue = [];
+    let activePreloads = 0;
+    const MAX_CONCURRENT_PRELOADS = 3;
+
+    function schedulePreload(pageId) {
+      if (pageDetailsCache.has(pageId) || preloadQueue.includes(pageId)) {
+        return;
+      }
+      preloadQueue.push(pageId);
+      runNextPreload();
+    }
+
+    function runNextPreload() {
+      if (activePreloads >= MAX_CONCURRENT_PRELOADS || preloadQueue.length === 0) {
+        return;
+      }
+      const id = preloadQueue.shift();
+      activePreloads++;
+      preloadPageDetails(id).finally(() => {
+        activePreloads--;
+        runNextPreload();
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.dataset.pageId;
+          if (id) schedulePreload(id);
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+
     // データを整理して表示する関数
     function formatProperty(property) {
       if (property.type === 'title') {
@@ -1633,6 +1668,8 @@
         for (const item of data) {
           const resultDiv = document.createElement('div');
           resultDiv.className = 'result-item';
+          resultDiv.dataset.pageId = item.id;
+          observer.observe(resultDiv);
           
           // タイトル
           const title = formatProperty(item.properties['名前']) || 'タイトル不明';
@@ -1717,8 +1754,7 @@
           resultDiv.appendChild(showDetailsLink);
           resultsDiv.appendChild(resultDiv);
           
-          // バックグラウンドでページ詳細を事前読み込み
-          preloadPageDetails(item.id);
+          // IntersectionObserverが表示を検知した際にプリロードされます
         }
       } catch (error) {
         console.error('検索エラー:', error);
