@@ -18,6 +18,55 @@
       page_title: 'Kakomon Search System',
       page_location: window.location.href
     });
+
+    // カスタムイベント送信関数
+    function sendGAEvent(action, category, label, value) {
+      gtag('event', action, {
+        event_category: category,
+        event_label: label,
+        value: value
+      });
+    }
+
+    // 検索イベントを送信する関数
+    function trackSearch(searchQuery, filters) {
+      gtag('event', 'search', {
+        search_term: searchQuery,
+        event_category: 'engagement',
+        event_label: 'kakomon_search',
+        custom_parameters: {
+          subject_filter: filters.subject || '',
+          grade_filter: filters.grade || '',
+          period_filter: filters.period || ''
+        }
+      });
+    }
+
+    // ファイル関連のイベントを送信する関数
+    function trackFileAction(action, fileName, fileUrl) {
+      gtag('event', action, {
+        event_category: 'file_interaction',
+        event_label: fileName,
+        file_url: fileUrl
+      });
+    }
+
+    // フィルター操作のイベントを送信する関数
+    function trackFilterUsage(filterType, filterValue) {
+      gtag('event', 'filter_usage', {
+        event_category: 'user_interaction',
+        event_label: filterType,
+        filter_value: filterValue
+      });
+    }
+
+    // ページ詳細表示のイベントを送信する関数
+    function trackPageDetailsView(pageTitle) {
+      gtag('event', 'view_page_details', {
+        event_category: 'content_interaction',
+        event_label: pageTitle
+      });
+    }
   </script>
   <style>
     * {
@@ -1088,19 +1137,19 @@
       <div class="filter-row">
         <div class="filter-group">
           <label class="filter-label">教科</label>
-          <select id="subjectFilter">
+          <select id="subjectFilter" onchange="onFilterChange('subject', this.value)">
             <option value="">すべて</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label">学年</label>
-          <select id="gradeFilter">
+          <select id="gradeFilter" onchange="onFilterChange('grade', this.value)">
             <option value="">すべて</option>
           </select>
         </div>
         <div class="filter-group">
           <label class="filter-label">時期</label>
-          <select id="periodFilter">
+          <select id="periodFilter" onchange="onFilterChange('period', this.value)">
             <option value="">すべて</option>
           </select>
         </div>
@@ -1332,10 +1381,21 @@
     }
 
     function clearFilters() {
+      // Google Analytics: フィルタークリアイベントを追跡
+      sendGAEvent('clear_filters', 'user_interaction', 'filter_controls');
+      
       document.getElementById('subjectFilter').value = '';
       document.getElementById('gradeFilter').value = '';
       document.getElementById('periodFilter').value = '';
       search(); // フィルタクリア後に再検索
+    }
+
+    function onFilterChange(filterType, filterValue) {
+      // Google Analytics: フィルター使用イベントを追跡
+      trackFilterUsage(filterType, filterValue);
+      
+      // フィルター変更後に自動検索
+      search();
     }
 
     async function search() {
@@ -1344,6 +1404,13 @@
       const grade = document.getElementById('gradeFilter').value;
       const period = document.getElementById('periodFilter').value;
       const resultsDiv = document.getElementById('results');
+      
+      // Google Analytics: 検索イベントを追跡
+      trackSearch(query, {
+        subject: subject,
+        grade: grade,
+        period: period
+      });
       
       resultsDiv.innerHTML = '<div class="loading">検索中</div>';
       
@@ -1444,6 +1511,8 @@
           };
           showDetailsLink.onclick = (e) => {
             e.preventDefault();
+            // Google Analytics: ページ詳細表示イベントを追跡
+            trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
             showPageDetails(item.id, resultDiv, showDetailsLink);
           };
           
@@ -1529,12 +1598,20 @@
             const viewBtn = document.createElement('button');
             viewBtn.className = 'file-btn';
             viewBtn.textContent = '表示';
-            viewBtn.onclick = () => showPDF(file.url, file.name, resultDiv);
+            viewBtn.onclick = () => {
+              // Google Analytics: ファイル表示イベントを追跡
+              trackFileAction('file_view', file.name, file.url);
+              showPDF(file.url, file.name, resultDiv);
+            };
             
             const openTabBtn = document.createElement('button');
             openTabBtn.className = 'file-btn open-tab';
             openTabBtn.textContent = '新しいタブで開く';
-            openTabBtn.onclick = () => window.open(file.url, '_blank', 'noopener,noreferrer');
+            openTabBtn.onclick = () => {
+              // Google Analytics: ファイル新しいタブで開くイベントを追跡
+              trackFileAction('file_open_new_tab', file.name, file.url);
+              window.open(file.url, '_blank', 'noopener,noreferrer');
+            };
             
             actionsDiv.appendChild(viewBtn);
             actionsDiv.appendChild(openTabBtn);
@@ -1970,14 +2047,11 @@
     // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
+        // Google Analytics: Enterキーによる検索イベントを追跡
+        sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
         search();
       }
     });
-
-    // フィルタ変更時に自動検索
-    document.getElementById('subjectFilter')?.addEventListener('change', search);
-    document.getElementById('gradeFilter')?.addEventListener('change', search);
-    document.getElementById('periodFilter')?.addEventListener('change', search);
 
     // initializeFilters関数をPromiseを返すように修正
     async function initializeFilters() {
