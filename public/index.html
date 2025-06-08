@@ -8,6 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>過去問検索システム</title>
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+  
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-13VGFN8ZFX"></script>
   <script>
@@ -536,6 +540,192 @@
       background: linear-gradient(135deg, rgba(255, 193, 125, 0.8) 0%, rgba(255, 183, 107, 0.8) 100%);
     }
     
+    /* 子ページ関連のスタイル */
+    .child-page-item {
+      margin: 15px 0;
+      padding: 22px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+    
+    .child-page-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9173 0%, #ff8a65 100%);
+      border-radius: 0 2px 2px 0;
+    }
+    
+
+    
+    .child-page-item h5 {
+      margin: 0 0 12px 0;
+      color: #2c3e50;
+      font-size: 17px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .child-page-item h5::before {
+      content: '📄';
+      font-size: 14px;
+    }
+    
+    .child-page-details {
+      margin-top: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(255, 145, 115, 0.08) 0%, rgba(255, 138, 101, 0.05) 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 145, 115, 0.15);
+      animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 15px rgba(255, 145, 115, 0.08);
+      position: relative;
+    }
+    
+    .child-page-details::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      background: linear-gradient(135deg, rgba(255, 145, 115, 0.2) 0%, rgba(255, 138, 101, 0.1) 100%);
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+
+    
+    @keyframes slideInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .child-file-item {
+      display: flex;
+      align-items: center;
+      margin: 12px 0;
+      padding: 12px 15px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+      border-radius: 10px;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .child-file-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9173 0%, #ff8a65 100%);
+      border-radius: 0 2px 2px 0;
+    }
+    
+
+    
+    .child-page-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #34495e;
+    }
+    
+    .child-page-text h1, .child-page-text h2, .child-page-text h3 {
+      margin: 16px 0 10px 0;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    
+    .child-page-text h1 { 
+      font-size: 18px; 
+      border-bottom: 2px solid rgba(255, 145, 115, 0.3);
+      padding-bottom: 4px;
+    }
+    .child-page-text h2 { 
+      font-size: 16px; 
+      border-bottom: 1px solid rgba(255, 145, 115, 0.2);
+      padding-bottom: 3px;
+    }
+    .child-page-text h3 { 
+      font-size: 15px; 
+    }
+    
+    .child-page-text p {
+      margin: 10px 0;
+      color: #2c3e50;
+      text-align: justify;
+    }
+    
+    .child-page-text ul, .child-page-text ol {
+      margin: 12px 0;
+      padding-left: 24px;
+    }
+    
+    .child-page-text li {
+      margin: 6px 0;
+      color: #2c3e50;
+    }
+    
+    .child-page-text table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 13px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 2px solid rgba(44, 62, 80, 0.3);
+    }
+    
+    .child-page-text th, .child-page-text td {
+      border: 1px solid rgba(44, 62, 80, 0.25);
+      padding: 10px 12px;
+      text-align: left;
+    }
+    
+    .child-page-text th {
+      background: linear-gradient(135deg, rgba(255, 145, 115, 0.25) 0%, rgba(255, 138, 101, 0.2) 100%);
+      font-weight: 600;
+      color: #2c3e50;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid rgba(44, 62, 80, 0.3);
+    }
+    
+    .child-page-text td {
+      background: rgba(255, 255, 255, 0.05);
+      color: #34495e;
+    }
+    
+    .child-page-text tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
     .file-btn:hover, .file-btn:active {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -636,8 +826,8 @@
       border-collapse: collapse;
       width: 100%;
       margin: 1em 0;
-      border: 1px solid rgba(44, 62, 80, 0.2);
-      background: rgba(255, 255, 255, 0.6);
+      border: 2px solid rgba(44, 62, 80, 0.4);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(5px);
       border-radius: 10px;
       overflow: hidden;
@@ -645,19 +835,24 @@
     
     .page-text th,
     .page-text td {
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(44, 62, 80, 0.3);
       padding: 12px 15px;
       text-align: left;
     }
     
     .page-text th {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 145, 115, 0.8);
       font-weight: bold;
-      color: #fff;
+      color: #2c3e50;
+      border-bottom: 2px solid rgba(44, 62, 80, 0.4);
     }
     
     .page-text tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .page-text tr:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.1);
     }
     
     /* タブレット以上のサイズ */
@@ -1193,7 +1388,10 @@
     function hasActualContent(content) {
       if (!content || content.length === 0) return false;
       
-      for (const block of content) {
+      // 子ページブロックを除外してからチェック
+      const nonChildPageContent = content.filter(block => block.type !== 'child_page');
+      
+      for (const block of nonChildPageContent) {
         if (block.type === 'paragraph' && block.paragraph.rich_text) {
           const text = block.paragraph.rich_text.map(text => text.plain_text).join('').trim();
           if (text) return true;
@@ -1635,11 +1833,94 @@
           });
         }
         
+        // 子ページの表示
+        if (data.childPages && data.childPages.length > 0) {
+          const childPagesTitle = document.createElement('h4');
+          childPagesTitle.textContent = '子ページ:';
+          childPagesTitle.style.marginTop = '20px';
+          filesSection.appendChild(childPagesTitle);
+          
+          data.childPages.forEach(childPage => {
+            const childPageDiv = document.createElement('div');
+            childPageDiv.className = 'child-page-item';
+            // CSSクラスでスタイリングを行うため、インラインスタイルは最小限に
+            
+            const childPageTitle = document.createElement('h5');
+            childPageTitle.textContent = childPage.title;
+            childPageTitle.style.cssText = `
+              margin: 0 0 10px 0;
+              color: #2c3e50;
+              font-size: 16px;
+            `;
+            childPageDiv.appendChild(childPageTitle);
+            
+            if (childPage.error) {
+              const errorMsg = document.createElement('div');
+              errorMsg.textContent = childPage.error;
+              errorMsg.style.cssText = `
+                color: #e74c3c;
+                font-style: italic;
+                font-size: 14px;
+              `;
+              childPageDiv.appendChild(errorMsg);
+            } else {
+              // 子ページの詳細を表示するボタン
+              const showChildPageBtn = document.createElement('button');
+              showChildPageBtn.textContent = '子ページを表示';
+              showChildPageBtn.style.cssText = `
+                padding: 12px 20px;
+                background: linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%);
+                color: white;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 4px 12px rgba(255, 145, 115, 0.3);
+                position: relative;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+              `;
+              showChildPageBtn.onmouseover = () => {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
+                showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
+                showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
+              };
+              showChildPageBtn.onmouseout = () => {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                showChildPageBtn.style.transform = 'translateY(0) scale(1)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
+              };
+              showChildPageBtn.onclick = () => {
+                // Google Analytics: 子ページ表示イベントを追跡
+                sendGAEvent('child_page_view', 'user_interaction', childPage.title);
+                showChildPageDetails(childPage.id, childPageDiv, showChildPageBtn);
+              };
+              
+              childPageDiv.appendChild(showChildPageBtn);
+            }
+            
+            filesSection.appendChild(childPageDiv);
+          });
+        }
+        
         // ページ内容の表示
         if (data.content && data.content.length > 0) {
-          // 全ての内容を一度に解析
+          // 親ページのみの内容を表示（子ページのブロックは除外）
+          // サーバー側で既に除外済みですが、フロントエンド側でも確実にフィルタリング
+          const parentContentBlocks = data.content.filter(block => {
+            // 子ページブロックを明示的に除外
+            if (block.type === 'child_page') {
+              console.log(`Excluding child_page block from parent content: ${block.child_page?.title || block.id}`);
+              return false;
+            }
+            return true;
+          });
+          
           let markdownContent = '';
-          data.content.forEach(block => {
+          parentContentBlocks.forEach(block => {
             if (block.type === 'paragraph' && block.paragraph.rich_text) {
               const text = block.paragraph.rich_text.map(text => text.plain_text).join('');
               if (text.trim()) {
@@ -1684,10 +1965,17 @@
           if (markdownContent.trim()) {
             const contentDiv = document.createElement('div');
             contentDiv.className = 'page-content';
-            contentDiv.style.marginTop = data.files && data.files.length > 0 ? '20px' : '0';
+            contentDiv.style.marginTop = data.files && data.files.length > 0 || data.childPages && data.childPages.length > 0 ? '20px' : '0';
             
             const contentTitle = document.createElement('h4');
-            contentTitle.textContent = 'ページ内容:';
+            contentTitle.textContent = 'メインページ内容:';
+            contentTitle.style.cssText = `
+              color: #2c3e50;
+              margin-bottom: 10px;
+              font-size: 16px;
+              border-bottom: 2px solid rgba(44, 62, 80, 0.1);
+              padding-bottom: 5px;
+            `;
             contentDiv.appendChild(contentTitle);
             
             const contentText = document.createElement('div');
@@ -1700,7 +1988,9 @@
         }
         
         // ファイルもページ内容もない場合のみメッセージを表示
-        if ((!data.files || data.files.length === 0) && (!data.content || data.content.length === 0 || !hasActualContent(data.content))) {
+        // hasActualContent関数は既に子ページブロックを除外して判定している
+        if ((!data.files || data.files.length === 0) && 
+            (!data.content || data.content.length === 0 || !hasActualContent(data.content))) {
           filesSection.innerHTML = '<div style="color: #2c3e50; font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
         }
         
@@ -1720,6 +2010,223 @@
           resultDiv.appendChild(filesSection);
         }
         filesSection.innerHTML = '<div style="color: #ff6b6b;">エラー: 詳細を取得できませんでした</div>';
+      }
+    }
+
+    // 子ページの詳細を表示する関数
+    async function showChildPageDetails(childPageId, container, button) {
+      // ボタンを無効化してローディング表示
+      button.style.pointerEvents = 'none';
+      button.style.opacity = '0.6';
+      button.textContent = '読み込み中...';
+      
+      try {
+        const response = await fetch(`/child-page/${childPageId}`);
+        const data = await response.json();
+        
+        // 子ページ詳細セクションを作成
+        let childDetailsSection = container.querySelector('.child-page-details');
+        if (!childDetailsSection) {
+          childDetailsSection = document.createElement('div');
+          childDetailsSection.className = 'child-page-details';
+          childDetailsSection.style.cssText = `
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+          `;
+          container.appendChild(childDetailsSection);
+        }
+        
+        childDetailsSection.innerHTML = '';
+        
+        // 子ページのファイル表示
+        if (data.files && data.files.length > 0) {
+          const filesTitle = document.createElement('h6');
+          filesTitle.textContent = 'ファイル:';
+          filesTitle.style.cssText = `
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 14px;
+          `;
+          childDetailsSection.appendChild(filesTitle);
+          
+          data.files.forEach(file => {
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'child-file-item';
+            fileDiv.style.cssText = `
+              display: flex;
+              align-items: center;
+              margin: 8px 0;
+              padding: 8px;
+              background: rgba(255, 255, 255, 0.1);
+              border-radius: 6px;
+              font-size: 14px;
+            `;
+            
+            const icon = document.createElement('span');
+            icon.textContent = '📄';
+            icon.style.marginRight = '8px';
+            
+            const link = document.createElement('a');
+            link.href = file.url;
+            link.textContent = file.name;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.style.cssText = `
+              color: #3498db;
+              text-decoration: none;
+              flex: 1;
+            `;
+            link.onmouseover = () => link.style.textDecoration = 'underline';
+            link.onmouseout = () => link.style.textDecoration = 'none';
+            
+            const viewBtn = document.createElement('button');
+            viewBtn.textContent = '表示';
+            viewBtn.style.cssText = `
+              padding: 4px 8px;
+              background: rgba(255, 145, 115, 0.7);
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 12px;
+              margin-left: 8px;
+            `;
+            viewBtn.onclick = () => {
+              // Google Analytics: 子ページファイル表示イベントを追跡
+              trackFileAction('child_file_view', file.name, file.url);
+              
+              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+              if (isIOS) {
+                window.open(file.url, '_blank', 'noopener,noreferrer');
+              } else {
+                showPDF(file.url, file.name, childDetailsSection);
+              }
+            };
+            
+            fileDiv.appendChild(icon);
+            fileDiv.appendChild(link);
+            fileDiv.appendChild(viewBtn);
+            childDetailsSection.appendChild(fileDiv);
+          });
+        }
+        
+        // 子ページのコンテンツ表示
+        if (data.content && data.content.length > 0) {
+          // 子ページ内で更にネストされた子ページがある場合は除外
+          const childContentBlocks = data.content.filter(block => {
+            if (block.type === 'child_page') {
+              console.log(`Excluding nested child_page block from child page content: ${block.child_page?.title || block.id}`);
+              return false;
+            }
+            return true;
+          });
+          
+          let markdownContent = '';
+          childContentBlocks.forEach(block => {
+            if (block.type === 'paragraph' && block.paragraph.rich_text) {
+              const text = block.paragraph.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += text + '\n\n';
+              }
+            } else if (block.type === 'heading_1' && block.heading_1.rich_text) {
+              const text = block.heading_1.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += '# ' + text + '\n\n';
+              }
+            } else if (block.type === 'heading_2' && block.heading_2.rich_text) {
+              const text = block.heading_2.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += '## ' + text + '\n\n';
+              }
+            } else if (block.type === 'heading_3' && block.heading_3.rich_text) {
+              const text = block.heading_3.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += '### ' + text + '\n\n';
+              }
+            } else if (block.type === 'bulleted_list_item' && block.bulleted_list_item.rich_text) {
+              const text = block.bulleted_list_item.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += '• ' + text + '\n';
+              }
+            } else if (block.type === 'numbered_list_item' && block.numbered_list_item.rich_text) {
+              const text = block.numbered_list_item.rich_text.map(text => text.plain_text).join('');
+              if (text.trim()) {
+                markdownContent += '1. ' + text + '\n';
+              }
+            } else if (block.type === 'table') {
+              markdownContent += '\n[TABLE_START]\n';
+            } else if (block.type === 'table_row' && block.table_row && block.table_row.cells) {
+              const cells = block.table_row.cells.map(cell => 
+                cell.map(text => text.plain_text).join('').trim()
+              );
+              markdownContent += '| ' + cells.join(' | ') + ' |\n';
+            }
+          });
+          
+          if (markdownContent.trim()) {
+            const contentTitle = document.createElement('h6');
+            contentTitle.textContent = 'ページ内容:';
+            contentTitle.style.cssText = `
+              margin: 15px 0 10px 0;
+              color: #2c3e50;
+              font-size: 14px;
+            `;
+            childDetailsSection.appendChild(contentTitle);
+            
+            const contentText = document.createElement('div');
+            contentText.className = 'child-page-text';
+            contentText.style.cssText = `
+              font-size: 14px;
+              line-height: 1.6;
+            `;
+            contentText.innerHTML = parseMarkdownToHTML(markdownContent);
+            childDetailsSection.appendChild(contentText);
+          }
+        }
+        
+        // ファイルもコンテンツもない場合
+        if ((!data.files || data.files.length === 0) && (!data.content || data.content.length === 0)) {
+          childDetailsSection.innerHTML = '<div style="color: #7f8c8d; font-style: italic; text-align: center; padding: 10px; font-size: 14px;">この子ページにはコンテンツがありません</div>';
+        }
+        
+        // ボタンを「閉じる」に変更
+        button.style.pointerEvents = 'auto';
+        button.style.opacity = '1';
+        button.textContent = '子ページを閉じる';
+        button.onclick = () => {
+          childDetailsSection.style.display = 'none';
+          button.textContent = '子ページを表示';
+          button.onclick = () => {
+            childDetailsSection.style.display = 'block';
+            button.textContent = '子ページを閉じる';
+            button.onclick = () => {
+              childDetailsSection.style.display = 'none';
+              button.textContent = '子ページを表示';
+              button.onclick = () => {
+                childDetailsSection.style.display = 'block';
+                button.textContent = '子ページを閉じる';
+                button.onclick = arguments.callee.caller;
+              };
+            };
+          };
+        };
+        
+      } catch (error) {
+        console.error('子ページ詳細の表示中にエラーが発生しました:', error);
+        button.style.pointerEvents = 'auto';
+        button.style.opacity = '1';
+        button.textContent = '子ページを表示';
+        
+        let childDetailsSection = container.querySelector('.child-page-details');
+        if (!childDetailsSection) {
+          childDetailsSection = document.createElement('div');
+          childDetailsSection.className = 'child-page-details';
+          container.appendChild(childDetailsSection);
+        }
+        childDetailsSection.innerHTML = '<div style="color: #e74c3c; font-size: 14px;">エラー: 子ページの詳細を取得できませんでした</div>';
       }
     }
 
