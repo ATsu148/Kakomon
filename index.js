@@ -374,33 +374,37 @@ app.get('/page/:pageId', async (req, res) => {
     
     // 親ページのブロックのみを処理
     const allBlocks = [];
-    
+    const childFetchPromises = [];
+
     for (const block of parentBlocks) {
       allBlocks.push(block);
-      
+
       // テーブルや他の has_children ブロックの子要素を取得（子ページは除外済み）
       if (block.has_children && block.type !== 'child_page') {
-        try {
-          console.log(`Fetching children for parent block type: ${block.type}, id: ${block.id}`);
-          const children = await notion.blocks.children.list({ block_id: block.id });
-          console.log(`Found ${children.results.length} children for ${block.type}`);
-          
-          // 子ブロックから子ページタイプを除外
-          const nonChildPageBlocks = children.results.filter(childBlock => {
-            if (childBlock.type === 'child_page') {
-              console.log(`Excluding child page from parent content: ${childBlock.child_page?.title}`);
-              return false;
-            }
-            return true;
+        console.log(`Fetching children for parent block type: ${block.type}, id: ${block.id}`);
+        const promise = notion.blocks.children.list({ block_id: block.id })
+          .then(children => {
+            console.log(`Found ${children.results.length} children for ${block.type}`);
+            // 子ブロックから子ページタイプを除外
+            return children.results.filter(childBlock => {
+              if (childBlock.type === 'child_page') {
+                console.log(`Excluding child page from parent content: ${childBlock.child_page?.title}`);
+                return false;
+              }
+              return true;
+            });
+          })
+          .catch(error => {
+            console.error(`Error fetching children for block ${block.id}:`, error);
+            return [];
           });
-          
-          allBlocks.push(...nonChildPageBlocks);
-          
-        } catch (error) {
-          console.error(`Error fetching children for block ${block.id}:`, error);
-        }
+
+        childFetchPromises.push(promise);
       }
     }
+
+    const childrenBlocksArrays = await Promise.all(childFetchPromises);
+    childrenBlocksArrays.forEach(childBlocks => allBlocks.push(...childBlocks));
     
     // ファイルブロックを抽出
     const files = allBlocks.filter(block => 
@@ -430,23 +434,24 @@ app.get('/page/:pageId', async (req, res) => {
     // 子ページを取得
     console.log('Fetching child pages...');
     const childPages = [];
-    
-    // 事前に特定した子ページブロックから取得
-    for (const block of childPageBlocks) {
-      try {
-        console.log(`Found child_page block: ${block.id}, title: ${block.child_page?.title}`);
-        
-        // 子ページの詳細を取得
-        const childPage = await notion.pages.retrieve({ page_id: block.id });
+
+    const childPagePromises = childPageBlocks.map(block => {
+      console.log(`Found child_page block: ${block.id}, title: ${block.child_page?.title}`);
+      return notion.pages.retrieve({ page_id: block.id });
+    });
+
+    const childResults = await Promise.allSettled(childPagePromises);
+
+    childResults.forEach((result, index) => {
+      const block = childPageBlocks[index];
+      if (result.status === 'fulfilled') {
         childPages.push({
           id: block.id,
           title: block.child_page.title,
-          properties: childPage.properties
+          properties: result.value.properties
         });
-      } catch (error) {
-        console.error(`Error fetching child page ${block.id}:`, error);
-        
-        // エラーが発生した場合でもタイトルだけは表示
+      } else {
+        console.error(`Error fetching child page ${block.id}:`, result.reason);
         childPages.push({
           id: block.id,
           title: block.child_page.title,
@@ -454,7 +459,7 @@ app.get('/page/:pageId', async (req, res) => {
           error: 'アクセスできません'
         });
       }
-    }
+    });
     
     // 親ページのコンテンツ（子ページのブロックは既に除外済み）
     const parentPageContent = allBlocks;
@@ -505,20 +510,28 @@ app.get('/child-page/:pageId', async (req, res) => {
     
     // テーブルブロックの子ブロック（行）も取得
     const allBlocks = [];
+    const tablePromises = [];
+
     for (const block of parentBlocks) {
       allBlocks.push(block);
-      
+
       if (block.type === 'table' && block.has_children) {
-        try {
-          const tableRows = await notion.blocks.children.list({ block_id: block.id });
-          // テーブル行からも子ページを除外
-          const nonChildPageRows = tableRows.results.filter(row => row.type !== 'child_page');
-          allBlocks.push(...nonChildPageRows);
-        } catch (error) {
-          console.error(`Error fetching table rows for block ${block.id}:`, error);
-        }
+        const promise = notion.blocks.children.list({ block_id: block.id })
+          .then(tableRows => {
+            // テーブル行からも子ページを除外
+            return tableRows.results.filter(row => row.type !== 'child_page');
+          })
+          .catch(error => {
+            console.error(`Error fetching table rows for block ${block.id}:`, error);
+            return [];
+          });
+
+        tablePromises.push(promise);
       }
     }
+
+    const tableRowsArrays = await Promise.all(tablePromises);
+    tableRowsArrays.forEach(rows => allBlocks.push(...rows));
     
     // ファイルブロックを抽出
     const files = allBlocks.filter(block => 
