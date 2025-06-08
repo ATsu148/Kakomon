@@ -1158,6 +1158,35 @@
         flex: 1;
         text-align: center;
       }
+
+      /* テーブルをモバイル向けにインライン表示 */
+      .page-text table,
+      .child-page-text table {
+        border: 0;
+      }
+      .page-text thead,
+      .child-page-text thead {
+        display: none;
+      }
+      .page-text tr,
+      .child-page-text tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(44, 62, 80, 0.3);
+      }
+      .page-text td,
+      .child-page-text td {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 8px 10px;
+      }
+      .page-text td::before,
+      .child-page-text td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 8px;
+      }
       
       .filters {
         padding: 20px;
@@ -1466,6 +1495,7 @@
       let listType = null;
       let inTable = false;
       let isFirstTableRow = true;
+      let tableHeaders = [];
       
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -1505,6 +1535,7 @@
           }
           
           if (isFirstTableRow) {
+            tableHeaders = cells;
             html += '<thead>\n<tr>\n';
             cells.forEach(cell => {
               html += `<th>${cell}</th>\n`;
@@ -1513,8 +1544,9 @@
             isFirstTableRow = false;
           } else {
             html += '<tr>\n';
-            cells.forEach(cell => {
-              html += `<td>${cell}</td>\n`;
+            cells.forEach((cell, idx) => {
+              const header = tableHeaders[idx] || '';
+              html += `<td data-label="${header}">${cell}</td>\n`;
             });
             html += '</tr>\n';
           }
@@ -1526,6 +1558,7 @@
           html += '</tbody></table>\n';
           inTable = false;
           isFirstTableRow = true;
+          tableHeaders = [];
         }
         
         // 見出し
