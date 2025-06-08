@@ -374,33 +374,40 @@ app.get('/page/:pageId', async (req, res) => {
     
     // 親ページのブロックのみを処理
     const allBlocks = [];
-    
+    const childFetchPromises = [];
+
     for (const block of parentBlocks) {
       allBlocks.push(block);
-      
+
       // テーブルや他の has_children ブロックの子要素を取得（子ページは除外済み）
       if (block.has_children && block.type !== 'child_page') {
-        try {
-          console.log(`Fetching children for parent block type: ${block.type}, id: ${block.id}`);
-          const children = await notion.blocks.children.list({ block_id: block.id });
-          console.log(`Found ${children.results.length} children for ${block.type}`);
-          
-          // 子ブロックから子ページタイプを除外
-          const nonChildPageBlocks = children.results.filter(childBlock => {
-            if (childBlock.type === 'child_page') {
-              console.log(`Excluding child page from parent content: ${childBlock.child_page?.title}`);
-              return false;
-            }
-            return true;
+        console.log(`Fetching children for parent block type: ${block.type}, id: ${block.id}`);
+        const promise = notion.blocks.children.list({ block_id: block.id })
+          .then(children => {
+            console.log(`Found ${children.results.length} children for ${block.type}`);
+
+            // 子ブロックから子ページタイプを除外
+            return children.results.filter(childBlock => {
+              if (childBlock.type === 'child_page') {
+                console.log(`Excluding child page from parent content: ${childBlock.child_page?.title}`);
+                return false;
+              }
+              return true;
+            });
+          })
+          .catch(error => {
+            console.error(`Error fetching children for block ${block.id}:`, error);
+            return [];
           });
-          
-          allBlocks.push(...nonChildPageBlocks);
-          
-        } catch (error) {
-          console.error(`Error fetching children for block ${block.id}:`, error);
-        }
+
+        childFetchPromises.push(promise);
       }
     }
+
+    const childResults = await Promise.all(childFetchPromises);
+    childResults.forEach(result => {
+      allBlocks.push(...result);
+    });
     
     // ファイルブロックを抽出
     const files = allBlocks.filter(block => 
