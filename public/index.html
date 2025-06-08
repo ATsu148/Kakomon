@@ -395,6 +395,7 @@
       display: flex;
       align-items: center;
       transition: all 0.3s ease;
+      word-break: break-word;
     }
     
     .result-title:hover, .result-title:active {
@@ -507,6 +508,7 @@
       align-items: center;
       font-weight: 500;
       transition: all 0.3s ease;
+      word-break: break-word;
     }
     
     .file-link:hover, .file-link:active {
@@ -689,6 +691,11 @@
       color: #2c3e50;
     }
     
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
     .child-page-text table {
       width: 100%;
       border-collapse: collapse;
@@ -1447,28 +1454,31 @@
             inList = false;
             listType = null;
           }
+          if (inTable) {
+            html += '</tbody></table></div>\n';
+          }
           inTable = true;
           isFirstTableRow = true;
-          html += '<table>\n';
+          html += '<div class="table-wrapper"><table>\n';
           continue;
         }
-        
-        // テーブル行の検出（|で区切られた行）
-        if (trimmedLine.includes('|') && trimmedLine.split('|').length > 2) {
-          const cells = trimmedLine.split('|').map(cell => cell.trim()).filter(cell => cell);
+
+        // テーブル行の検出
+        const tableMatch = trimmedLine.match(/^\|(.+)\|$/);
+        if (tableMatch) {
+          const cells = tableMatch[1].split('|').map(cell => cell.trim());
           
           if (!inTable) {
-            // テーブル開始
             if (inList) {
               html += listType === 'ul' ? '</ul>\n' : '</ol>\n';
               inList = false;
               listType = null;
             }
-            html += '<table>\n';
+            html += '<div class="table-wrapper"><table>\n';
             inTable = true;
             isFirstTableRow = true;
           }
-          
+
           if (isFirstTableRow) {
             html += '<thead>\n<tr>\n';
             cells.forEach(cell => {
@@ -1488,7 +1498,7 @@
         
         // テーブル以外の処理の場合、テーブルを終了
         if (inTable) {
-          html += '</tbody></table>\n';
+          html += '</tbody></table></div>\n';
           inTable = false;
           isFirstTableRow = true;
         }
@@ -1556,7 +1566,7 @@
         html += listType === 'ul' ? '</ul>\n' : '</ol>\n';
       }
       if (inTable) {
-        html += '</tbody></table>\n';
+        html += '</tbody></table></div>\n';
       }
       
       return html;
