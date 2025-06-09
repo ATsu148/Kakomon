@@ -79,6 +79,12 @@
       --text-color: #2c3e50;
       --panel-bg: rgba(255, 255, 255, 0.25);
       --panel-hover-bg: rgba(255, 255, 255, 0.4);
+      --input-bg: rgba(255, 255, 255, 0.95);
+      --input-focus-bg: rgba(255, 255, 255, 1);
+      --badge-bg: rgba(255, 255, 255, 0.5);
+      --badge-hover-bg: rgba(255, 255, 255, 0.6);
+      --file-bg: rgba(255, 255, 255, 0.4);
+      --file-hover-bg: rgba(255, 255, 255, 0.5);
     }
     * {
       box-sizing: border-box;
@@ -345,7 +351,7 @@
       border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 15px;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.95);
+      background: var(--input-bg);
       color: var(--text-color);
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
@@ -354,7 +360,7 @@
     #searchInput:focus {
       outline: none;
       border-color: rgba(255, 145, 115, 0.6);
-      background: rgba(255, 255, 255, 1);
+      background: var(--input-focus-bg);
       box-shadow: 0 0 20px rgba(255, 145, 115, 0.2);
       transform: scale(1.02);
     }
@@ -480,7 +486,7 @@
     
     .meta-item {
       padding: 8px 12px;
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--badge-bg);
       border-radius: 20px;
       font-size: 13px;
       font-weight: 500;
@@ -493,7 +499,7 @@
     
     .meta-item:hover {
       transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.6);
+      background: var(--badge-hover-bg);
       box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     
@@ -544,7 +550,7 @@
       align-items: center;
       gap: 12px;
       padding: 15px;
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--file-bg);
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 15px;
       margin: 10px 0;
@@ -554,7 +560,7 @@
     }
     
     .file-item:hover {
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--file-hover-bg);
       transform: translateX(5px);
       box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
@@ -1324,7 +1330,7 @@
 
       /* ローディング画面の調整 */
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
     }
 
@@ -1339,7 +1345,7 @@
       }
       
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
     }
 
@@ -1355,7 +1361,7 @@
       
       /* 高解像度ディスプレイでのアニメーション品質向上 */
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
       
       #roseSVG {
@@ -1405,7 +1411,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #F9FAFB;
+      background: var(--bg-grad);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -1414,6 +1420,12 @@
         --text-color: #f0f0f0;
         --panel-bg: rgba(0, 0, 0, 0.3);
         --panel-hover-bg: rgba(0, 0, 0, 0.4);
+        --input-bg: rgba(64, 64, 64, 0.9);
+        --input-focus-bg: rgba(70, 70, 70, 1);
+        --badge-bg: rgba(255, 255, 255, 0.15);
+        --badge-hover-bg: rgba(255, 255, 255, 0.25);
+        --file-bg: rgba(0, 0, 0, 0.3);
+        --file-hover-bg: rgba(0, 0, 0, 0.4);
       }
       
       /* ダークモード用タイトル */
