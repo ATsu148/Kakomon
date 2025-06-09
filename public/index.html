@@ -12,7 +12,6 @@
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
-  <link rel="manifest" href="/manifest.json">
   
   <!-- Google Analytics (GA4) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-13VGFN8ZFX"></script>
@@ -3088,13 +3087,6 @@
         console.error('フィルタの初期化中にエラーが発生しました:', error);
         throw error;
       }
-    }
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js');
-      });
     }
   </script>
   </div> <!-- メインコンテンツ終了 -->
