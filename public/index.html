@@ -690,21 +690,31 @@
     }
     
     .child-page-text table {
-      width: 100%;
+      width: max-content;
+      min-width: 100%;
       border-collapse: collapse;
-      margin: 15px 0;
+      margin: 0;
       font-size: 13px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow: visible;
+      box-shadow: none;
+      border: none;
+      white-space: nowrap;
+    }
+
+    /* 子ページ用のテーブルコンテナ */
+    .child-page-text .table-container {
+      margin: 15px 0;
       border: 2px solid rgba(44, 62, 80, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
     
     .child-page-text th, .child-page-text td {
       border: 1px solid rgba(44, 62, 80, 0.25);
       padding: 10px 12px;
       text-align: left;
+      white-space: nowrap;
     }
     
     .child-page-text th {
@@ -824,13 +834,45 @@
     
     .page-text table {
       border-collapse: collapse;
-      width: 100%;
-      margin: 1em 0;
-      border: 2px solid rgba(44, 62, 80, 0.4);
+      width: max-content;
+      min-width: 100%;
+      margin: 0;
+      border: none;
       background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(5px);
       border-radius: 10px;
-      overflow: hidden;
+      overflow: visible;
+      white-space: nowrap;
+    }
+
+    /* テーブル用の横スクロールコンテナ */
+    .table-container {
+      overflow-x: auto;
+      margin: 1em 0;
+      border-radius: 10px;
+      border: 2px solid rgba(44, 62, 80, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 145, 115, 0.6) rgba(255, 255, 255, 0.3);
+    }
+    
+    .table-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    .table-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+    
+    .table-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 145, 115, 0.6);
+      border-radius: 4px;
+    }
+    
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 145, 115, 0.8);
     }
     
     .page-text th,
@@ -838,6 +880,7 @@
       border: 1px solid rgba(44, 62, 80, 0.3);
       padding: 12px 15px;
       text-align: left;
+      white-space: nowrap;
     }
     
     .page-text th {
@@ -1514,7 +1557,7 @@
           }
           inTable = true;
           isFirstTableRow = true;
-          html += '<table>\n';
+          html += '<div class="table-container"><table>\n';
           continue;
         }
         
@@ -1529,7 +1572,7 @@
               inList = false;
               listType = null;
             }
-            html += '<table>\n';
+            html += '<div class="table-container"><table>\n';
             inTable = true;
             isFirstTableRow = true;
           }
@@ -1555,7 +1598,7 @@
         
         // テーブル以外の処理の場合、テーブルを終了
         if (inTable) {
-          html += '</tbody></table>\n';
+          html += '</tbody></table></div>\n';
           inTable = false;
           isFirstTableRow = true;
           tableHeaders = [];
@@ -1624,7 +1667,7 @@
         html += listType === 'ul' ? '</ul>\n' : '</ol>\n';
       }
       if (inTable) {
-        html += '</tbody></table>\n';
+        html += '</tbody></table></div>\n';
       }
       
       return html;
