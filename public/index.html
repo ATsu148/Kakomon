@@ -6,6 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="color-scheme" content="light dark" />
   <title>過去問検索システム</title>
   
   <!-- Favicon -->
@@ -74,6 +75,23 @@
     }
   </script>
   <style>
+    :root {
+      --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --text-color: #2c3e50;
+      --panel-bg: rgba(255, 255, 255, 0.25);
+      --panel-hover-bg: rgba(255, 255, 255, 0.4);
+      --input-bg: rgba(255, 255, 255, 0.95);
+      --input-focus-bg: rgba(255, 255, 255, 1);
+      --badge-bg: rgba(255, 255, 255, 0.5);
+      --badge-hover-bg: rgba(255, 255, 255, 0.6);
+      --file-bg: rgba(255, 255, 255, 0.4);
+      --file-hover-bg: rgba(255, 255, 255, 0.5);
+      --accent-color: #3498db;
+      --accent-color-end: #5dade2;
+      --accent-border: rgba(52, 152, 219, 0.4);
+      --accent-border-focus: rgba(52, 152, 219, 0.6);
+      --accent-option-bg: rgba(52, 152, 219, 0.2);
+    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -87,9 +105,9 @@
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: var(--bg-grad);
       min-height: 100vh;
-      color: #2c3e50;
+      color: var(--text-color);
       line-height: 1.6;
       overflow-x: hidden;
       position: relative;
@@ -104,7 +122,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: var(--bg-grad);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -117,7 +135,7 @@
     /* ローディングテキストのスタイル */
     .loading-text {
       margin-top: 40px;
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 1.2rem;
       font-weight: 500;
       text-align: center;
@@ -167,14 +185,14 @@
       width: 50px;
       height: 50px;
       border: 4px solid rgba(44, 62, 80, 0.3);
-      border-top-color: #ff7043;
+      border-top-color: var(--accent-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 20px;
     }
 
     .spinner-text {
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 1.1rem;
       font-weight: 500;
       text-align: center;
@@ -318,7 +336,7 @@
       flex-direction: column;
       gap: 15px;
       margin-bottom: 30px;
-      background: rgba(255, 255, 255, 0.25);
+      background: var(--panel-bg);
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 25px;
@@ -331,6 +349,7 @@
     .search-box:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      background: var(--panel-hover-bg);
     }
     
     #searchInput {
@@ -338,8 +357,8 @@
       border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 15px;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.95);
-      color: #2c3e50;
+      background: var(--input-bg);
+      color: var(--text-color);
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
@@ -347,7 +366,7 @@
     #searchInput:focus {
       outline: none;
       border-color: rgba(255, 145, 115, 0.6);
-      background: rgba(255, 255, 255, 1);
+      background: var(--input-focus-bg);
       box-shadow: 0 0 20px rgba(255, 145, 115, 0.2);
       transform: scale(1.02);
     }
@@ -429,7 +448,7 @@
     }
     
     .result-item {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--panel-bg);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.4);
       margin: 15px 0;
@@ -443,13 +462,13 @@
     .result-item:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--panel-hover-bg);
     }
     
     .result-title {
       font-size: 18px;
       font-weight: bold;
-      color: #2c3e50;
+      color: var(--text-color);
       margin-bottom: 15px;
       cursor: pointer;
       line-height: 1.4;
@@ -473,7 +492,7 @@
     
     .meta-item {
       padding: 8px 12px;
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--badge-bg);
       border-radius: 20px;
       font-size: 13px;
       font-weight: 500;
@@ -486,7 +505,7 @@
     
     .meta-item:hover {
       transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.6);
+      background: var(--badge-hover-bg);
       box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     
@@ -537,7 +556,7 @@
       align-items: center;
       gap: 12px;
       padding: 15px;
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--file-bg);
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-radius: 15px;
       margin: 10px 0;
@@ -547,7 +566,7 @@
     }
     
     .file-item:hover {
-      background: rgba(255, 255, 255, 0.5);
+      background: var(--file-hover-bg);
       transform: translateX(5px);
       box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
@@ -560,7 +579,7 @@
     }
     
     .file-link {
-      color: #2c3e50;
+      color: var(--text-color);
       text-decoration: none;
       flex: 1;
       font-size: 15px;
@@ -631,7 +650,7 @@
     
     .child-page-item h5 {
       margin: 0 0 12px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 17px;
       font-weight: 600;
       display: flex;
@@ -717,7 +736,7 @@
     
     .child-page-text h1, .child-page-text h2, .child-page-text h3 {
       margin: 16px 0 10px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-weight: 600;
     }
     
@@ -737,7 +756,7 @@
     
     .child-page-text p {
       margin: 10px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       text-align: justify;
     }
     
@@ -748,7 +767,7 @@
     
     .child-page-text li {
       margin: 6px 0;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .child-page-text table {
@@ -782,7 +801,7 @@
     .child-page-text th {
       background: linear-gradient(135deg, rgba(255, 145, 115, 0.25) 0%, rgba(255, 138, 101, 0.2) 100%);
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--text-color);
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 0.5px;
@@ -843,7 +862,7 @@
     
     .page-content h4 {
       margin-top: 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-weight: 600;
       margin-bottom: 20px;
       font-size: 1.2rem;
@@ -853,14 +872,14 @@
     
     .page-text {
       line-height: 1.7;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .page-text h1 {
       font-size: 1.6em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 2px solid rgba(44, 62, 80, 0.3);
       padding-bottom: 0.3em;
     }
@@ -869,7 +888,7 @@
       font-size: 1.4em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 1px solid rgba(44, 62, 80, 0.2);
       padding-bottom: 0.2em;
     }
@@ -878,7 +897,7 @@
       font-size: 1.2em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .page-text p {
@@ -948,7 +967,7 @@
     .page-text th {
       background: rgba(255, 145, 115, 0.8);
       font-weight: bold;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 2px solid rgba(44, 62, 80, 0.4);
     }
     
@@ -1005,7 +1024,7 @@
     
     .loading {
       text-align: center;
-      color: #2c3e50;
+      color: var(--text-color);
       padding: 30px;
       font-size: 18px;
       font-weight: 500;
@@ -1033,7 +1052,7 @@
       gap: 20px;
       margin-bottom: 30px;
       padding: 25px;
-      background: rgba(255, 255, 255, 0.25);
+      background: var(--panel-bg);
       backdrop-filter: blur(20px);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1068,25 +1087,25 @@
     .filter-label {
       font-size: 15px;
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--accent-color);
       text-shadow: 0 1px 2px rgba(255,255,255,0.5);
       margin-bottom: 8px;
       display: block;
       transition: all 0.3s ease;
     }
-    
+
     .filter-group:hover .filter-label {
-      color: rgba(255, 145, 115, 0.9);
+      color: var(--accent-color-end);
       transform: translateY(-1px);
     }
     
     select {
       padding: 14px 20px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid var(--accent-border);
       border-radius: 15px;
       font-size: 16px;
-      background: rgba(255, 255, 255, 0.9);
-      color: #2c3e50;
+      background: var(--input-bg);
+      color: var(--text-color);
       min-height: 50px;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -1096,7 +1115,7 @@
       box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       cursor: pointer;
       position: relative;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 16px;
@@ -1105,23 +1124,23 @@
     
     select:focus {
       outline: none;
-      border-color: rgba(255, 145, 115, 0.6);
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 0 20px rgba(255, 145, 115, 0.2), 0 6px 20px rgba(31, 38, 135, 0.15);
+      border-color: var(--accent-border-focus);
+      background: var(--input-focus-bg);
+      box-shadow: 0 0 20px var(--accent-border-focus), 0 6px 20px rgba(31, 38, 135, 0.15);
       transform: scale(1.02);
     }
     
     select:hover {
-      border-color: rgba(255, 145, 115, 0.4);
-      background: rgba(255, 255, 255, 0.95);
+      border-color: var(--accent-border);
+      background: var(--input-bg);
       box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
       transform: translateY(-1px);
     }
     
     /* FirefoxのSelectドロップダウンのカスタマイズ */
     select option {
-      background: rgba(255, 255, 255, 0.95);
-      color: #2c3e50;
+      background: var(--input-bg);
+      color: var(--text-color);
       padding: 12px 16px;
       font-size: 16px;
       border: none;
@@ -1131,20 +1150,20 @@
     select option:hover,
     select option:focus,
     select option:checked {
-      background: rgba(255, 145, 115, 0.2);
-      color: #2c3e50;
+      background: var(--accent-option-bg);
+      color: var(--text-color);
     }
     
     /* Webkitベースのブラウザ（Chrome, Safari）でのオプションスタイル */
     @supports (-webkit-appearance: none) {
       select {
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: var(--input-bg);
       }
     }
     
     .clear-filters {
       padding: 14px 20px;
-      background: linear-gradient(135deg, rgba(255, 158, 128, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%);
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       color: white;
       border: none;
       border-radius: 15px;
@@ -1177,9 +1196,9 @@
     }
     
     .clear-filters:hover, .clear-filters:active {
-      background: linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%);
+      background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 145, 115, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
     }
     
     .clear-filters:active {
@@ -1317,7 +1336,7 @@
 
       /* ローディング画面の調整 */
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
     }
 
@@ -1332,7 +1351,7 @@
       }
       
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
     }
 
@@ -1348,7 +1367,7 @@
       
       /* 高解像度ディスプレイでのアニメーション品質向上 */
       .loading-screen {
-        background: linear-gradient(135deg, #F9FAFB 0%, #FFF5F5 100%);
+        background: var(--bg-grad);
       }
       
       #roseSVG {
@@ -1379,7 +1398,7 @@
       height: 20px;
       border: 2px solid rgba(44, 62, 80, 0.3);
       border-radius: 50%;
-      border-top-color: #2c3e50;
+      border-top-color: var(--text-color);
       animation: spin 1s ease-in-out infinite;
       margin-left: 10px;
     }
@@ -1398,7 +1417,239 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #F9FAFB;
+      background: var(--bg-grad);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-grad: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        --text-color: #e0e0e0;
+        --panel-bg: rgba(40, 40, 40, 0.85);
+        --panel-hover-bg: rgba(50, 50, 50, 0.9);
+        --input-bg: rgba(60, 60, 60, 0.9);
+        --input-focus-bg: rgba(70, 70, 70, 0.95);
+        --badge-bg: rgba(80, 120, 160, 0.3);
+        --badge-hover-bg: rgba(90, 130, 170, 0.4);
+        --file-bg: rgba(45, 45, 45, 0.8);
+        --file-hover-bg: rgba(55, 55, 55, 0.9);
+        --accent-color: #5a9fd4;
+        --accent-color-end: #7bb3e0;
+        --accent-border: rgba(90, 159, 212, 0.4);
+        --accent-border-focus: rgba(90, 159, 212, 0.6);
+        --accent-option-bg: rgba(90, 159, 212, 0.2);
+      }
+      
+      h1 {
+        background: linear-gradient(135deg, #7bb3e0 0%, #a0c4e8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 8px rgba(123, 179, 224, 0.3);
+      }
+      
+      button {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%);
+        border: 2px solid rgba(90, 159, 212, 0.5);
+      }
+      
+      button:hover, button:active {
+        background: linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%);
+        box-shadow: 0 8px 25px rgba(90, 159, 212, 0.3);
+      }
+      
+      #searchInput:focus {
+        border-color: rgba(90, 159, 212, 0.7);
+        box-shadow: 0 0 20px rgba(90, 159, 212, 0.3);
+      }
+      
+      select {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a9fd4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+      }
+      
+      .subject {
+        background: rgba(80, 120, 160, 0.3);
+        color: #a0c4e8;
+        border-color: rgba(160, 196, 232, 0.4);
+      }
+      .grade {
+        background: rgba(90, 159, 212, 0.3);
+        color: #7bb3e0;
+        border-color: rgba(123, 179, 224, 0.4);
+      }
+      .period {
+        background: rgba(100, 140, 180, 0.3);
+        color: #c8d9ed;
+        border-color: rgba(200, 217, 237, 0.4);
+      }
+      
+      .child-page-text h1, .child-page-text h2, .child-page-text h3 {
+        color: #a0c4e8;
+      }
+      
+      .page-text h1, .page-text h2, .page-text h3 {
+        color: #a0c4e8;
+      }
+      
+      .child-page-text p, .child-page-text li {
+        color: #c8d9ed;
+      }
+      
+      .page-text p, .page-text li {
+        color: #c8d9ed;
+      }
+      
+      .loading {
+        background: rgba(45, 45, 45, 0.8);
+        border-color: rgba(90, 159, 212, 0.3);
+      }
+      
+      .error {
+        background: rgba(231, 76, 60, 0.15);
+        border-color: rgba(231, 76, 60, 0.3);
+        color: #f8c9c5;
+      }
+      
+      .clear-filters {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%);
+        border: 2px solid rgba(90, 159, 212, 0.5);
+      }
+      
+      .clear-filters:hover, .clear-filters:active {
+        background: linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%);
+        box-shadow: 0 8px 25px rgba(90, 159, 212, 0.3);
+      }
+      
+      .file-btn {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.7) 0%, rgba(123, 179, 224, 0.7) 100%);
+        border: 1px solid rgba(90, 159, 212, 0.4);
+      }
+      
+      .file-btn.open-tab {
+        background: linear-gradient(135deg, rgba(123, 179, 224, 0.7) 0%, rgba(160, 196, 232, 0.7) 100%);
+      }
+      
+      .file-link:hover, .file-link:active {
+        color: rgba(90, 159, 212, 0.9);
+      }
+      
+      .child-page-details {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.08) 0%, rgba(123, 179, 224, 0.05) 100%);
+        border: 1px solid rgba(90, 159, 212, 0.15);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 15px rgba(90, 159, 212, 0.08);
+      }
+      
+      .child-page-details::before {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.2) 0%, rgba(123, 179, 224, 0.1) 100%);
+      }
+      
+      .child-page-text h1 {
+        border-bottom: 2px solid rgba(90, 159, 212, 0.3);
+      }
+      
+      .child-page-text h2 {
+        border-bottom: 1px solid rgba(90, 159, 212, 0.2);
+      }
+      
+      .page-text th {
+        background: rgba(90, 159, 212, 0.3);
+      }
+      
+      .table-container {
+        scrollbar-color: rgba(90, 159, 212, 0.6) rgba(255, 255, 255, 0.3);
+      }
+      
+      .table-container::-webkit-scrollbar-thumb {
+        background: rgba(90, 159, 212, 0.6);
+      }
+      
+      .table-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(90, 159, 212, 0.8);
+      }
+      
+      .child-page-item::before {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.7) 100%);
+      }
+      
+      .child-file-item::before {
+        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.7) 100%);
+      }
+      
+      /* ページコンテンツのダークモード対応 */
+      .page-content {
+        background: rgba(45, 45, 45, 0.85);
+        border: 1px solid rgba(90, 159, 212, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+      
+      .page-content h4 {
+        border-bottom: 2px solid rgba(90, 159, 212, 0.3);
+        color: #a0c4e8;
+      }
+      
+      .page-text {
+        color: #c8d9ed;
+      }
+      
+      .page-text h1 {
+        border-bottom: 2px solid rgba(90, 159, 212, 0.4);
+      }
+      
+      .page-text h2 {
+        border-bottom: 1px solid rgba(90, 159, 212, 0.3);
+      }
+      
+      .page-text table {
+        background: rgba(60, 60, 60, 0.8);
+        border: 1px solid rgba(90, 159, 212, 0.3);
+      }
+      
+      .page-text th,
+      .page-text td {
+        border: 1px solid rgba(90, 159, 212, 0.2);
+      }
+      
+      .page-text th {
+        background: rgba(90, 159, 212, 0.4);
+        color: #ffffff;
+        border-bottom: 2px solid rgba(90, 159, 212, 0.6);
+      }
+      
+      .page-text tr:nth-child(even) {
+        background: rgba(70, 70, 70, 0.3);
+      }
+      
+      .page-text tr:nth-child(odd) {
+        background: rgba(60, 60, 60, 0.2);
+      }
+      
+      .table-container {
+        border: 2px solid rgba(90, 159, 212, 0.4);
+        background: rgba(45, 45, 45, 0.6);
+      }
+      
+      .child-page-text table {
+        background: rgba(60, 60, 60, 0.8);
+      }
+      
+      .child-page-text th,
+      .child-page-text td {
+        border: 1px solid rgba(90, 159, 212, 0.2);
+      }
+      
+      .child-page-text th {
+        background: rgba(90, 159, 212, 0.4);
+        color: #ffffff;
+        border-bottom: 2px solid rgba(90, 159, 212, 0.5);
+      }
+      
+      .child-page-text td {
+        background: rgba(70, 70, 70, 0.2);
+        color: #c8d9ed;
+      }
+      
+      .child-page-text tr:nth-child(even) td {
+        background: rgba(80, 80, 80, 0.3);
+      }
     }
   </style>
 </head>
@@ -1408,23 +1659,23 @@
     <div class="rose-loading-container">
       <svg id="roseSVG" viewBox="-400 -400 800 800" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <!-- 暖色系メイングラデーション -->
+          <!-- 青基調メイングラデーション -->
           <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#ff7043;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#ff8a65;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#ffab91;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#5dade2;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#85c1e9;stop-opacity:1" />
           </linearGradient>
           
           <!-- 3Dシャドウ用グラデーション -->
           <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#d84315;stop-opacity:0.4" />
-            <stop offset="100%" style="stop-color:#bf360c;stop-opacity:0.2" />
+            <stop offset="0%" style="stop-color:#21618c;stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color:#1b4f72;stop-opacity:0.2" />
           </linearGradient>
           
           <!-- ハイライト用グラデーション -->
           <linearGradient id="highlightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
-            <stop offset="100%" style="stop-color:#fff3e0;stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color:#e3f2fd;stop-opacity:0.4" />
           </linearGradient>
           
           <!-- ソフトブラーフィルター -->
@@ -1460,7 +1711,7 @@
     </div>
     <div class="spinner-container" id="spinnerContainer">
       <div class="spinner"></div>
-      <div class="spinner-text">過去問データを読み込み中...</div>
+      <div class="spinner-text">ダークモードになるようになった</div>
     </div>
   </div>
 
@@ -1865,11 +2116,11 @@
           const showDetailsLink = document.createElement('a');
           showDetailsLink.textContent = 'クリックしてファイルを表示';
           showDetailsLink.href = '#';
+          showDetailsLink.className = 'show-details-btn';
           showDetailsLink.style.cssText = `
             display: block;
             margin-top: 20px;
             padding: 16px 30px;
-            background: linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%);
             color: white;
             text-decoration: none;
             border-radius: 15px;
@@ -1880,19 +2131,40 @@
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 16px rgba(255, 145, 115, 0.2);
             position: relative;
             overflow: hidden;
           `;
+          
+          // ダークモード判定
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          
+          if (isDarkMode) {
+            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+            showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+          } else {
+            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
+            showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
+          }
+          
           showDetailsLink.onmouseover = () => {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%)';
+            if (isDarkMode) {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
+              showDetailsLink.style.boxShadow = '0 8px 25px rgba(90, 159, 212, 0.3)';
+            } else {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%)';
+              showDetailsLink.style.boxShadow = '0 8px 25px rgba(255, 145, 115, 0.3)';
+            }
             showDetailsLink.style.transform = 'translateY(-3px)';
-            showDetailsLink.style.boxShadow = '0 8px 25px rgba(255, 145, 115, 0.3)';
           };
           showDetailsLink.onmouseout = () => {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
+            if (isDarkMode) {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+              showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+            } else {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
+              showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
+            }
             showDetailsLink.style.transform = 'translateY(0)';
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
           };
           showDetailsLink.onclick = (e) => {
             e.preventDefault();
@@ -2035,7 +2307,7 @@
             childPageTitle.textContent = childPage.title;
             childPageTitle.style.cssText = `
               margin: 0 0 10px 0;
-              color: #2c3e50;
+              color: var(--text-color);
               font-size: 16px;
             `;
             childPageDiv.appendChild(childPageTitle);
@@ -2053,9 +2325,12 @@
               // 子ページの詳細を表示するボタン
               const showChildPageBtn = document.createElement('button');
               showChildPageBtn.textContent = '子ページを表示';
+              
+              // ダークモード判定
+              const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              
               showChildPageBtn.style.cssText = `
                 padding: 12px 20px;
-                background: linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%);
                 color: white;
                 border: none;
                 border-radius: 12px;
@@ -2063,21 +2338,39 @@
                 font-size: 14px;
                 font-weight: 500;
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: 0 4px 12px rgba(255, 145, 115, 0.3);
                 position: relative;
                 overflow: hidden;
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.2);
               `;
+              
+              if (isDarkMode) {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+              } else {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
+              }
+              
               showChildPageBtn.onmouseover = () => {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
+                if (isDarkMode) {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(90, 159, 212, 0.4)';
+                } else {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
+                }
                 showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
-                showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
               };
               showChildPageBtn.onmouseout = () => {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                if (isDarkMode) {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+                } else {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
+                }
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
               };
               showChildPageBtn.onclick = () => {
                 // Google Analytics: 子ページ表示イベントを追跡
@@ -2156,7 +2449,7 @@
             const contentTitle = document.createElement('h4');
             contentTitle.textContent = 'メインページ内容:';
             contentTitle.style.cssText = `
-              color: #2c3e50;
+              color: var(--text-color);
               margin-bottom: 10px;
               font-size: 16px;
               border-bottom: 2px solid rgba(44, 62, 80, 0.1);
@@ -2177,7 +2470,7 @@
         // hasActualContent関数は既に子ページブロックを除外して判定している
         if ((!data.files || data.files.length === 0) && 
             (!data.content || data.content.length === 0 || !hasActualContent(data.content))) {
-          filesSection.innerHTML = '<div style="color: #2c3e50; font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
+          filesSection.innerHTML = '<div style="color: var(--text-color); font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
         }
         
         // リンクを非表示にする
@@ -2233,7 +2526,7 @@
           filesTitle.textContent = 'ファイル:';
           filesTitle.style.cssText = `
             margin: 0 0 10px 0;
-            color: #2c3e50;
+            color: var(--text-color);
             font-size: 14px;
           `;
           childDetailsSection.appendChild(filesTitle);
@@ -2357,7 +2650,7 @@
             contentTitle.textContent = 'ページ内容:';
             contentTitle.style.cssText = `
               margin: 15px 0 10px 0;
-              color: #2c3e50;
+              color: var(--text-color);
               font-size: 14px;
             `;
             childDetailsSection.appendChild(contentTitle);
@@ -2440,10 +2733,10 @@
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.3);
           ">
-            <p style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
+            <p style="margin-bottom: 15px; color: var(--text-color); font-weight: 500;">
               📱 ${name}
             </p>
-            <p style="margin-bottom: 15px; color: #2c3e50; font-size: 14px;">
+            <p style="margin-bottom: 15px; color: var(--text-color); font-size: 14px;">
               iOSデバイスではPDFを新しいタブで開きます
             </p>
             <button onclick="window.open('${url}', '_blank', 'noopener,noreferrer')" style="
