@@ -113,6 +113,29 @@
       overflow: hidden;
     }
 
+    /* ローディングテキストのスタイル */
+    .loading-text {
+      margin-top: 40px;
+      color: #2c3e50;
+      font-size: 1.2rem;
+      font-weight: 500;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInText 1s ease-in-out 0.5s forwards;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes fadeInText {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .loading-screen.hidden {
       opacity: 0;
       visibility: hidden;
@@ -135,6 +158,8 @@
     /* 小画面向けスピナー */
     .spinner-container {
       display: none;
+      flex-direction: column;
+      align-items: center;
     }
 
     .spinner {
@@ -144,6 +169,15 @@
       border-top-color: #ff7043;
       border-radius: 50%;
       animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    .spinner-text {
+      color: #2c3e50;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: center;
+      letter-spacing: 0.5px;
     }
 
     #roseSVG {
@@ -173,6 +207,7 @@
         align-items: center;
         width: 100vw;
         height: 100vh;
+        flex-direction: column;
       }
     }
 
@@ -1344,6 +1379,7 @@
     </div>
     <div class="spinner-container" id="spinnerContainer">
       <div class="spinner"></div>
+      <div class="spinner-text">過去問データを読み込み中...</div>
     </div>
   </div>
 
