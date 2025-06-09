@@ -6,6 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="color-scheme" content="light dark" />
   <title>過去問検索システム</title>
   
   <!-- Favicon -->
@@ -73,6 +74,12 @@
     }
   </script>
   <style>
+    :root {
+      --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --text-color: #2c3e50;
+      --panel-bg: rgba(255, 255, 255, 0.25);
+      --panel-hover-bg: rgba(255, 255, 255, 0.4);
+    }
     * {
       box-sizing: border-box;
       margin: 0;
@@ -86,9 +93,9 @@
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: var(--bg-grad);
       min-height: 100vh;
-      color: #2c3e50;
+      color: var(--text-color);
       line-height: 1.6;
       overflow-x: hidden;
       position: relative;
@@ -103,7 +110,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: var(--bg-grad);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -116,7 +123,7 @@
     /* ローディングテキストのスタイル */
     .loading-text {
       margin-top: 40px;
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 1.2rem;
       font-weight: 500;
       text-align: center;
@@ -173,7 +180,7 @@
     }
 
     .spinner-text {
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 1.1rem;
       font-weight: 500;
       text-align: center;
@@ -317,7 +324,7 @@
       flex-direction: column;
       gap: 15px;
       margin-bottom: 30px;
-      background: rgba(255, 255, 255, 0.25);
+      background: var(--panel-bg);
       backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 25px;
@@ -330,6 +337,7 @@
     .search-box:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      background: var(--panel-hover-bg);
     }
     
     #searchInput {
@@ -338,7 +346,7 @@
       border-radius: 15px;
       font-size: 16px;
       background: rgba(255, 255, 255, 0.95);
-      color: #2c3e50;
+      color: var(--text-color);
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
@@ -428,7 +436,7 @@
     }
     
     .result-item {
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--panel-bg);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.4);
       margin: 15px 0;
@@ -442,13 +450,13 @@
     .result-item:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--panel-hover-bg);
     }
     
     .result-title {
       font-size: 18px;
       font-weight: bold;
-      color: #2c3e50;
+      color: var(--text-color);
       margin-bottom: 15px;
       cursor: pointer;
       line-height: 1.4;
@@ -559,7 +567,7 @@
     }
     
     .file-link {
-      color: #2c3e50;
+      color: var(--text-color);
       text-decoration: none;
       flex: 1;
       font-size: 15px;
@@ -630,7 +638,7 @@
     
     .child-page-item h5 {
       margin: 0 0 12px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-size: 17px;
       font-weight: 600;
       display: flex;
@@ -716,7 +724,7 @@
     
     .child-page-text h1, .child-page-text h2, .child-page-text h3 {
       margin: 16px 0 10px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-weight: 600;
     }
     
@@ -736,7 +744,7 @@
     
     .child-page-text p {
       margin: 10px 0;
-      color: #2c3e50;
+      color: var(--text-color);
       text-align: justify;
     }
     
@@ -747,7 +755,7 @@
     
     .child-page-text li {
       margin: 6px 0;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .child-page-text table {
@@ -781,7 +789,7 @@
     .child-page-text th {
       background: linear-gradient(135deg, rgba(255, 145, 115, 0.25) 0%, rgba(255, 138, 101, 0.2) 100%);
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--text-color);
       text-transform: uppercase;
       font-size: 12px;
       letter-spacing: 0.5px;
@@ -842,7 +850,7 @@
     
     .page-content h4 {
       margin-top: 0;
-      color: #2c3e50;
+      color: var(--text-color);
       font-weight: 600;
       margin-bottom: 20px;
       font-size: 1.2rem;
@@ -852,14 +860,14 @@
     
     .page-text {
       line-height: 1.7;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .page-text h1 {
       font-size: 1.6em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 2px solid rgba(44, 62, 80, 0.3);
       padding-bottom: 0.3em;
     }
@@ -868,7 +876,7 @@
       font-size: 1.4em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 1px solid rgba(44, 62, 80, 0.2);
       padding-bottom: 0.2em;
     }
@@ -877,7 +885,7 @@
       font-size: 1.2em;
       font-weight: bold;
       margin: 1em 0 0.5em 0;
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     .page-text p {
@@ -947,7 +955,7 @@
     .page-text th {
       background: rgba(255, 145, 115, 0.8);
       font-weight: bold;
-      color: #2c3e50;
+      color: var(--text-color);
       border-bottom: 2px solid rgba(44, 62, 80, 0.4);
     }
     
@@ -1004,7 +1012,7 @@
     
     .loading {
       text-align: center;
-      color: #2c3e50;
+      color: var(--text-color);
       padding: 30px;
       font-size: 18px;
       font-weight: 500;
@@ -1067,7 +1075,7 @@
     .filter-label {
       font-size: 15px;
       font-weight: 600;
-      color: #2c3e50;
+      color: var(--text-color);
       text-shadow: 0 1px 2px rgba(255,255,255,0.5);
       margin-bottom: 8px;
       display: block;
@@ -1085,7 +1093,7 @@
       border-radius: 15px;
       font-size: 16px;
       background: rgba(255, 255, 255, 0.9);
-      color: #2c3e50;
+      color: var(--text-color);
       min-height: 50px;
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -1120,7 +1128,7 @@
     /* FirefoxのSelectドロップダウンのカスタマイズ */
     select option {
       background: rgba(255, 255, 255, 0.95);
-      color: #2c3e50;
+      color: var(--text-color);
       padding: 12px 16px;
       font-size: 16px;
       border: none;
@@ -1131,7 +1139,7 @@
     select option:focus,
     select option:checked {
       background: rgba(255, 145, 115, 0.2);
-      color: #2c3e50;
+      color: var(--text-color);
     }
     
     /* Webkitベースのブラウザ（Chrome, Safari）でのオプションスタイル */
@@ -1378,7 +1386,7 @@
       height: 20px;
       border: 2px solid rgba(44, 62, 80, 0.3);
       border-radius: 50%;
-      border-top-color: #2c3e50;
+      border-top-color: var(--text-color);
       animation: spin 1s ease-in-out infinite;
       margin-left: 10px;
     }
@@ -1398,6 +1406,15 @@
       width: 100%;
       height: 100%;
       background: #F9FAFB;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-grad: linear-gradient(135deg, #1e1f23 0%, #34373c 100%);
+        --text-color: #f0f0f0;
+        --panel-bg: rgba(0, 0, 0, 0.3);
+        --panel-hover-bg: rgba(0, 0, 0, 0.4);
+      }
     }
   </style>
 </head>
@@ -2034,7 +2051,7 @@
             childPageTitle.textContent = childPage.title;
             childPageTitle.style.cssText = `
               margin: 0 0 10px 0;
-              color: #2c3e50;
+              color: var(--text-color);
               font-size: 16px;
             `;
             childPageDiv.appendChild(childPageTitle);
@@ -2155,7 +2172,7 @@
             const contentTitle = document.createElement('h4');
             contentTitle.textContent = 'メインページ内容:';
             contentTitle.style.cssText = `
-              color: #2c3e50;
+              color: var(--text-color);
               margin-bottom: 10px;
               font-size: 16px;
               border-bottom: 2px solid rgba(44, 62, 80, 0.1);
@@ -2176,7 +2193,7 @@
         // hasActualContent関数は既に子ページブロックを除外して判定している
         if ((!data.files || data.files.length === 0) && 
             (!data.content || data.content.length === 0 || !hasActualContent(data.content))) {
-          filesSection.innerHTML = '<div style="color: #2c3e50; font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
+          filesSection.innerHTML = '<div style="color: var(--text-color); font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
         }
         
         // リンクを非表示にする
@@ -2232,7 +2249,7 @@
           filesTitle.textContent = 'ファイル:';
           filesTitle.style.cssText = `
             margin: 0 0 10px 0;
-            color: #2c3e50;
+            color: var(--text-color);
             font-size: 14px;
           `;
           childDetailsSection.appendChild(filesTitle);
@@ -2356,7 +2373,7 @@
             contentTitle.textContent = 'ページ内容:';
             contentTitle.style.cssText = `
               margin: 15px 0 10px 0;
-              color: #2c3e50;
+              color: var(--text-color);
               font-size: 14px;
             `;
             childDetailsSection.appendChild(contentTitle);
@@ -2439,10 +2456,10 @@
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.3);
           ">
-            <p style="margin-bottom: 15px; color: #2c3e50; font-weight: 500;">
+            <p style="margin-bottom: 15px; color: var(--text-color); font-weight: 500;">
               📱 ${name}
             </p>
-            <p style="margin-bottom: 15px; color: #2c3e50; font-size: 14px;">
+            <p style="margin-bottom: 15px; color: var(--text-color); font-size: 14px;">
               iOSデバイスではPDFを新しいタブで開きます
             </p>
             <button onclick="window.open('${url}', '_blank', 'noopener,noreferrer')" style="
