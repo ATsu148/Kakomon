@@ -958,6 +958,14 @@
     .page-text tr:nth-child(odd) {
       background: rgba(255, 255, 255, 0.1);
     }
+
+    /* 画面幅が480px未満の場合のPDF表示 */
+    @media (max-width: 479px) {
+      .pdf-viewer {
+        height: 60vh;
+        min-height: 0;
+      }
+    }
     
     /* タブレット以上のサイズ */
     @media (min-width: 768px) {
@@ -2471,11 +2479,14 @@
           animation: fadeInUp 0.6s ease-out;
         `;
         
-        // タブレット以上のサイズでは高さを調整
+        // 画面幅に応じて高さを調整
         if (window.innerWidth >= 768) {
           iframe.style.height = '70vh';
           iframe.style.minHeight = '500px';
           iframe.style.maxWidth = '100vw';
+        } else if (window.innerWidth < 480) {
+          iframe.style.height = '60vh';
+          iframe.style.minHeight = '';
         }
         
         container.appendChild(iframe);
