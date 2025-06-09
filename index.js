@@ -85,6 +85,15 @@ function cleanupCache() {
 setInterval(cleanupCache, 2 * 60 * 1000);
 
 app.use(express.static('public'));
+
+// Manifest and service worker
+app.get('/manifest.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
+});
+
+app.get('/service-worker.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'service-worker.js'));
+});
 app.use(express.json());
 
 // テスト用エンドポイント
