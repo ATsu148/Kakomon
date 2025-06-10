@@ -558,35 +558,17 @@
             overflow: hidden;
           `;
           
-          // ダークモード判定
-          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          
-          if (isDarkMode) {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
-          } else {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
-          }
+          showDetailsLink.style.background = 'linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%)';
+          showDetailsLink.style.boxShadow = '0 4px 16px rgba(52, 152, 219, 0.2)';
           
           showDetailsLink.onmouseover = () => {
-            if (isDarkMode) {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
-              showDetailsLink.style.boxShadow = '0 8px 25px rgba(90, 159, 212, 0.3)';
-            } else {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%)';
-              showDetailsLink.style.boxShadow = '0 8px 25px rgba(255, 145, 115, 0.3)';
-            }
+            showDetailsLink.style.background = 'linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%)';
+            showDetailsLink.style.boxShadow = '0 8px 25px rgba(52, 152, 219, 0.3)';
             showDetailsLink.style.transform = 'translateY(-3px)';
           };
           showDetailsLink.onmouseout = () => {
-            if (isDarkMode) {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-              showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
-            } else {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
-              showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
-            }
+            showDetailsLink.style.background = 'linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%)';
+            showDetailsLink.style.boxShadow = '0 4px 16px rgba(52, 152, 219, 0.2)';
             showDetailsLink.style.transform = 'translateY(0)';
           };
           showDetailsLink.onclick = (e) => {
@@ -749,9 +731,6 @@
               const showChildPageBtn = document.createElement('button');
               showChildPageBtn.textContent = '子ページを表示';
               
-              // ダークモード判定
-              const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              
               showChildPageBtn.style.cssText = `
                 padding: 12px 20px;
                 color: white;
@@ -766,33 +745,17 @@
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.2);
               `;
-              
-              if (isDarkMode) {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
-              } else {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
-              }
+              showChildPageBtn.style.background = 'linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%)';
+              showChildPageBtn.style.boxShadow = '0 4px 12px rgba(52, 152, 219, 0.3)';
               
               showChildPageBtn.onmouseover = () => {
-                if (isDarkMode) {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(90, 159, 212, 0.4)';
-                } else {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
-                }
+                showChildPageBtn.style.background = 'linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%)';
+                showChildPageBtn.style.boxShadow = '0 8px 20px rgba(52, 152, 219, 0.4)';
                 showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
               };
               showChildPageBtn.onmouseout = () => {
-                if (isDarkMode) {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
-                } else {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
-                }
+                showChildPageBtn.style.background = 'linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(52, 152, 219, 0.3)';
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
               showChildPageBtn.onclick = () => {
