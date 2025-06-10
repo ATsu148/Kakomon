@@ -529,20 +529,12 @@
       }
     }
     
-    .subject {
-      background: rgba(212, 237, 218, 0.8);
-      color: #155724;
-      border-color: rgba(21, 87, 36, 0.3);
-    }
-    .grade {
-      background: rgba(204, 229, 255, 0.8);
-      color: #004085;
-      border-color: rgba(0, 64, 133, 0.3);
-    }
+    .subject,
+    .grade,
     .period {
-      background: rgba(226, 212, 255, 0.8);
-      color: #4b0082;
-      border-color: rgba(75, 0, 130, 0.3);
+      background: rgba(var(--select-arrow-color), 0.15);
+      color: var(--text-color);
+      border-color: rgba(var(--select-arrow-color), 0.3);
     }
     
     .files-section {
@@ -1468,20 +1460,12 @@
         background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
       }
       
-      .subject {
-        background: rgba(80, 120, 160, 0.3);
-        color: #a0c4e8;
-        border-color: rgba(160, 196, 232, 0.4);
-      }
-      .grade {
-        background: rgba(90, 159, 212, 0.3);
-        color: #7bb3e0;
-        border-color: rgba(123, 179, 224, 0.4);
-      }
+      .subject,
+      .grade,
       .period {
-        background: rgba(100, 140, 180, 0.3);
-        color: #c8d9ed;
-        border-color: rgba(200, 217, 237, 0.4);
+        background: rgba(var(--select-arrow-color), 0.15);
+        color: var(--text-color);
+        border-color: rgba(var(--select-arrow-color), 0.3);
       }
       
       .child-page-text h1, .child-page-text h2, .child-page-text h3 {
@@ -1663,9 +1647,9 @@
         <defs>
           <!-- 青基調メイングラデーション -->
           <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#5dade2;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#85c1e9;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:rgb(var(--select-arrow-color));stop-opacity:1" />
+            <stop offset="50%" style="stop-color:rgba(var(--select-arrow-color),0.8);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:rgba(var(--select-arrow-color),0.6);stop-opacity:1" />
           </linearGradient>
           
           <!-- 3Dシャドウ用グラデーション -->
