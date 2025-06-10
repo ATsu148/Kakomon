@@ -1355,6 +1355,11 @@
         --badge-hover-bg: rgba(90, 130, 170, 0.4);
         --file-bg: rgba(45, 45, 45, 0.8);
         --file-hover-bg: rgba(55, 55, 55, 0.9);
+        --accent-color: #5a9fd4;
+        --accent-color-end: #7bb3e0;
+        --accent-border: rgba(90, 159, 212, 0.4);
+        --accent-border-focus: rgba(90, 159, 212, 0.6);
+        --accent-option-bg: rgba(90, 159, 212, 0.2);
       }
       
       h1 {
@@ -1428,12 +1433,12 @@
       }
       
       .clear-filters {
-        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%);
-        border: 2px solid rgba(90, 159, 212, 0.5);
+        background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+        border: 2px solid var(--accent-border);
       }
-      
+
       .clear-filters:hover, .clear-filters:active {
-        background: linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%);
+        background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
         box-shadow: 0 8px 25px rgba(90, 159, 212, 0.3);
       }
       
