@@ -86,11 +86,11 @@
       --badge-hover-bg: rgba(255, 255, 255, 0.6);
       --file-bg: rgba(255, 255, 255, 0.4);
       --file-hover-bg: rgba(255, 255, 255, 0.5);
-      --accent-color: #3498db;
-      --accent-color-end: #5dade2;
-      --accent-border: rgba(52, 152, 219, 0.4);
-      --accent-border-focus: rgba(52, 152, 219, 0.6);
-      --accent-option-bg: rgba(52, 152, 219, 0.2);
+      --accent-color: #ff9173;
+      --accent-color-end: #ff8a65;
+      --accent-border: rgba(255, 145, 115, 0.4);
+      --accent-border-focus: rgba(255, 145, 115, 0.6);
+      --accent-option-bg: rgba(255, 145, 115, 0.2);
     }
     * {
       box-sizing: border-box;
@@ -1432,6 +1432,11 @@
         --badge-hover-bg: rgba(90, 130, 170, 0.4);
         --file-bg: rgba(45, 45, 45, 0.8);
         --file-hover-bg: rgba(55, 55, 55, 0.9);
+        --accent-color: #5a9fd4;
+        --accent-color-end: #7bb3e0;
+        --accent-border: rgba(90, 159, 212, 0.4);
+        --accent-border-focus: rgba(90, 159, 212, 0.6);
+        --accent-option-bg: rgba(90, 159, 212, 0.2);
       }
       
       h1 {
@@ -1650,11 +1655,11 @@
     <div class="rose-loading-container">
       <svg id="roseSVG" viewBox="-400 -400 800 800" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <!-- 青基調メイングラデーション -->
+          <!-- アクセントカラーグラデーション -->
           <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#5dade2;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#85c1e9;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:var(--accent-color);stop-opacity:1" />
+            <stop offset="50%" style="stop-color:var(--accent-color-end);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:var(--accent-color-end);stop-opacity:1" />
           </linearGradient>
           
           <!-- 3Dシャドウ用グラデーション -->
@@ -2126,19 +2131,35 @@
             overflow: hidden;
           `;
           
-          const accentGrad = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-          const accentHoverGrad = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
-          showDetailsLink.style.background = accentGrad;
-          showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+          // ダークモード判定
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+          if (isDarkMode) {
+            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+            showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+          } else {
+            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
+            showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
+          }
           
           showDetailsLink.onmouseover = () => {
-            showDetailsLink.style.background = accentHoverGrad;
-            showDetailsLink.style.boxShadow = '0 8px 25px rgba(90, 159, 212, 0.3)';
+            if (isDarkMode) {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
+              showDetailsLink.style.boxShadow = '0 8px 25px rgba(90, 159, 212, 0.3)';
+            } else {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%)';
+              showDetailsLink.style.boxShadow = '0 8px 25px rgba(255, 145, 115, 0.3)';
+            }
             showDetailsLink.style.transform = 'translateY(-3px)';
           };
           showDetailsLink.onmouseout = () => {
-            showDetailsLink.style.background = accentGrad;
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+            if (isDarkMode) {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+              showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
+            } else {
+              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
+              showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
+            }
             showDetailsLink.style.transform = 'translateY(0)';
           };
           showDetailsLink.onclick = (e) => {
@@ -2301,8 +2322,8 @@
               const showChildPageBtn = document.createElement('button');
               showChildPageBtn.textContent = '子ページを表示';
               
-              const accentGrad = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-              const accentHoverGrad = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
+              // ダークモード判定
+              const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
               
               showChildPageBtn.style.cssText = `
                 padding: 12px 20px;
@@ -2319,17 +2340,32 @@
                 border: 1px solid rgba(255, 255, 255, 0.2);
               `;
               
-              showChildPageBtn.style.background = accentGrad;
-              showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+              if (isDarkMode) {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+              } else {
+                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
+              }
               
               showChildPageBtn.onmouseover = () => {
-                showChildPageBtn.style.background = accentHoverGrad;
-                showChildPageBtn.style.boxShadow = '0 8px 20px rgba(90, 159, 212, 0.4)';
+                if (isDarkMode) {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(90, 159, 212, 0.4)';
+                } else {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
+                }
                 showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
               };
               showChildPageBtn.onmouseout = () => {
-                showChildPageBtn.style.background = accentGrad;
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+                if (isDarkMode) {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
+                } else {
+                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
+                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
+                }
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
               showChildPageBtn.onclick = () => {
