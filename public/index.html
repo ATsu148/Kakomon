@@ -155,7 +155,7 @@
     <!-- フィルタセクション -->
     <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
     <div id="filterOverlay" class="filter-overlay"></div>
-    <div class="mobile-filter">
+    <div class="mobile-filter" role="dialog" aria-modal="true">
     <div class="filters" id="filtersContainer">
       <div class="filter-row">
         <div class="filter-group">
@@ -179,7 +179,7 @@
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
     </div>
-    <button id="closeFilter">×</button>
+    <button id="closeFilter" aria-label="フィルタを閉じる">×</button>
     </div>
     
     <div id="results" role="region" aria-live="polite"></div>
@@ -516,9 +516,7 @@
 
       // モバイルではフィルタパネルを閉じる
       if (window.matchMedia('(max-width: 600px)').matches) {
-        document.querySelector('.mobile-filter')?.classList.remove('open');
-        document.getElementById('filterOverlay')?.classList.remove('open');
-        document.getElementById('filterToggle')?.setAttribute('aria-expanded', 'false');
+        closeFilter();
       }
     }
 
@@ -1497,6 +1495,53 @@
       }, 50); // 150ms → 50ms
     }
 
+    // フィルタダイアログ用のフォーカス制御
+    let lastFocusedElement = null;
+    const focusableSelectors = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    function trapFocus(e) {
+      const mobileFilter = document.querySelector('.mobile-filter');
+      if (!mobileFilter.classList.contains('open')) return;
+      const focusable = mobileFilter.querySelectorAll(focusableSelectors);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      } else if (e.key === 'Escape') {
+        closeFilter();
+      }
+    }
+
+    function openFilter() {
+      const filterToggle = document.getElementById('filterToggle');
+      const mobileFilter = document.querySelector('.mobile-filter');
+      const overlay = document.getElementById('filterOverlay');
+      lastFocusedElement = document.activeElement;
+      mobileFilter.classList.add('open');
+      overlay.classList.add('open');
+      filterToggle.setAttribute('aria-expanded', 'true');
+      const focusable = mobileFilter.querySelectorAll(focusableSelectors);
+      focusable[0]?.focus();
+      document.addEventListener('keydown', trapFocus);
+    }
+
+    function closeFilter() {
+      const filterToggle = document.getElementById('filterToggle');
+      const mobileFilter = document.querySelector('.mobile-filter');
+      const overlay = document.getElementById('filterOverlay');
+      mobileFilter.classList.remove('open');
+      overlay.classList.remove('open');
+      filterToggle.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('keydown', trapFocus);
+      lastFocusedElement?.focus();
+    }
+
     // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
       const filterToggle = document.getElementById('filterToggle');
@@ -1506,16 +1551,15 @@
       if (filterToggle && mobileFilter && overlay) {
         filterToggle.addEventListener('click', () => {
           const isOpen = mobileFilter.classList.contains('open');
-          filterToggle.setAttribute('aria-expanded', String(!isOpen));
-          mobileFilter.classList.toggle('open');
-          overlay.classList.toggle('open');
+          if (isOpen) {
+            closeFilter();
+          } else {
+            openFilter();
+          }
         });
       }
-      closeBtn?.addEventListener('click', () => {
-        mobileFilter.classList.remove('open');
-        overlay.classList.remove('open');
-        filterToggle.setAttribute('aria-expanded', 'false');
-      });
+      closeBtn?.addEventListener('click', closeFilter);
+      overlay?.addEventListener('click', closeFilter);
       // スクロールを無効にする
       disableScroll();
 
