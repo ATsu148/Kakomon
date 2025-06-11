@@ -9,11 +9,11 @@
       --badge-hover-bg: rgba(255, 255, 255, 0.6);
       --file-bg: rgba(255, 255, 255, 0.4);
       --file-hover-bg: rgba(255, 255, 255, 0.5);
-      --accent-color: #3498db;
-      --accent-color-end: #5dade2;
-      --accent-border: rgba(52, 152, 219, 0.4);
-      --accent-border-focus: rgba(52, 152, 219, 0.6);
-      --accent-option-bg: rgba(52, 152, 219, 0.2);
+      --accent-color: rgba(255, 145, 115, 0.85);
+      --accent-color-end: rgba(255, 138, 101, 0.85);
+      --accent-border: rgba(255, 145, 115, 0.4);
+      --accent-border-focus: rgba(255, 145, 115, 0.6);
+      --accent-option-bg: rgba(255, 145, 115, 0.2);
     }
     * {
       box-sizing: border-box;
@@ -1038,7 +1038,7 @@
       box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       cursor: pointer;
       position: relative;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff9173' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 16px;
@@ -1355,7 +1355,7 @@
         --badge-hover-bg: rgba(90, 130, 170, 0.4);
         --file-bg: rgba(45, 45, 45, 0.8);
         --file-hover-bg: rgba(55, 55, 55, 0.9);
-        /* Use the same accent colors as the light theme */
+        /* Dark mode uses cool blue accents */
         --accent-color: #3498db;
         --accent-color-end: #5dade2;
         --accent-border: rgba(52, 152, 219, 0.4);
