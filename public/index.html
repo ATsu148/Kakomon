@@ -142,11 +142,11 @@
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
-    <div class="search-box">
-      <label for="searchInput" class="visually-hidden">検索</label>
+    <div class="search-box desktop-search">
+      <label for="searchInputDesktop" class="visually-hidden">検索</label>
       <div class="search-input-wrapper">
-        <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-        <button id="clearSearch" aria-label="Clear search">×</button>
+        <input type="text" id="searchInputDesktop" placeholder="科目名やキーワードを入力してください" />
+        <button id="clearSearchDesktop" aria-label="Clear search">×</button>
       </div>
       <button onclick="search()">検索</button>
     </div>
@@ -156,7 +156,16 @@
     <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
     <div id="filterOverlay" class="filter-overlay"></div>
     <div class="mobile-filter" role="dialog" aria-modal="true">
-    <div class="filters" id="filtersContainer">
+    <div id="searchFilterContent">
+      <div class="search-box mobile-search">
+        <label for="searchInput" class="visually-hidden">検索</label>
+        <div class="search-input-wrapper">
+          <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+          <button id="clearSearch" aria-label="Clear search">×</button>
+        </div>
+        <button onclick="search()">検索</button>
+      </div>
+      <div class="filters" id="filtersContainer">
       <div class="filter-row">
         <div class="filter-group">
           <label class="filter-label">教科</label>
@@ -179,6 +188,7 @@
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
     </div>
+    </div> <!-- searchFilterContent -->
     <button id="closeFilter" aria-label="フィルタを閉じる">×</button>
     </div>
     
@@ -516,12 +526,14 @@
 
       // モバイルではフィルタパネルを閉じる
       if (window.matchMedia('(max-width: 600px)').matches) {
-        closeFilter();
+        closeSearchFilter();
       }
     }
 
     async function search() {
-      const query = document.getElementById('searchInput').value;
+      const mobileInput = document.getElementById('searchInput');
+      const desktopInput = document.getElementById('searchInputDesktop');
+      const query = (mobileInput?.value || desktopInput?.value || '');
       const subject = document.getElementById('subjectFilter').value;
       const grade = document.getElementById('gradeFilter').value;
       const period = document.getElementById('periodFilter').value;
@@ -1514,11 +1526,11 @@
           first.focus();
         }
       } else if (e.key === 'Escape') {
-        closeFilter();
+        closeSearchFilter();
       }
     }
 
-    function openFilter() {
+    function openSearchFilter() {
       const filterToggle = document.getElementById('filterToggle');
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
@@ -1531,7 +1543,7 @@
       document.addEventListener('keydown', trapFocus);
     }
 
-    function closeFilter() {
+    function closeSearchFilter() {
       const filterToggle = document.getElementById('filterToggle');
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
@@ -1548,18 +1560,31 @@
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
       const closeBtn = document.getElementById('closeFilter');
+      const fab = document.getElementById('searchFilterFab');
       if (filterToggle && mobileFilter && overlay) {
         filterToggle.addEventListener('click', () => {
           const isOpen = mobileFilter.classList.contains('open');
           if (isOpen) {
-            closeFilter();
+            closeSearchFilter();
           } else {
-            openFilter();
+            openSearchFilter();
           }
         });
       }
-      closeBtn?.addEventListener('click', closeFilter);
-      overlay?.addEventListener('click', closeFilter);
+      closeBtn?.addEventListener('click', closeSearchFilter);
+      overlay?.addEventListener('click', closeSearchFilter);
+      fab?.addEventListener('click', openSearchFilter);
+
+      let lastScroll = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const current = window.scrollY;
+        if (current > lastScroll + 100) {
+          fab?.classList.add('visible');
+        } else if (current < lastScroll - 50) {
+          fab?.classList.remove('visible');
+        }
+        lastScroll = current;
+      });
       // スクロールを無効にする
       disableScroll();
 
@@ -1609,9 +1634,18 @@
         search();
       }
     });
+    document.getElementById('searchInputDesktop')?.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
+        search();
+      }
+    });
 
     const searchInputElem = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
+    const searchInputDesktop = document.getElementById('searchInputDesktop');
+    const clearBtnDesktop = document.getElementById('clearSearchDesktop');
+
     searchInputElem?.addEventListener('input', () => {
       if (searchInputElem.value.trim()) {
         clearBtn.style.display = 'block';
@@ -1619,11 +1653,26 @@
         clearBtn.style.display = 'none';
       }
     });
+    searchInputDesktop?.addEventListener('input', () => {
+      if (searchInputDesktop.value.trim()) {
+        clearBtnDesktop.style.display = 'block';
+      } else {
+        clearBtnDesktop.style.display = 'none';
+      }
+    });
+
     clearBtn?.addEventListener('click', () => {
       if (searchInputElem) {
         searchInputElem.value = '';
       }
       clearBtn.style.display = 'none';
+      search();
+    });
+    clearBtnDesktop?.addEventListener('click', () => {
+      if (searchInputDesktop) {
+        searchInputDesktop.value = '';
+      }
+      clearBtnDesktop.style.display = 'none';
       search();
     });
 
@@ -1660,5 +1709,6 @@
     }
   </script>
   </div> <!-- メインコンテンツ終了 -->
+  <button id="searchFilterFab" class="search-filter-fab" aria-label="検索とフィルタ">🔍</button>
 </body>
 </html>

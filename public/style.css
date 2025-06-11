@@ -1643,7 +1643,7 @@
 
 @media (max-width: 600px) {
   .filter-toggle {
-    display: block;
+    display: none;
     margin: 10px 0;
     position: sticky;
     top: 140px; /* avoid overlap with pinned search bar */
@@ -1653,9 +1653,18 @@
   }
 
   .search-box {
+    display: none;
+  }
+
+  .mobile-search {
+    display: block;
     position: sticky;
     top: 0;
     z-index: 999;
+  }
+
+  .desktop-search {
+    display: none;
   }
 
   .mobile-filter {
@@ -1666,6 +1675,9 @@
     transform: translateY(100%);
     transition: transform 0.3s ease;
     z-index: 1002;
+    width: 100%;
+    max-height: 90%;
+    overflow-y: auto;
   }
 
   .mobile-filter.open {
@@ -1695,6 +1707,31 @@
   .filter-overlay.open {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .search-filter-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1003;
+  }
+
+  .search-filter-fab.visible {
+    opacity: 1;
+    visibility: visible;
   }
 }
 
