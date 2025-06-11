@@ -143,8 +143,7 @@
     <div class="container">
     <h1>過去問検索システム</h1>
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-      <button onclick="search()">検索</button>
+      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力" />
     </div>
     
     <!-- フィルタセクション -->
@@ -169,7 +168,6 @@
           </select>
         </div>
       </div>
-      <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
     </div>
     
     <div id="results"></div>
@@ -1549,5 +1547,97 @@
     }
   </script>
   </div> <!-- メインコンテンツ終了 -->
+
+  <!-- Floating search button -->
+  <button id="searchFab" class="search-fab" aria-label="Search">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M10.5 3a7.5 7.5 0 105.18 13.06l4.13 4.13a1 1 0 001.41-1.41l-4.13-4.13A7.5 7.5 0 0010.5 3zm0 2a5.5 5.5 0 110 11 5.5 5.5 0 010-11z"/>
+    </svg>
+  </button>
+
+  <!-- Search overlay -->
+  <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+    <div class="overlay-backdrop"></div>
+    <div class="search-popup">
+      <div class="popup-header">
+        <button id="closeOverlay" class="close-btn" aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="popup-body">
+        <input type="text" id="fabSearchInput" class="overlay-input" placeholder="科目名やキーワードを入力" />
+        <div class="overlay-filters">
+          <select id="fabSubjectFilter">
+            <option value="">科目</option>
+          </select>
+          <select id="fabGradeFilter">
+            <option value="">学年</option>
+          </select>
+          <select id="fabPeriodFilter">
+            <option value="">時期</option>
+          </select>
+        </div>
+        <div class="popup-actions">
+          <button id="overlaySearchBtn">Search</button>
+          <button id="overlayClearBtn">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchFab = document.getElementById('searchFab');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const closeOverlayBtn = document.getElementById('closeOverlay');
+    const overlayBackdrop = document.querySelector('#searchOverlay .overlay-backdrop');
+
+    function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+    function openSearchOverlay() {
+      syncOverlayFilters();
+      searchOverlay.classList.add('active');
+      disableScroll();
+      document.getElementById('fabSearchInput').focus();
+    }
+
+    function closeSearchOverlay() {
+      searchOverlay.classList.remove('active');
+      enableScroll();
+    }
+
+    function syncOverlayFilters() {
+      const types = ['subject', 'grade', 'period'];
+      types.forEach(t => {
+        const main = document.getElementById(t + 'Filter');
+        const overlay = document.getElementById('fab' + capitalize(t) + 'Filter');
+        overlay.innerHTML = main.innerHTML;
+        overlay.value = main.value;
+      });
+      document.getElementById('fabSearchInput').value = document.getElementById('searchInput').value;
+    }
+
+    searchFab.addEventListener('click', openSearchOverlay);
+    closeOverlayBtn.addEventListener('click', closeSearchOverlay);
+    overlayBackdrop.addEventListener('click', closeSearchOverlay);
+
+    document.getElementById('overlaySearchBtn').addEventListener('click', () => {
+      document.getElementById('searchInput').value = document.getElementById('fabSearchInput').value;
+      ['subject', 'grade', 'period'].forEach(t => {
+        document.getElementById(t + 'Filter').value = document.getElementById('fab' + capitalize(t) + 'Filter').value;
+      });
+      closeSearchOverlay();
+      search();
+    });
+
+    document.getElementById('overlayClearBtn').addEventListener('click', () => {
+      document.getElementById('fabSearchInput').value = '';
+      ['subject', 'grade', 'period'].forEach(t => {
+        document.getElementById('fab' + capitalize(t) + 'Filter').value = '';
+      });
+      clearFilters();
+    });
+  </script>
 </body>
 </html>
