@@ -565,7 +565,7 @@
       left: 0;
       width: 4px;
       height: 100%;
-      background: linear-gradient(135deg, #ff9173 0%, #ff8a65 100%);
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       border-radius: 0 2px 2px 0;
     }
     
@@ -645,7 +645,7 @@
       left: 0;
       width: 3px;
       height: 100%;
-      background: linear-gradient(135deg, #ff9173 0%, #ff8a65 100%);
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       border-radius: 0 2px 2px 0;
     }
     
@@ -1490,11 +1490,11 @@
       }
       
       .child-page-item::before {
-        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.7) 100%);
+        background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       }
       
       .child-file-item::before {
-        background: linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.7) 100%);
+        background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       }
       
       /* ページコンテンツのダークモード対応 */
