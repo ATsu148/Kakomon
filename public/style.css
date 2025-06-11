@@ -1621,10 +1621,16 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       cursor: pointer;
       z-index: 1100;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .fab-icon {
+      pointer-events: none;
     }
 
     .fab.open {
       background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
+      transform: rotate(45deg);
     }
   }
 

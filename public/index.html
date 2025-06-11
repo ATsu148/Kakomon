@@ -142,7 +142,7 @@
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
-    <div id="searchPanel" class="search-panel">
+    <div id="searchPanel" class="search-panel open">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
         <button onclick="search()">検索</button>
@@ -457,12 +457,15 @@
       search();
     }
 
-    async function search() {
-      const query = document.getElementById('searchInput').value;
-      const subject = document.getElementById('subjectFilter').value;
-      const grade = document.getElementById('gradeFilter').value;
-      const period = document.getElementById('periodFilter').value;
-      const resultsDiv = document.getElementById('results');
+   async function search() {
+     const query = document.getElementById('searchInput').value;
+     const subject = document.getElementById('subjectFilter').value;
+     const grade = document.getElementById('gradeFilter').value;
+     const period = document.getElementById('periodFilter').value;
+     const resultsDiv = document.getElementById('results');
+
+      // モバイルでは検索実行時にパネルを閉じる
+      closeSearchPanel();
       
       // Google Analytics: 検索イベントを追跡
       trackSearch(query, {
@@ -1546,9 +1549,22 @@
     function toggleSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
-      if (!panel || !fab) return;
-      panel.classList.toggle('open');
-      fab.classList.toggle('open');
+      const icon = document.getElementById('fabIcon');
+      if (!panel || !fab || !icon) return;
+      const willOpen = !panel.classList.contains('open');
+      panel.classList.toggle('open', willOpen);
+      fab.classList.toggle('open', willOpen);
+      icon.innerHTML = willOpen ? '&#10006;' : '&#128269;';
+    }
+
+    function closeSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const fab = document.getElementById('fab');
+      const icon = document.getElementById('fabIcon');
+      if (!panel || !fab || !icon) return;
+      panel.classList.remove('open');
+      fab.classList.remove('open');
+      icon.innerHTML = '&#128269;';
     }
   </script>
   <script>
@@ -1558,7 +1574,7 @@
       });
     }
   </script>
-  <button id="fab" class="fab" onclick="toggleSearchPanel()">&#128269;</button>
+  <button id="fab" class="fab open" onclick="toggleSearchPanel()"><span id="fabIcon" class="fab-icon">&#10006;</span></button>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
