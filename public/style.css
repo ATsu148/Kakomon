@@ -1611,25 +1611,32 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
-      color: #fff;
-      border: none;
+      background: var(--panel-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--accent-border);
+      color: var(--accent-color);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       cursor: pointer;
       z-index: 1100;
-      transition: background 0.3s ease, transform 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
-    .fab-icon {
+    .fab .icon {
+      width: 24px;
+      height: 24px;
       pointer-events: none;
     }
 
+    .fab .close-icon { display: none; }
+    .fab.open .close-icon { display: block; }
+    .fab.open .search-icon { display: none; }
+
     .fab.open {
-      background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
+      top: 20px;
+      bottom: auto;
       transform: rotate(45deg);
     }
   }

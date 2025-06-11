@@ -172,9 +172,18 @@
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
       </div>
-    </div>
-
+<button id="fab" class="fab open" onclick="toggleSearchPanel()">
+  <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+    <line x1="17" y1="17" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+  <svg class="icon close-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <line x1="5" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    <line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  </svg>
+</button>
     <div id="results"></div>
+  </div>
   </div>
 
   <script>
@@ -1547,34 +1556,27 @@
     }
 
     function toggleSearchPanel() {
-      const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-      if (!panel || !fab || !icon) return;
-      const willOpen = !panel.classList.contains('open');
-      panel.classList.toggle('open', willOpen);
-      fab.classList.toggle('open', willOpen);
-      icon.innerHTML = willOpen ? '&#10006;' : '&#128269;';
+      const panel = document.getElementById("searchPanel");
+      const fab = document.getElementById("fab");
+      if (!panel || !fab) return;
+      const willOpen = !panel.classList.contains("open");
+      panel.classList.toggle("open", willOpen);
+      fab.classList.toggle("open", willOpen);
     }
 
     function closeSearchPanel() {
-      const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-      if (!panel || !fab || !icon) return;
-      panel.classList.remove('open');
-      fab.classList.remove('open');
-      icon.innerHTML = '&#128269;';
+      const panel = document.getElementById("searchPanel");
+      const fab = document.getElementById("fab");
+      if (!panel || !fab) return;
+      panel.classList.remove("open");
+      fab.classList.remove("open");
     }
-  </script>
-  <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
   </script>
-  <button id="fab" class="fab open" onclick="toggleSearchPanel()"><span id="fabIcon" class="fab-icon">&#10006;</span></button>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
