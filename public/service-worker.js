@@ -5,6 +5,7 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/style.css',
   '/service-worker.js',
+  '/app.js',
   '/offline.html',
   '/images/favicon.ico',
   '/images/icon-192x192.png',
