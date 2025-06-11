@@ -1603,16 +1603,56 @@
     background: var(--panel-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  .filters {
-    display: none;
+
+  .mobile-filter {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 1002;
   }
-  .filters.expanded {
-    display: flex;
+
+  .mobile-filter.open {
+    transform: translateY(0);
+  }
+
+  #closeFilter {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: inherit;
+  }
+
+  .filter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+  }
+
+  .filter-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 
 @media (min-width: 601px) {
   .filter-toggle {
     display: none;
+  }
+  .filter-overlay {
+    display: none;
+  }
+  .mobile-filter {
+    position: static;
+    transform: none;
   }
 }

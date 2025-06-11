@@ -150,6 +150,8 @@
     
     <!-- フィルタセクション -->
     <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
+    <div id="filterOverlay" class="filter-overlay"></div>
+    <div class="mobile-filter">
     <div class="filters" id="filtersContainer">
       <div class="filter-row">
         <div class="filter-group">
@@ -172,6 +174,8 @@
         </div>
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
+    </div>
+    <button id="closeFilter">×</button>
     </div>
     
     <div id="results" role="region" aria-live="polite"></div>
@@ -463,9 +467,16 @@
     function onFilterChange(filterType, filterValue) {
       // Google Analytics: フィルター使用イベントを追跡
       trackFilterUsage(filterType, filterValue);
-      
+
       // フィルター変更後に自動検索
       search();
+
+      // モバイルではフィルタパネルを閉じる
+      if (window.matchMedia('(max-width: 600px)').matches) {
+        document.querySelector('.mobile-filter')?.classList.remove('open');
+        document.getElementById('filterOverlay')?.classList.remove('open');
+        document.getElementById('filterToggle')?.setAttribute('aria-expanded', 'false');
+      }
     }
 
     async function search() {
@@ -1446,14 +1457,22 @@
     // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
       const filterToggle = document.getElementById('filterToggle');
-      const filtersContainer = document.getElementById('filtersContainer');
-      if (filterToggle && filtersContainer) {
+      const mobileFilter = document.querySelector('.mobile-filter');
+      const overlay = document.getElementById('filterOverlay');
+      const closeBtn = document.getElementById('closeFilter');
+      if (filterToggle && mobileFilter && overlay) {
         filterToggle.addEventListener('click', () => {
-          const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
-          filterToggle.setAttribute('aria-expanded', String(!expanded));
-          filtersContainer.classList.toggle('expanded', !expanded);
+          const isOpen = mobileFilter.classList.contains('open');
+          filterToggle.setAttribute('aria-expanded', String(!isOpen));
+          mobileFilter.classList.toggle('open');
+          overlay.classList.toggle('open');
         });
       }
+      closeBtn?.addEventListener('click', () => {
+        mobileFilter.classList.remove('open');
+        overlay.classList.remove('open');
+        filterToggle.setAttribute('aria-expanded', 'false');
+      });
       // スクロールを無効にする
       disableScroll();
 
