@@ -150,6 +150,7 @@
       </div>
       <button onclick="search()">検索</button>
     </div>
+    <div id="activeFilters"></div>
     
     <!-- フィルタセクション -->
     <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
@@ -457,13 +458,51 @@
       });
     }
 
+    function updateActiveFilters() {
+      const container = document.getElementById('activeFilters');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filters = [
+        { type: 'subject', value: document.getElementById('subjectFilter').value },
+        { type: 'grade', value: document.getElementById('gradeFilter').value },
+        { type: 'period', value: document.getElementById('periodFilter').value }
+      ];
+
+      filters.forEach(f => {
+        if (f.value) {
+          const chip = document.createElement('span');
+          chip.className = 'filter-chip';
+          chip.textContent = f.value;
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.textContent = '×';
+          btn.onclick = () => removeFilter(f.type);
+          chip.appendChild(btn);
+
+          container.appendChild(chip);
+        }
+      });
+    }
+
+    function removeFilter(filterType) {
+      const select = document.getElementById(filterType + 'Filter');
+      if (select) {
+        select.value = '';
+        updateActiveFilters();
+        search();
+      }
+    }
+
     function clearFilters() {
       // Google Analytics: フィルタークリアイベントを追跡
       sendGAEvent('clear_filters', 'user_interaction', 'filter_controls');
-      
+
       document.getElementById('subjectFilter').value = '';
       document.getElementById('gradeFilter').value = '';
       document.getElementById('periodFilter').value = '';
+      updateActiveFilters();
       search(); // フィルタクリア後に再検索
     }
 
@@ -471,6 +510,7 @@
       // Google Analytics: フィルター使用イベントを追跡
       trackFilterUsage(filterType, filterValue);
 
+      updateActiveFilters();
       // フィルター変更後に自動検索
       search();
 

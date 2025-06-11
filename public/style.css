@@ -445,18 +445,38 @@
       margin-bottom: 15px;
     }
     
-    .meta-item {
-      padding: 8px 12px;
-      background: var(--badge-bg);
-      border-radius: 20px;
-      font-size: 13px;
+.meta-item {
+  padding: 8px 12px;
+  background: var(--badge-bg);
+  border-radius: 20px;
+  font-size: 13px;
       font-weight: 500;
       white-space: nowrap;
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
+  box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px;
+  background: var(--badge-bg);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 1;
+}
+.filter-chip button {
+  margin-left: 6px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
     
     .meta-item:hover {
       transform: scale(1.05);
@@ -1228,6 +1248,14 @@
       .meta-item {
         padding: 6px 10px;
         font-size: 12px;
+      }
+
+      .filter-chip {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+      .filter-chip button {
+        font-size: 16px;
       }
       
       .file-item {
