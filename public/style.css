@@ -1598,10 +1598,16 @@
     display: block;
     margin: 10px 0;
     position: sticky;
-    top: 0;
+    top: 140px; /* avoid overlap with pinned search bar */
     z-index: 1000;
     background: var(--panel-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-box {
+    position: sticky;
+    top: 0;
+    z-index: 999;
   }
 
   .mobile-filter {
