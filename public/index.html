@@ -144,7 +144,10 @@
     <h1>過去問検索システム</h1>
     <div class="search-box">
       <label for="searchInput" class="visually-hidden">検索</label>
-      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+        <button id="clearSearch" aria-label="Clear search">×</button>
+      </div>
       <button onclick="search()">検索</button>
     </div>
     
@@ -1521,6 +1524,23 @@
         sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
         search();
       }
+    });
+
+    const searchInputElem = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearch');
+    searchInputElem?.addEventListener('input', () => {
+      if (searchInputElem.value.trim()) {
+        clearBtn.style.display = 'block';
+      } else {
+        clearBtn.style.display = 'none';
+      }
+    });
+    clearBtn?.addEventListener('click', () => {
+      if (searchInputElem) {
+        searchInputElem.value = '';
+      }
+      clearBtn.style.display = 'none';
+      search();
     });
 
     // initializeFilters関数をPromiseを返すように修正
