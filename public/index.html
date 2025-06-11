@@ -1548,6 +1548,32 @@
       });
     }
   </script>
+  <button id="fab" class="fab">＋</button>
+  <div id="fabMenu" class="fab-menu">
+    <button id="fabSearch">新規検索</button>
+    <button id="fabFilter">フィルター</button>
+  </div>
+  <script>
+    const fab = document.getElementById('fab');
+    const fabMenu = document.getElementById('fabMenu');
+    const fabSearch = document.getElementById('fabSearch');
+    const fabFilter = document.getElementById('fabFilter');
+
+    fab.addEventListener('click', () => {
+      fabMenu.style.display = fabMenu.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    fabSearch.addEventListener('click', () => {
+      fabMenu.style.display = 'none';
+      document.getElementById('searchInput').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    fabFilter.addEventListener('click', () => {
+      fabMenu.style.display = 'none';
+      document.querySelector('.filters').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
