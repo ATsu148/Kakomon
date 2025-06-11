@@ -142,18 +142,19 @@
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-      <button onclick="search()">検索</button>
-    </div>
-    
-    <!-- フィルタセクション -->
-    <div class="filters">
-      <div class="filter-row">
-        <div class="filter-group">
-          <label class="filter-label">教科</label>
-          <select id="subjectFilter" onchange="onFilterChange('subject', this.value)">
-            <option value="">すべて</option>
+    <div id="searchPanel" class="search-panel">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+        <button onclick="search()">検索</button>
+      </div>
+
+      <!-- フィルタセクション -->
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label">教科</label>
+            <select id="subjectFilter" onchange="onFilterChange('subject', this.value)">
+              <option value="">すべて</option>
           </select>
         </div>
         <div class="filter-group">
@@ -170,8 +171,9 @@
         </div>
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
+      </div>
     </div>
-    
+
     <div id="results"></div>
   </div>
 
@@ -1540,6 +1542,14 @@
         throw error;
       }
     }
+
+    function toggleSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const fab = document.getElementById('fab');
+      if (!panel || !fab) return;
+      panel.classList.toggle('open');
+      fab.classList.toggle('open');
+    }
   </script>
   <script>
     if ('serviceWorker' in navigator) {
@@ -1548,6 +1558,7 @@
       });
     }
   </script>
+  <button id="fab" class="fab" onclick="toggleSearchPanel()">&#128269;</button>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
