@@ -153,9 +153,18 @@
     <div id="activeFilters"></div>
     
     <!-- フィルタセクション -->
-    <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
+    <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="mobileSearchFilter">Filters</button>
+    <button id="searchToggle" class="search-toggle" aria-expanded="false" aria-controls="mobileSearchFilter" aria-label="Open search">🔍</button>
     <div id="filterOverlay" class="filter-overlay"></div>
-    <div class="mobile-filter" role="dialog" aria-modal="true">
+    <div id="mobileSearchFilter" class="mobile-filter" role="dialog" aria-modal="true">
+    <div class="search-box mobile-search-box">
+      <label for="searchInputMobile" class="visually-hidden">検索</label>
+      <div class="search-input-wrapper">
+        <input type="text" id="searchInputMobile" placeholder="科目名やキーワードを入力してください" />
+        <button id="clearSearchMobile" aria-label="Clear search">×</button>
+      </div>
+      <button onclick="search()" id="mobileSearchButton">検索</button>
+    </div>
     <div class="filters" id="filtersContainer">
       <div class="filter-row">
         <div class="filter-group">
@@ -521,7 +530,9 @@
     }
 
     async function search() {
-      const query = document.getElementById('searchInput').value;
+      const desktopInput = document.getElementById('searchInput');
+      const mobileInput = document.getElementById('searchInputMobile');
+      const query = (mobileInput && mobileInput.value.trim()) ? mobileInput.value : (desktopInput ? desktopInput.value : '');
       const subject = document.getElementById('subjectFilter').value;
       const grade = document.getElementById('gradeFilter').value;
       const period = document.getElementById('periodFilter').value;
@@ -1520,12 +1531,14 @@
 
     function openFilter() {
       const filterToggle = document.getElementById('filterToggle');
+      const searchToggle = document.getElementById('searchToggle');
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
       lastFocusedElement = document.activeElement;
       mobileFilter.classList.add('open');
       overlay.classList.add('open');
-      filterToggle.setAttribute('aria-expanded', 'true');
+      filterToggle?.setAttribute('aria-expanded', 'true');
+      searchToggle?.setAttribute('aria-expanded', 'true');
       const focusable = mobileFilter.querySelectorAll(focusableSelectors);
       focusable[0]?.focus();
       document.addEventListener('keydown', trapFocus);
@@ -1533,11 +1546,13 @@
 
     function closeFilter() {
       const filterToggle = document.getElementById('filterToggle');
+      const searchToggle = document.getElementById('searchToggle');
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
       mobileFilter.classList.remove('open');
       overlay.classList.remove('open');
-      filterToggle.setAttribute('aria-expanded', 'false');
+      filterToggle?.setAttribute('aria-expanded', 'false');
+      searchToggle?.setAttribute('aria-expanded', 'false');
       document.removeEventListener('keydown', trapFocus);
       lastFocusedElement?.focus();
     }
@@ -1545,11 +1560,22 @@
     // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
       const filterToggle = document.getElementById('filterToggle');
+      const searchToggle = document.getElementById('searchToggle');
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
       const closeBtn = document.getElementById('closeFilter');
       if (filterToggle && mobileFilter && overlay) {
         filterToggle.addEventListener('click', () => {
+          const isOpen = mobileFilter.classList.contains('open');
+          if (isOpen) {
+            closeFilter();
+          } else {
+            openFilter();
+          }
+        });
+      }
+      if (searchToggle && mobileFilter && overlay) {
+        searchToggle.addEventListener('click', () => {
           const isOpen = mobileFilter.classList.contains('open');
           if (isOpen) {
             closeFilter();
@@ -1609,9 +1635,17 @@
         search();
       }
     });
+    document.getElementById('searchInputMobile')?.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendGAEvent('search_enter_key', 'user_interaction', 'search_input_mobile');
+        search();
+      }
+    });
 
     const searchInputElem = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
+    const searchInputMobile = document.getElementById('searchInputMobile');
+    const clearBtnMobile = document.getElementById('clearSearchMobile');
     searchInputElem?.addEventListener('input', () => {
       if (searchInputElem.value.trim()) {
         clearBtn.style.display = 'block';
@@ -1619,11 +1653,25 @@
         clearBtn.style.display = 'none';
       }
     });
+    searchInputMobile?.addEventListener('input', () => {
+      if (searchInputMobile.value.trim()) {
+        clearBtnMobile.style.display = 'block';
+      } else {
+        clearBtnMobile.style.display = 'none';
+      }
+    });
     clearBtn?.addEventListener('click', () => {
       if (searchInputElem) {
         searchInputElem.value = '';
       }
       clearBtn.style.display = 'none';
+      search();
+    });
+    clearBtnMobile?.addEventListener('click', () => {
+      if (searchInputMobile) {
+        searchInputMobile.value = '';
+      }
+      clearBtnMobile.style.display = 'none';
       search();
     });
 
