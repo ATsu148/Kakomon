@@ -149,7 +149,8 @@
     </div>
     
     <!-- フィルタセクション -->
-    <div class="filters">
+    <button id="filterToggle" class="filter-toggle" aria-expanded="false" aria-controls="filtersContainer">Filters</button>
+    <div class="filters" id="filtersContainer">
       <div class="filter-row">
         <div class="filter-group">
           <label class="filter-label">教科</label>
@@ -1444,6 +1445,15 @@
 
     // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
+      const filterToggle = document.getElementById('filterToggle');
+      const filtersContainer = document.getElementById('filtersContainer');
+      if (filterToggle && filtersContainer) {
+        filterToggle.addEventListener('click', () => {
+          const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
+          filterToggle.setAttribute('aria-expanded', String(!expanded));
+          filtersContainer.classList.toggle('expanded', !expanded);
+        });
+      }
       // スクロールを無効にする
       disableScroll();
 

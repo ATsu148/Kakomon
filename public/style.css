@@ -1583,7 +1583,31 @@
         color: #c8d9ed;
       }
       
-      .child-page-text tr:nth-child(even) td {
+    .child-page-text tr:nth-child(even) td {
         background: rgba(80, 80, 80, 0.3);
-      }
     }
+}
+
+/* フィルタ表示切り替えボタン */
+.filter-toggle {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .filter-toggle {
+    display: block;
+    margin: 10px 0;
+  }
+  .filters {
+    display: none;
+  }
+  .filters.expanded {
+    display: flex;
+  }
+}
+
+@media (min-width: 601px) {
+  .filter-toggle {
+    display: none;
+  }
+}
