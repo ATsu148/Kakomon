@@ -1571,7 +1571,56 @@
         color: #c8d9ed;
       }
       
-      .child-page-text tr:nth-child(even) td {
-        background: rgba(80, 80, 80, 0.3);
-      }
-    }
+  .child-page-text tr:nth-child(even) td {
+    background: rgba(80, 80, 80, 0.3);
+  }
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.fab-menu {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.fab-menu button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-option-bg);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fab-menu button {
+    color: #e0e0e0;
+  }
+}
