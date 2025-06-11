@@ -173,7 +173,7 @@
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
     </div>
     
-    <div id="results"></div>
+    <div id="results" role="region" aria-live="polite"></div>
   </div>
 
   <script>
@@ -238,6 +238,17 @@
         return property.rich_text.map(t => t.plain_text).join('');
       }
       return '';
+    }
+
+    // HTMLエスケープ
+    function escapeHTML(str) {
+      return str ? str.replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[c])) : '';
     }
 
     // 実際にコンテンツがあるかどうかを判定するヘルパー関数
@@ -482,65 +493,39 @@
       try {
         const response = await fetch('/search?' + params.toString());
         const data = await response.json();
-        
+
         resultsDiv.innerHTML = '';
-        
+
         if (data.length === 0) {
           resultsDiv.innerHTML = '<div class="error">検索結果が見つかりませんでした。</div>';
           return;
         }
-        
+
+        let html = '';
         for (const item of data) {
-          const resultDiv = document.createElement('div');
-          resultDiv.className = 'result-item';
-          resultDiv.dataset.pageId = item.id;
-          observer.observe(resultDiv);
-          
-          // タイトル
           const title = formatProperty(item.properties['名前']) || 'タイトル不明';
-          const titleDiv = document.createElement('div');
-          titleDiv.className = 'result-title';
-          titleDiv.textContent = title;
-          
-          // メタ情報
-          const metaDiv = document.createElement('div');
-          metaDiv.className = 'result-meta';
-          
-          // 教科
           const subjects = formatProperty(item.properties['教科']);
-          if (subjects) {
-            const subjectSpan = document.createElement('span');
-            subjectSpan.className = 'meta-item subject';
-            subjectSpan.textContent = `教科: ${subjects}`;
-            metaDiv.appendChild(subjectSpan);
-          }
-          
-          // 学年
-          const grade = formatProperty(item.properties['学年']);
-          if (grade) {
-            const gradeSpan = document.createElement('span');
-            gradeSpan.className = 'meta-item grade';
-            gradeSpan.textContent = `学年: ${grade}`;
-            metaDiv.appendChild(gradeSpan);
-          }
-          
-          // 時期
-          const period = formatProperty(item.properties['時期']);
-          if (period) {
-            const periodSpan = document.createElement('span');
-            periodSpan.className = 'meta-item period';
-            periodSpan.textContent = `時期: ${period}`;
-            metaDiv.appendChild(periodSpan);
-          }
-          
-          resultDiv.appendChild(titleDiv);
-          resultDiv.appendChild(metaDiv);
-          
-          // クリックして詳細を表示するリンク
-          const showDetailsLink = document.createElement('a');
-          showDetailsLink.textContent = 'クリックしてファイルを表示';
-          showDetailsLink.href = '#';
-          showDetailsLink.className = 'show-details-btn';
+          const grd = formatProperty(item.properties['学年']);
+          const prd = formatProperty(item.properties['時期']);
+
+          html += `<div class="result-item" data-page-id="${item.id}" data-page-title="${escapeHTML(title)}">`;
+          html += `<div class="result-title">${escapeHTML(title)}</div>`;
+          html += '<div class="result-meta">';
+          if (subjects) html += `<span class="meta-item subject">教科: ${escapeHTML(subjects)}</span>`;
+          if (grd) html += `<span class="meta-item grade">学年: ${escapeHTML(grd)}</span>`;
+          if (prd) html += `<span class="meta-item period">時期: ${escapeHTML(prd)}</span>`;
+          html += '</div>';
+          html += '<a href="#" class="show-details-btn">クリックしてファイルを表示</a>';
+          html += '</div>';
+        }
+
+        resultsDiv.innerHTML = html;
+
+        resultsDiv.querySelectorAll('.result-item').forEach(resultDiv => {
+          const id = resultDiv.dataset.pageId;
+          observer.observe(resultDiv);
+
+          const showDetailsLink = resultDiv.querySelector('.show-details-btn');
           showDetailsLink.style.cssText = `
             display: block;
             margin-top: 20px;
@@ -558,10 +543,8 @@
             position: relative;
             overflow: hidden;
           `;
-          
-          // ダークモード判定
+
           const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          
           if (isDarkMode) {
             showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
             showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
@@ -569,7 +552,7 @@
             showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
             showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
           }
-          
+
           showDetailsLink.onmouseover = () => {
             if (isDarkMode) {
               showDetailsLink.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
@@ -592,16 +575,10 @@
           };
           showDetailsLink.onclick = (e) => {
             e.preventDefault();
-            // Google Analytics: ページ詳細表示イベントを追跡
-            trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
-            showPageDetails(item.id, resultDiv, showDetailsLink);
+            trackPageDetailsView(resultDiv.dataset.pageTitle || 'Unknown Page');
+            showPageDetails(id, resultDiv, showDetailsLink);
           };
-          
-          resultDiv.appendChild(showDetailsLink);
-          resultsDiv.appendChild(resultDiv);
-          
-          // IntersectionObserverが表示を検知した際にプリロードされます
-        }
+        });
       } catch (error) {
         console.error('検索エラー:', error);
         resultsDiv.innerHTML = '<div class="error">検索中にエラーが発生しました。</div>';
