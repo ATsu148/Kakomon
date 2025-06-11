@@ -1,9 +1,14 @@
-const CACHE_NAME = 'kakomon-cache-v1';
+const CACHE_NAME = 'kakomon-cache-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/images/favicon.ico'
+  '/style.css',
+  '/service-worker.js',
+  '/offline.html',
+  '/images/favicon.ico',
+  '/images/icon-192x192.png',
+  '/images/icon-512x512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -39,7 +44,17 @@ self.addEventListener('fetch', event => {
 
   if (STATIC_ASSETS.includes(url.pathname) || url.origin === location.origin) {
     event.respondWith(
-      caches.match(event.request).then(resp => resp || fetch(event.request))
+      caches.match(event.request)
+        .then(resp => resp || fetch(event.request))
+        .catch(() => caches.match('/offline.html'))
+    );
+    return;
+  }
+
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match('/offline.html'))
     );
   }
 });
