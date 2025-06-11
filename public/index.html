@@ -457,16 +457,24 @@
     function clearFilters() {
       // Google Analytics: フィルタークリアイベントを追跡
       sendGAEvent('clear_filters', 'user_interaction', 'filter_controls');
-      
+
       document.getElementById('subjectFilter').value = '';
       document.getElementById('gradeFilter').value = '';
       document.getElementById('periodFilter').value = '';
+      // ローカルストレージの値もクリア
+      localStorage.removeItem('subjectFilter');
+      localStorage.removeItem('gradeFilter');
+      localStorage.removeItem('periodFilter');
+      localStorage.removeItem('searchInput');
       search(); // フィルタクリア後に再検索
     }
 
     function onFilterChange(filterType, filterValue) {
       // Google Analytics: フィルター使用イベントを追跡
       trackFilterUsage(filterType, filterValue);
+
+      // フィルター値をローカルストレージに保存
+      localStorage.setItem(`${filterType}Filter`, filterValue);
 
       // フィルター変更後に自動検索
       search();
@@ -1460,6 +1468,15 @@
       const mobileFilter = document.querySelector('.mobile-filter');
       const overlay = document.getElementById('filterOverlay');
       const closeBtn = document.getElementById('closeFilter');
+      // 保存された検索条件を取得
+      const savedSearch = localStorage.getItem('searchInput') || '';
+      const savedSubject = localStorage.getItem('subjectFilter') || '';
+      const savedGrade = localStorage.getItem('gradeFilter') || '';
+      const savedPeriod = localStorage.getItem('periodFilter') || '';
+
+      if (savedSearch) {
+        document.getElementById('searchInput').value = savedSearch;
+      }
       if (filterToggle && mobileFilter && overlay) {
         filterToggle.addEventListener('click', () => {
           const isOpen = mobileFilter.classList.contains('open');
@@ -1490,6 +1507,14 @@
       
       // 初期化完了後のローディング画面制御
       initializeFilters().then(() => {
+        // 保存されたフィルタ値をセレクトボックスに適用
+        document.getElementById('subjectFilter').value = savedSubject;
+        document.getElementById('gradeFilter').value = savedGrade;
+        document.getElementById('periodFilter').value = savedPeriod;
+
+        if (savedSearch || savedSubject || savedGrade || savedPeriod) {
+          search();
+        }
         // アニメーションの最小表示時間を確保（時間短縮）
         const loadingStartTime = Date.now();
         const minDisplayTime = 700; // 1.5秒 → 700ミリ秒に短縮
@@ -1521,6 +1546,11 @@
         sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
         search();
       }
+    });
+
+    // 入力内容をローカルストレージに保存
+    document.getElementById('searchInput')?.addEventListener('input', function(e) {
+      localStorage.setItem('searchInput', e.target.value);
     });
 
     // initializeFilters関数をPromiseを返すように修正
