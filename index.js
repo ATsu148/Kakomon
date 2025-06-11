@@ -4,8 +4,17 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const notion = new Client({ auth: process.env.NOTION_TOKEN });
-const databaseId = process.env.NOTION_DATABASE_ID;
+
+const notionToken = process.env.NOTION_TOKEN;
+const notionDatabaseId = process.env.NOTION_DATABASE_ID;
+
+if (!notionToken || !notionDatabaseId) {
+  console.error('Error: NOTION_TOKEN and NOTION_DATABASE_ID environment variables are required.');
+  process.exit(1);
+}
+
+const notion = new Client({ auth: notionToken });
+const databaseId = notionDatabaseId;
 
 // 高度なキャッシュシステム
 const cache = new Map();
