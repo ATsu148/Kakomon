@@ -84,21 +84,21 @@
         <defs>
           <!-- 青基調メイングラデーション -->
           <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#5dade2;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#85c1e9;stop-opacity:1" />
+            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:1" />
+            <stop offset="50%" style="stop-color: var(--accent-color-end); stop-opacity:1" />
+            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:1" />
           </linearGradient>
           
           <!-- 3Dシャドウ用グラデーション -->
           <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#21618c;stop-opacity:0.4" />
-            <stop offset="100%" style="stop-color:#1b4f72;stop-opacity:0.2" />
+            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:0.2" />
           </linearGradient>
           
           <!-- ハイライト用グラデーション -->
           <linearGradient id="highlightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
-            <stop offset="100%" style="stop-color:#e3f2fd;stop-opacity:0.4" />
+            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:0.8" />
+            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:0.4" />
           </linearGradient>
           
           <!-- ソフトブラーフィルター -->
@@ -1228,6 +1228,34 @@
       const gradient = document.getElementById('roseGradient');
       const shadowPath = document.getElementById('roseShadowPath');
       const highlightPath = document.getElementById('roseHighlightPath');
+
+      function applyThemeToGradients() {
+        const styles = getComputedStyle(document.documentElement);
+        const accentStart = styles.getPropertyValue('--accent-color').trim();
+        const accentEnd = styles.getPropertyValue('--accent-color-end').trim();
+
+        const roseStops = gradient.querySelectorAll('stop');
+        if (roseStops.length >= 3) {
+          roseStops[0].setAttribute('stop-color', accentStart);
+          roseStops[1].setAttribute('stop-color', accentEnd);
+          roseStops[2].setAttribute('stop-color', accentEnd);
+        }
+
+        const shadowStops = document.querySelectorAll('#shadowGradient stop');
+        if (shadowStops.length >= 2) {
+          shadowStops[0].setAttribute('stop-color', accentStart);
+          shadowStops[1].setAttribute('stop-color', accentEnd);
+        }
+
+        const highlightStops = document.querySelectorAll('#highlightGradient stop');
+        if (highlightStops.length >= 2) {
+          highlightStops[0].setAttribute('stop-color', accentStart);
+          highlightStops[1].setAttribute('stop-color', accentEnd);
+        }
+      }
+
+      applyThemeToGradients();
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyThemeToGradients);
       
       // SVGのviewBoxを画面サイズに応じて動的に調整
       function adjustSVGViewBox() {
