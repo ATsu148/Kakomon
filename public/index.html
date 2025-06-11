@@ -479,6 +479,14 @@
       }
     }
 
+    function debounce(fn, ms) {
+      let timer;
+      return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), ms);
+      };
+    }
+
     async function search() {
       const query = document.getElementById('searchInput').value;
       const subject = document.getElementById('subjectFilter').value;
@@ -596,6 +604,8 @@
         resultsDiv.innerHTML = '<div class="error">検索中にエラーが発生しました。</div>';
       }
     }
+
+    const debouncedSearch = debounce(search, 350);
 
     // バックグラウンドでページ詳細をプリロード
     async function preloadPageDetails(pageId) {
@@ -1522,6 +1532,9 @@
         search();
       }
     });
+
+    // 入力時に自動検索
+    document.getElementById('searchInput')?.addEventListener('input', debouncedSearch);
 
     // initializeFilters関数をPromiseを返すように修正
     async function initializeFilters() {
