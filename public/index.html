@@ -1681,7 +1681,16 @@
       let startX = 0;
       let currentX = 0;
       let buttonRect = null;
-      const slideThreshold = 60; // 60px以上で自動完了
+      const slideThreshold = 30; // 30px以上で自動完了
+
+      // 初回のみ引っ張りアニメーション
+      if (!localStorage.getItem('slideHintShown')) {
+        button.classList.add('hint');
+        setTimeout(() => {
+          button.classList.remove('hint');
+          localStorage.setItem('slideHintShown', 'true');
+        }, 700);
+      }
       
       function getMaxSlideDistance() {
         // 右から左に最大80px引っ張る
@@ -1696,6 +1705,7 @@
         
         handle.style.transition = 'none';
         button.classList.add('dragging');
+        button.classList.add('touch-active');
         
         // Google Analytics: スライド開始イベント
         sendGAEvent('slide_start', 'user_interaction', 'orange_vertical_slider');
@@ -1734,6 +1744,7 @@
           isDragging = false;
         handle.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; /* より滑らかなease-in-out */
         button.classList.remove('dragging');
+        button.classList.remove('touch-active');
         button.classList.remove('slide-threshold-reached');
         
         const slideDistance = Math.abs(currentX);
@@ -1772,6 +1783,10 @@
       handle.addEventListener('touchstart', handleStart, { passive: false });
       document.addEventListener('touchmove', handleMove, { passive: false });
       document.addEventListener('touchend', handleEnd, { passive: false });
+
+      // ホバー・フォーカスエフェクト
+      button.addEventListener('mouseenter', () => button.classList.add('hovered'));
+      button.addEventListener('mouseleave', () => button.classList.remove('hovered'));
     }
 
     // 従来のトグル関数は互換性のため保持
@@ -1792,15 +1807,13 @@
   </script>  <!-- Vertical Orange Slider for mobile -->
   <div id="slideSearchButton" class="slide-search-button vertical-slide">
     <div class="slide-button-track">
-      <div class="slide-button-handle" id="slideHandle">
-        <span class="slide-icon">&lt;&lt;</span>
-      </div>
+      <div class="slide-button-handle" id="slideHandle"></div>
       <div class="slide-button-text">スライドして検索</div>
     </div>
   </div>
 
   <!-- Search Panel Overlay -->
-  <div id="searchPanelOverlay" class="search-panel-overlay"></div>
+  <div id="searchPanelOverlay" class="search-panel-overlay hidden"></div>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
