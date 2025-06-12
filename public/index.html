@@ -142,18 +142,19 @@
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-      <button onclick="search()">検索</button>
-    </div>
-    
-    <!-- フィルタセクション -->
-    <div class="filters">
-      <div class="filter-row">
-        <div class="filter-group">
-          <label class="filter-label">教科</label>
-          <select id="subjectFilter" onchange="onFilterChange('subject', this.value)">
-            <option value="">すべて</option>
+    <div id="searchPanel" class="search-panel">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
+        <button onclick="search()">検索</button>
+      </div>
+
+      <!-- フィルタセクション -->
+      <div class="filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-label">教科</label>
+            <select id="subjectFilter" onchange="onFilterChange('subject', this.value)">
+              <option value="">すべて</option>
           </select>
         </div>
         <div class="filter-group">
@@ -170,10 +171,12 @@
         </div>
       </div>
       <button class="clear-filters" onclick="clearFilters()">フィルタをクリア</button>
-    </div>
-    
+      </div>
     <div id="results"></div>
+    </div>
   </div>
+  <div id="slideHandle" class="slide-handle"></div>
+  <div id="overlay" class="overlay" onclick="closeSearchPanel()"></div>
 
   <script>
     // フィルタオプションを格納する変数
@@ -455,12 +458,15 @@
       search();
     }
 
-    async function search() {
-      const query = document.getElementById('searchInput').value;
-      const subject = document.getElementById('subjectFilter').value;
-      const grade = document.getElementById('gradeFilter').value;
-      const period = document.getElementById('periodFilter').value;
-      const resultsDiv = document.getElementById('results');
+   async function search() {
+     const query = document.getElementById('searchInput').value;
+     const subject = document.getElementById('subjectFilter').value;
+     const grade = document.getElementById('gradeFilter').value;
+     const period = document.getElementById('periodFilter').value;
+     const resultsDiv = document.getElementById('results');
+
+      // モバイルでは検索実行時にパネルを閉じる
+      closeSearchPanel();
       
       // Google Analytics: 検索イベントを追跡
       trackSearch(query, {
@@ -1540,8 +1546,61 @@
         throw error;
       }
     }
-  </script>
-  <script>
+
+    function toggleSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const handle = document.getElementById('slideHandle');
+      const overlay = document.getElementById('overlay');
+      if (!panel || !handle || !overlay) return;
+      const willOpen = !panel.classList.contains('open');
+      panel.classList.toggle('open', willOpen);
+      handle.classList.toggle('open', willOpen);
+      overlay.classList.toggle('active', willOpen);
+    }
+
+    function openSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const handle = document.getElementById('slideHandle');
+      const overlay = document.getElementById('overlay');
+      if (!panel || !handle || !overlay) return;
+      panel.classList.add('open');
+      handle.classList.add('open');
+      overlay.classList.add('active');
+    }
+
+    function closeSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const handle = document.getElementById('slideHandle');
+      const overlay = document.getElementById('overlay');
+      if (!panel || !handle || !overlay) return;
+      panel.classList.remove('open');
+      handle.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const handle = document.getElementById('slideHandle');
+      if (!handle) return;
+      let startX = null;
+      handle.classList.add('intro');
+      setTimeout(() => handle.classList.remove('intro'), 600);
+      handle.addEventListener('click', toggleSearchPanel);
+      handle.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        handle.classList.add('touching');
+      });
+      handle.addEventListener('touchmove', (e) => {
+        if (startX === null) return;
+        if (startX - e.touches[0].clientX > 30) {
+          openSearchPanel();
+          startX = null;
+        }
+      });
+      handle.addEventListener('touchend', () => {
+        startX = null;
+        handle.classList.remove('touching');
+      });
+    });
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
