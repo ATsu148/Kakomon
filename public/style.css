@@ -1584,30 +1584,28 @@
   /* Panel header (mobile only) */
   .panel-header {
     display: none;
-  }
-
-  @media (max-width: 767px) {
+  }  @media (max-width: 767px) {
     .search-panel {
       position: fixed;
+      top: 120px;
       bottom: 0;
       left: 0;
       right: 0;
       width: 100%;
-      max-height: 80vh;
+      max-width: none;
       padding: 0;
       background: var(--panel-bg);
-      backdrop-filter: blur(25px);
-      border-radius: 25px 25px 0 0;
-      transform: translateY(100%);
+      backdrop-filter: blur(25px);      border-radius: 25px 0 0 0;      transform: translateX(100%);
       transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: 0 -8px 32px rgba(31, 38, 135, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      box-shadow: 0 -8px 32px var(--accent-border), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       z-index: 1000;
-      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-bottom: none;
       overflow-y: auto;
     }
 
     .search-panel.open {
-      transform: translateY(0);
+      transform: translateX(0);
     }
 
     /* Panel header styling */
@@ -1647,12 +1645,10 @@
       box-shadow: 0 4px 12px rgba(255, 145, 115, 0.3);
       min-height: auto;
       padding: 0;
-    }
-
-    .close-panel-btn:hover {
+    }    .close-panel-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 18px rgba(255, 145, 115, 0.4);
-      background: linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%);
+      box-shadow: 0 6px 18px var(--accent-border);
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
     }
 
     .close-panel-btn:active {
@@ -1676,22 +1672,24 @@
     }    /* Vertical Orange Slider */
     .slide-search-button.vertical-slide {
       position: fixed;
-      top: 50%;
+      top: 70%;
       right: 0;
-      width: 80px;
-      height: 200px;
-      transform: translateY(-50%) translateX(60px); /* 初期状態で20pxだけ見える (80px - 60px = 20px) */
-      background: linear-gradient(180deg, #ff8c42 0%, #ff6b1a 50%, #e55a00 100%);
+      width: 60px;
+      height: 180px;
+      transform: translateY(-50%) translateX(45px); /* 初期状態で15pxだけ見える (60px - 45px = 15px) */
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%),
+        linear-gradient(180deg, rgba(255, 140, 66, 0.7) 0%, rgba(255, 107, 26, 0.6) 50%, rgba(229, 90, 0, 0.5) 100%);
       border-radius: 20px 0 0 20px;
-      border: none;
-      box-shadow: 
-        -8px 0 32px rgba(255, 140, 66, 0.4),
-        -4px 0 16px rgba(255, 107, 26, 0.3),
-        -2px 0 8px rgba(229, 90, 0, 0.2),
-        inset 2px 2px 8px rgba(255, 255, 255, 0.3),
-        inset -2px -2px 8px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(20px);
-      z-index: 1001;      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.4);      box-shadow:
+        -6px 0 24px rgba(255, 140, 66, 0.3),
+        -3px 0 12px rgba(255, 107, 26, 0.25),
+        -1px 0 6px rgba(229, 90, 0, 0.2),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.25),
+        inset -2px -2px 8px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(12px);
+      z-index: 1001;
+      overflow: hidden;
       cursor: grab;
       transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); /* より滑らかなease-in-out */
       display: flex;
@@ -1699,16 +1697,15 @@
       align-items: center;
       justify-content: center;
       --slide-progress: 0;
-    }.slide-search-button.vertical-slide:hover {
-      transform: translateY(-50%) translateX(50px); /* ホバーで少し出てくる */
-      box-shadow: 
-        -12px 0 40px rgba(255, 140, 66, 0.5),
-        -6px 0 20px rgba(255, 107, 26, 0.4),
-        -3px 0 12px rgba(229, 90, 0, 0.3),
-        inset 2px 2px 12px rgba(255, 255, 255, 0.4),
-        inset -2px -2px 12px rgba(0, 0, 0, 0.15);
+    }    .slide-search-button.vertical-slide:hover {
+      transform: translateY(-50%) translateX(50px); /* ホバーで少し出てくる */      box-shadow: 
+        -9px 0 30px rgba(255, 140, 66, 0.4),
+        -4px 0 15px rgba(255, 107, 26, 0.3),
+        -2px 0 9px rgba(229, 90, 0, 0.25),
+        inset 2px 2px 12px rgba(255, 255, 255, 0.3),
+        inset -2px -2px 12px rgba(0, 0, 0, 0.1);
       cursor: grab;
-    }    .slide-search-button.vertical-slide.hidden {
+    }.slide-search-button.vertical-slide.hidden {
       transform: translateY(-50%) translateX(80px); /* 完全に隠れる */
       pointer-events: none;
     }
@@ -1723,25 +1720,18 @@
       opacity: 1;
     }
 
-    .slide-search-button.vertical-slide.dragging {
-      cursor: grabbing;
-      box-shadow: 
-        -16px 0 48px rgba(255, 140, 66, 0.6),
-        -8px 0 24px rgba(255, 107, 26, 0.5),
-        -4px 0 16px rgba(229, 90, 0, 0.4),
-        inset 2px 2px 16px rgba(255, 255, 255, 0.5),
-        inset -2px -2px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .slide-search-button.vertical-slide.slide-completed {
-      background: linear-gradient(180deg, #ffaa6b 0%, #ff8c42 50%, #ff6b1a 100%);
-      box-shadow: 
-        -20px 0 60px rgba(255, 170, 107, 0.6),
-        -10px 0 30px rgba(255, 140, 66, 0.5),
-        -5px 0 20px rgba(255, 107, 26, 0.4);
-    }
-
-    .slide-search-button.vertical-slide .slide-button-track {
+    .slide-search-button.vertical-slide.dragging {      cursor: grabbing;      box-shadow: 
+        -12px 0 36px rgba(255, 140, 66, 0.5),
+        -6px 0 18px rgba(255, 107, 26, 0.4),
+        -3px 0 12px rgba(229, 90, 0, 0.3),
+        inset 2px 2px 16px rgba(255, 255, 255, 0.35),
+        inset -2px -2px 16px rgba(0, 0, 0, 0.15);
+    }    .slide-search-button.vertical-slide.slide-completed {
+      background: linear-gradient(180deg, #ffaa6b 0%, #ff8c42 50%, #ff6b1a 100%);      box-shadow: 
+        -15px 0 45px rgba(255, 140, 66, 0.6),
+        -7px 0 22px rgba(255, 107, 26, 0.5),
+        -3px 0 15px rgba(229, 90, 0, 0.4);
+    }.slide-search-button.vertical-slide .slide-button-track {
       position: relative;
       width: 100%;
       height: 100%;
@@ -1750,42 +1740,24 @@
       align-items: center;
       justify-content: center;
       padding: 8px 4px;
-    }    .slide-search-button.vertical-slide .slide-button-handle {
-      position: relative;
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.15),
-        0 4px 10px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
       cursor: grab;
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      z-index: 2;
-      margin-bottom: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
     }
 
-    .slide-search-button.vertical-slide .slide-button-handle:active {
+    .slide-search-button.vertical-slide .slide-button-track:active {
       cursor: grabbing;
-      transform: scale(1.1);
-      box-shadow: 
-        0 12px 28px rgba(0, 0, 0, 0.2),
-        0 6px 14px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    }    .slide-search-button.vertical-slide .slide-icon {
+    }
+
+    .slide-search-button.vertical-slide .slide-text {
+      display: none; /* 文字を削除 */
+    }.slide-search-button.vertical-slide .slide-icon {
       font-size: 24px;
       color: #ff6b1a;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
       transition: all 0.3s ease;
       font-weight: bold;
       animation: slideIconPulse 2s ease-in-out infinite;
+      margin-bottom: 16px;
     }
 
     /* <<アイコンの点滅アニメーション */
@@ -1798,6 +1770,16 @@
         opacity: 0.6;
         transform: scale(1.1);
       }
+    }
+
+    /* 初回表示時の引っ張りアニメーション */
+    @keyframes pullIntro {
+      0% { transform: translateX(0); }
+      40% { transform: translateX(-30px); }
+      60% { transform: translateX(-30px); }
+      100% { transform: translateX(0); }
+    }    .slide-search-button.vertical-slide.intro-animation .slide-button-track {
+      animation: pullIntro 0.8s ease-out;
     }
 
     /* オーバーレイスタイル */
@@ -1817,7 +1799,24 @@
     .search-overlay.hidden {
       opacity: 0;
       visibility: hidden;
-    }.slide-search-button.vertical-slide .slide-button-text {
+    }
+
+    /* Overlay for sliding search panel */
+    .search-panel-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: 999;
+      transition: opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+      opacity: 0;
+      visibility: hidden;
+    }    .search-panel-overlay.active {
+      opacity: 0;
+      visibility: hidden;
+    }    .slide-search-button.vertical-slide .slide-text {
       font-size: 12px;
       font-weight: 700;
       color: rgba(255, 255, 255, 0.95);
@@ -1831,44 +1830,25 @@
       transform: rotate(0deg);
       opacity: calc(1 - var(--slide-progress, 0) * 1.5);
       transition: opacity 0.3s ease;
+    }    /* Dragging effects for vertical orange slider */
+    .slide-search-button.vertical-slide.dragging .slide-button-track {
+      cursor: grabbing;
     }
 
-    /* Dragging effects for vertical orange slider */
-    .slide-search-button.vertical-slide.dragging .slide-button-handle {
-      transform: scale(1.15);
-      box-shadow: 
-        0 16px 32px rgba(0, 0, 0, 0.25),
-        0 8px 16px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 100%);
-    }    .slide-search-button.vertical-slide.dragging .slide-icon {
+    .slide-search-button.vertical-slide.dragging .slide-icon {
       color: #e55a00;
       transform: scale(1.2);
       filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
       animation: none; /* ドラッグ中は点滅を停止 */
-    }
-
-    /* 60px以上スライドした時の視覚的フィードバック */
+    }    /* 60px以上スライドした時の視覚的フィードバック */
     .slide-search-button.vertical-slide.slide-threshold-reached {
-      background: linear-gradient(180deg, #ffaa6b 0%, #ff8c42 30%, #ff6b1a 70%, #e55a00 100%);
-      box-shadow: 
-        -24px 0 60px rgba(255, 170, 107, 0.7),
-        -12px 0 30px rgba(255, 140, 66, 0.6),
-        -6px 0 20px rgba(255, 107, 26, 0.5),
-        inset 2px 2px 20px rgba(255, 255, 255, 0.6),
-        inset -2px -2px 20px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(180deg, #ffaa6b 0%, #ff8c42 30%, #ff6b1a 70%, #e55a00 100%);      box-shadow: 
+        -18px 0 45px rgba(255, 140, 66, 0.6),
+        -9px 0 22px rgba(255, 107, 26, 0.5),
+        -4px 0 15px rgba(229, 90, 0, 0.4),
+        inset 2px 2px 20px rgba(255, 255, 255, 0.4),
+        inset -2px -2px 20px rgba(0, 0, 0, 0.18);
       transform: translateY(-50%) translateX(40px) scale(1.05);
-    }
-
-    .slide-search-button.vertical-slide.slide-threshold-reached .slide-button-handle {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 245, 235, 0.95) 100%);
-      box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.3),
-        0 10px 20px rgba(0, 0, 0, 0.25),
-        inset 0 2px 0 rgba(255, 255, 255, 1),
-        inset 0 -2px 0 rgba(229, 90, 0, 0.3);
-      transform: scale(1.2);
     }
 
     .slide-search-button.vertical-slide.slide-threshold-reached .slide-icon {
@@ -1881,58 +1861,86 @@
       background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       min-height: 50px;
     }
-  }
-  /* ダークモード対応 */
-  @media (prefers-color-scheme: dark) and (max-width: 767px) {
+  }  /* ダークモード対応 */  @media (prefers-color-scheme: dark) and (max-width: 767px) {
+    .search-panel {
+      box-shadow: 0 -8px 32px var(--accent-border), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
     .close-panel-btn {
       background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
-      box-shadow: 0 4px 12px rgba(90, 159, 212, 0.3);
-    }
-
-    .close-panel-btn:hover {
-      background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
-      box-shadow: 0 6px 18px rgba(90, 159, 212, 0.4);
-    }
-
+      box-shadow: 0 4px 12px var(--accent-border);
+    }    /* ダークモード用スライドボタン - 青基調 */
     .slide-search-button.vertical-slide {
-      background: linear-gradient(180deg, #ff9853 0%, #ff7a2b 50%, #e86010 100%);
-      box-shadow: 
-        -8px 0 32px rgba(255, 152, 83, 0.5),
-        -4px 0 16px rgba(255, 122, 43, 0.4),
-        -2px 0 8px rgba(232, 96, 16, 0.3),
-        inset 2px 2px 8px rgba(255, 255, 255, 0.2),
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%),
+        linear-gradient(180deg, rgba(52, 152, 219, 0.7) 0%, rgba(41, 128, 185, 0.6) 50%, rgba(31, 95, 138, 0.5) 100%);
+      box-shadow:
+        -6px 0 24px rgba(52, 152, 219, 0.3),
+        -3px 0 12px rgba(93, 173, 226, 0.25),
+        -1px 0 6px rgba(52, 152, 219, 0.2),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.15),
         inset -2px -2px 8px rgba(0, 0, 0, 0.3);
     }
 
-    .slide-search-button.vertical-slide:hover {
-      box-shadow: 
-        -12px 0 40px rgba(255, 152, 83, 0.6),
-        -6px 0 20px rgba(255, 122, 43, 0.5),
-        -3px 0 12px rgba(232, 96, 16, 0.4),
-        inset 2px 2px 12px rgba(255, 255, 255, 0.3),
-        inset -2px -2px 12px rgba(0, 0, 0, 0.4);
-    }
-
-    .slide-search-button.vertical-slide.slide-completed {
-      background: linear-gradient(180deg, #ffb87c 0%, #ff9853 50%, #ff7a2b 100%);
-    }
-
     .slide-search-button.vertical-slide .slide-icon {
-      color: #ff7a2b;
+      color: #3498db;
+    }    .slide-search-button.vertical-slide:hover {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%),
+        linear-gradient(180deg, rgba(93, 173, 226, 0.8) 0%, rgba(52, 152, 219, 0.7) 50%, rgba(41, 128, 185, 0.6) 100%);
+      box-shadow: 
+        -9px 0 30px rgba(52, 152, 219, 0.4),
+        -4px 0 15px rgba(93, 173, 226, 0.3),
+        -2px 0 9px rgba(52, 152, 219, 0.25),
+        inset 2px 2px 12px rgba(255, 255, 255, 0.2),
+        inset -2px -2px 12px rgba(0, 0, 0, 0.35);
+    }    .slide-search-button.vertical-slide.dragging .slide-button-track {
+      cursor: grabbing;
     }
 
     .slide-search-button.vertical-slide.dragging .slide-icon {
-      color: #e86010;
+      color: #2980b9;
+      transform: scale(1.2);
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4));
+      animation: none; /* ドラッグ中は点滅を停止 */
     }
 
-    .slide-search-button.vertical-slide.slide-threshold-reached {
-      background: linear-gradient(180deg, #ffb87c 0%, #ff9853 30%, #ff7a2b 70%, #e86010 100%);
+    .slide-search-button.vertical-slide.dragging {
+      cursor: grabbing;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 100%),
+        linear-gradient(180deg, rgba(93, 173, 226, 0.9) 0%, rgba(52, 152, 219, 0.8) 50%, rgba(31, 95, 138, 0.7) 100%);
       box-shadow: 
-        -24px 0 60px rgba(255, 184, 124, 0.7),
-        -12px 0 30px rgba(255, 152, 83, 0.6),
-        -6px 0 20px rgba(255, 122, 43, 0.5),
-        inset 2px 2px 20px rgba(255, 255, 255, 0.4),
+        -12px 0 36px rgba(52, 152, 219, 0.5),
+        -6px 0 18px rgba(93, 173, 226, 0.4),
+        -3px 0 12px rgba(52, 152, 219, 0.3),
+        inset 2px 2px 16px rgba(255, 255, 255, 0.2),
+        inset -2px -2px 16px rgba(0, 0, 0, 0.4);
+    }.slide-search-button.vertical-slide.slide-threshold-reached {
+      background: linear-gradient(180deg, rgba(174, 214, 241, 0.9) 0%, rgba(133, 193, 233, 0.8) 30%, rgba(93, 173, 226, 0.7) 70%, rgba(52, 152, 219, 0.6) 100%);
+      box-shadow: 
+        -18px 0 45px rgba(52, 152, 219, 0.6),
+        -9px 0 22px rgba(93, 173, 226, 0.5),
+        -4px 0 15px rgba(52, 152, 219, 0.4),
+        inset 2px 2px 20px rgba(255, 255, 255, 0.25),
         inset -2px -2px 20px rgba(0, 0, 0, 0.4);
+    }    .slide-search-button.vertical-slide.slide-threshold-reached .slide-icon {
+      color: #2471a3;
+      transform: scale(1.3);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+      animation: none; /* 閾値到達時も点滅を停止 */
+    }
+
+    .slide-search-button.vertical-slide.slide-completed {
+      background: linear-gradient(180deg, rgba(214, 234, 248, 0.8) 0%, rgba(174, 214, 241, 0.7) 50%, rgba(133, 193, 233, 0.6) 100%);
+      box-shadow: 
+        -15px 0 45px rgba(52, 152, 219, 0.5),
+        -7px 0 22px rgba(93, 173, 226, 0.4),
+        -3px 0 15px rgba(52, 152, 219, 0.3);
+    }
+
+    .slide-search-button.vertical-slide.slide-completed .slide-icon {
+      color: #2471a3;
     }
   }
 
