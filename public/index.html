@@ -1650,12 +1650,11 @@
       let isDragging = false;
       let startX = 0;
       let currentX = 0;
-      let buttonRect = null;
-      const slideThreshold = 60; // 60px以上で自動完了
+      let buttonRect = null;      const slideThreshold = 40; // 40px以上で自動完了
       
       function getMaxSlideDistance() {
-        // 右から左に最大80px引っ張る
-        return -80;
+        // 右から左に最大60px引っ張る
+        return -60;
       }
       
       function handleStart(e) {
@@ -1689,7 +1688,7 @@
         const progress = Math.abs(currentX) / Math.abs(getMaxSlideDistance());
         button.style.setProperty('--slide-progress', progress);
         
-        // 60px以上スライドした場合の視覚的フィードバック
+        // 40px以上スライドした場合の視覚的フィードバック
         if (Math.abs(currentX) >= slideThreshold) {
           button.classList.add('slide-threshold-reached');
         } else {
@@ -1709,7 +1708,7 @@
         const slideDistance = Math.abs(currentX);
         
         if (slideDistance >= slideThreshold) {
-          // 60px以上スライド完了 - 検索パネルを開く
+          // 40px以上スライド完了 - 検索パネルを開く
           const maxDistance = Math.abs(getMaxSlideDistance());
           track.style.transform = `translateX(${getMaxSlideDistance()}px)`;
           button.classList.add('slide-completed');
