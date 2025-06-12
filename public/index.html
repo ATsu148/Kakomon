@@ -141,11 +141,18 @@
   <!-- メインコンテンツ -->
   <div id="mainContent" class="main-content">
     <div class="container">
-    <h1>過去問検索システム</h1>
-    <div id="searchPanel" class="search-panel open">
+    <h1>過去問検索システム</h1>    <div id="searchPanel" class="search-panel open">
+      <!-- パネルヘッダー（モバイル用） -->
+      <div class="panel-header">
+        <h3 class="panel-title">検索・フィルター</h3>
+        <button class="close-panel-btn" onclick="closeSearchPanel()" aria-label="検索パネルを閉じる">
+          <span class="close-icon">✖</span>
+        </button>
+      </div>
+      
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-        <button onclick="search()">検索</button>
+        <button onclick="search()" class="search-btn">検索</button>
       </div>
 
       <!-- フィルタセクション -->
@@ -455,9 +462,7 @@
       
       // フィルター変更後に自動検索
       search();
-    }
-
-   async function search() {
+    }   async function search() {
      const query = document.getElementById('searchInput').value;
      const subject = document.getElementById('subjectFilter').value;
      const grade = document.getElementById('gradeFilter').value;
@@ -465,7 +470,9 @@
      const resultsDiv = document.getElementById('results');
 
       // モバイルでは検索実行時にパネルを閉じる
-      closeSearchPanel();
+      if (window.innerWidth <= 767) {
+        closeSearchPanel();
+      }
       
       // Google Analytics: 検索イベントを追跡
       trackSearch(query, {
@@ -1467,12 +1474,13 @@
       setTimeout(() => {
         mainContent.classList.add('visible');
       }, 50); // 150ms → 50ms
-    }
-
-    // ページ読み込み時の初期化
+    }    // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
       // スクロールを無効にする
       disableScroll();
+
+      // レスポンシブに応じた検索パネルの初期状態設定
+      initializeSearchPanel();
 
       const isSmallScreen = window.matchMedia('(max-width: 480px)').matches;
 
@@ -1502,22 +1510,76 @@
             }
             // 大画面ではアニメーションの終了を待つ
           }, remainingTime);
-        }, 100);
-      }).catch((error) => {
+        }, 100);      }).catch((error) => {
         console.error('初期化エラー:', error);
         // エラーが発生してもローディング画面は適切なタイミングで非表示にする
         setTimeout(() => {
           fadeOutLoadingScreen();
         }, 2500); // エラー時の表示時間も短縮（3秒→2.5秒）
-      });
+      });      // モバイルでの初期状態設定
+      if (window.innerWidth <= 767) {        const panel = document.getElementById('searchPanel');
+        const slideButton = document.getElementById('slideSearchButton');
+        if (panel && slideButton) {
+          // 初期状態: モバイルでパネルは開いている、スライドボタンは隠れている
+          panel.classList.add('open');
+          slideButton.classList.add('hidden');
+          initializeSlideButton(); // スライドボタンを初期化
+        }
+      }
     });
 
-    // Enterキーで検索
+    // レスポンシブに応じた検索パネルの初期化
+    function initializeSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      const fab = document.getElementById('fab');
+      const icon = document.getElementById('fabIcon');
+      
+      if (!panel || !fab || !icon) return;
+      
+      const isDesktop = window.innerWidth >= 768;
+      
+      if (isDesktop) {
+        // デスクトップでは常に表示
+        panel.classList.add('open');
+        fab.style.display = 'none';
+      } else {
+        // モバイルでは非表示でスタート
+        panel.classList.remove('open');
+        fab.classList.remove('open');
+        icon.innerHTML = '&#128269;'; // 検索アイコン
+      }
+    }
+
+    // ウィンドウリサイズ時の対応
+    window.addEventListener('resize', () => {
+      initializeSearchPanel();
+    });    // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         // Google Analytics: Enterキーによる検索イベントを追跡
         sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
         search();
+      }
+    });    // ウィンドウリサイズ時の処理
+    window.addEventListener('resize', function() {
+      const panel = document.getElementById('searchPanel');
+      const slideButton = document.getElementById('slideSearchButton');
+      
+      if (panel && slideButton) {
+        if (window.innerWidth > 767) {
+          // デスクトップ: パネルを常に表示、スライドボタンを非表示
+          panel.classList.add('open');
+          slideButton.classList.add('hidden');
+        } else {
+          // モバイル: 初期状態はパネル開いている、スライドボタンは隠れている
+          panel.classList.add('open');
+          slideButton.classList.add('hidden');
+          resetSlideButton();
+          if (!slideButton.hasAttribute('data-initialized')) {
+            initializeSlideButton();
+            slideButton.setAttribute('data-initialized', 'true');
+          }
+        }
       }
     });
 
@@ -1544,37 +1606,201 @@
         console.error('フィルタの初期化中にエラーが発生しました:', error);
         throw error;
       }
-    }
-
-    function toggleSearchPanel() {
+    }    function openSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-      if (!panel || !fab || !icon) return;
-      const willOpen = !panel.classList.contains('open');
-      panel.classList.toggle('open', willOpen);
-      fab.classList.toggle('open', willOpen);
-      icon.innerHTML = willOpen ? '&#10006;' : '&#128269;';
+      const slideButton = document.getElementById('slideSearchButton');
+      const overlay = document.getElementById('searchPanelOverlay');
+      
+      if (!panel || !slideButton) {
+        console.error('Required elements not found');
+        return;
+      }
+      
+      // オーバーレイを表示
+      if (overlay) {
+        overlay.classList.remove('hidden');
+      }
+      
+      panel.classList.add('open');
+      slideButton.classList.add('hidden'); // スライドボタンを右端に隠す
+      slideButton.classList.add('panel-open'); // パネル開いている状態を追加
+      
+      // 検索入力にフォーカス（モバイルでは少し遅延）
+      setTimeout(() => {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput && window.innerWidth <= 767) {
+          searchInput.focus();
+        }
+      }, 400);
+      
+      // Google Analytics: パネル開くイベントを追跡
+      sendGAEvent('open_search_panel', 'user_interaction', 'slide_button');
     }
 
     function closeSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-      if (!panel || !fab || !icon) return;
+      const slideButton = document.getElementById('slideSearchButton');
+      const overlay = document.getElementById('searchPanelOverlay');
+      
+      if (!panel || !slideButton) {
+        console.error('Required elements not found');
+        return;
+      }
+      
+      // オーバーレイを隠す
+      if (overlay) {
+        overlay.classList.add('hidden');
+      }
+      
       panel.classList.remove('open');
-      fab.classList.remove('open');
-      icon.innerHTML = '&#128269;';
+      slideButton.classList.remove('hidden'); // スライドボタンを表示
+      slideButton.classList.remove('panel-open'); // パネル開いている状態を削除
+      resetSlideButton(); // スライドボタンをリセット
+      
+      // Google Analytics: パネル閉じるイベントを追跡
+      sendGAEvent('close_search_panel', 'user_interaction', 'close_button');
     }
-  </script>
+
+    // スライドボタンをリセットする関数
+    function resetSlideButton() {
+      const handle = document.getElementById('slideHandle');
+      const button = document.getElementById('slideSearchButton');
+      
+      if (handle && button) {
+        handle.style.transform = 'translateX(0px)';
+        button.classList.remove('slide-completed');
+      }
+    }    // 縦型オレンジスライダーの動作を初期化
+    function initializeSlideButton() {
+      const handle = document.getElementById('slideHandle');
+      const button = document.getElementById('slideSearchButton');
+      
+      if (!handle || !button) return;
+      
+      let isDragging = false;
+      let startX = 0;
+      let currentX = 0;
+      let buttonRect = null;
+      const slideThreshold = 60; // 60px以上で自動完了
+      
+      function getMaxSlideDistance() {
+        // 右から左に最大80px引っ張る
+        return -80;
+      }
+      
+      function handleStart(e) {
+        isDragging = true;
+        buttonRect = button.getBoundingClientRect();
+        const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        startX = clientX;
+        
+        handle.style.transition = 'none';
+        button.classList.add('dragging');
+        
+        // Google Analytics: スライド開始イベント
+        sendGAEvent('slide_start', 'user_interaction', 'orange_vertical_slider');
+        
+        e.preventDefault();
+      }
+      
+      function handleMove(e) {
+        if (!isDragging) return;
+        
+        const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        currentX = clientX - startX;
+        
+        // 左方向のみ許可（負の値のみ）
+        currentX = Math.min(0, Math.max(currentX, getMaxSlideDistance()));
+        
+        // ハンドルの位置を更新
+        handle.style.transform = `translateX(${currentX}px)`;
+        
+        // プログレスに応じてスタイルを変更
+        const progress = Math.abs(currentX) / Math.abs(getMaxSlideDistance());
+        button.style.setProperty('--slide-progress', progress);
+        
+        // 60px以上スライドした場合の視覚的フィードバック
+        if (Math.abs(currentX) >= slideThreshold) {
+          button.classList.add('slide-threshold-reached');
+        } else {
+          button.classList.remove('slide-threshold-reached');
+        }
+        
+        e.preventDefault();
+      }
+      
+      function handleEnd(e) {
+        if (!isDragging) return;
+          isDragging = false;
+        handle.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; /* より滑らかなease-in-out */
+        button.classList.remove('dragging');
+        button.classList.remove('slide-threshold-reached');
+        
+        const slideDistance = Math.abs(currentX);
+        
+        if (slideDistance >= slideThreshold) {
+          // 60px以上スライド完了 - 検索パネルを開く
+          const maxDistance = Math.abs(getMaxSlideDistance());
+          handle.style.transform = `translateX(${getMaxSlideDistance()}px)`;
+          button.classList.add('slide-completed');
+          
+          // スムーズな遷移でパネルを開く
+          setTimeout(() => {
+            openSearchPanel();
+          }, 200);
+          
+          // Google Analytics: スライド完了イベント
+          sendGAEvent('slide_complete', 'user_interaction', 'orange_vertical_slider', slideDistance);
+        } else {
+          // スライド未完了 - 元に戻す
+          handle.style.transform = 'translateX(0px)';
+          button.style.removeProperty('--slide-progress');
+          
+          // Google Analytics: スライドキャンセルイベント
+          sendGAEvent('slide_cancel', 'user_interaction', 'orange_vertical_slider', slideDistance);
+        }
+        
+        e.preventDefault();
+      }
+      
+      // マウスイベント
+      handle.addEventListener('mousedown', handleStart);
+      document.addEventListener('mousemove', handleMove);
+      document.addEventListener('mouseup', handleEnd);
+      
+      // タッチイベント
+      handle.addEventListener('touchstart', handleStart, { passive: false });
+      document.addEventListener('touchmove', handleMove, { passive: false });
+      document.addEventListener('touchend', handleEnd, { passive: false });
+    }
+
+    // 従来のトグル関数は互換性のため保持
+    function toggleSearchPanel() {
+      const panel = document.getElementById('searchPanel');
+      if (panel && panel.classList.contains('open')) {
+        closeSearchPanel();
+      } else {
+        openSearchPanel();
+      }
+    }</script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
-  </script>
-  <button id="fab" class="fab open" onclick="toggleSearchPanel()"><span id="fabIcon" class="fab-icon">&#10006;</span></button>
+  </script>  <!-- Vertical Orange Slider for mobile -->
+  <div id="slideSearchButton" class="slide-search-button vertical-slide">
+    <div class="slide-button-track">
+      <div class="slide-button-handle" id="slideHandle">
+        <span class="slide-icon">&lt;&lt;</span>
+      </div>
+      <div class="slide-button-text">スライドして検索</div>
+    </div>
+  </div>
+
+  <!-- Search Panel Overlay -->
+  <div id="searchPanelOverlay" class="search-panel-overlay"></div>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
