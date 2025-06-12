@@ -1674,9 +1674,9 @@
       position: fixed;
       top: 70%;
       right: 0;
-      width: 45px;
+      width: 35px;
       height: 140px;
-      transform: translateY(-50%) translateX(35px); /* 初期状態で10pxだけ見える (45px - 35px = 10px) */
+      transform: translateY(-50%) translateX(25px); /* 初期状態で10pxだけ見える (35px - 25px = 10px) */
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%),
         linear-gradient(180deg, rgba(255, 140, 66, 0.7) 0%, rgba(255, 107, 26, 0.6) 50%, rgba(229, 90, 0, 0.5) 100%);
@@ -1698,7 +1698,7 @@
       justify-content: center;
       --slide-progress: 0;
     }    .slide-search-button.vertical-slide:hover {
-      transform: translateY(-50%) translateX(30px); /* ホバーで少し出てくる */box-shadow: 
+      transform: translateY(-50%) translateX(20px); /* ホバーで少し出てくる */box-shadow:
         -9px 0 30px rgba(255, 140, 66, 0.4),
         -4px 0 15px rgba(255, 107, 26, 0.3),
         -2px 0 9px rgba(229, 90, 0, 0.25),
@@ -1706,7 +1706,7 @@
         inset -2px -2px 12px rgba(0, 0, 0, 0.1);
       cursor: grab;
     }    .slide-search-button.vertical-slide.hidden {
-      transform: translateY(-50%) translateX(60px); /* 完全に隠れる */
+      transform: translateY(-50%) translateX(50px); /* 完全に隠れる */
       pointer-events: none;
     }
 
@@ -1845,7 +1845,7 @@
         -4px 0 15px rgba(229, 90, 0, 0.4),
         inset 2px 2px 20px rgba(255, 255, 255, 0.4),
         inset -2px -2px 20px rgba(0, 0, 0, 0.18);
-      transform: translateY(-50%) translateX(25px) scale(1.05);
+      transform: translateY(-50%) translateX(15px) scale(1.05);
     }
 
     .slide-search-button.vertical-slide.slide-threshold-reached .slide-icon {
