@@ -568,37 +568,21 @@
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-          `;
+          `;          // CSS変数を使用してテーマに対応
+          const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+          const accentColorEnd = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-end').trim();
           
-          // ダークモード判定
-          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          
-          if (isDarkMode) {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
-          } else {
-            showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
-            showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
-          }
+          showDetailsLink.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
+          showDetailsLink.style.boxShadow = `0 4px 16px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.2)')}`;
           
           showDetailsLink.onmouseover = () => {
-            if (isDarkMode) {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
-              showDetailsLink.style.boxShadow = '0 8px 25px rgba(90, 159, 212, 0.3)';
-            } else {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%)';
-              showDetailsLink.style.boxShadow = '0 8px 25px rgba(255, 145, 115, 0.3)';
-            }
+            showDetailsLink.style.background = `linear-gradient(135deg, ${accentColorEnd} 0%, ${accentColor} 100%)`;
+            showDetailsLink.style.boxShadow = `0 8px 25px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
             showDetailsLink.style.transform = 'translateY(-3px)';
           };
           showDetailsLink.onmouseout = () => {
-            if (isDarkMode) {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-              showDetailsLink.style.boxShadow = '0 4px 16px rgba(90, 159, 212, 0.2)';
-            } else {
-              showDetailsLink.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%)';
-              showDetailsLink.style.boxShadow = '0 4px 16px rgba(255, 145, 115, 0.2)';
-            }
+            showDetailsLink.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
+            showDetailsLink.style.boxShadow = `0 4px 16px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.2)')}`;
             showDetailsLink.style.transform = 'translateY(0)';
           };
           showDetailsLink.onclick = (e) => {
@@ -760,11 +744,7 @@
               // 子ページの詳細を表示するボタン
               const showChildPageBtn = document.createElement('button');
               showChildPageBtn.textContent = '子ページを表示';
-              
-              // ダークモード判定
-              const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-              
-              showChildPageBtn.style.cssText = `
+                showChildPageBtn.style.cssText = `
                 padding: 12px 20px;
                 color: white;
                 border: none;
@@ -779,32 +759,21 @@
                 border: 1px solid rgba(255, 255, 255, 0.2);
               `;
               
-              if (isDarkMode) {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
-              } else {
-                showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
-                showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
-              }
+              // CSS変数を使用してテーマに対応
+              const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+              const accentColorEnd = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-end').trim();
+              
+              showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
+              showChildPageBtn.style.boxShadow = `0 4px 12px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
               
               showChildPageBtn.onmouseover = () => {
-                if (isDarkMode) {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(123, 179, 224, 0.9) 0%, rgba(160, 196, 232, 0.9) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(90, 159, 212, 0.4)';
-                } else {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 134, 101, 1) 0%, rgba(255, 114, 86, 1) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 8px 20px rgba(255, 145, 115, 0.4)';
-                }
+                showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColorEnd} 0%, ${accentColor} 100%)`;
+                showChildPageBtn.style.boxShadow = `0 8px 20px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.4)')}`;
                 showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
               };
               showChildPageBtn.onmouseout = () => {
-                if (isDarkMode) {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(90, 159, 212, 0.8) 0%, rgba(123, 179, 224, 0.8) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(90, 159, 212, 0.3)';
-                } else {
-                  showChildPageBtn.style.background = 'linear-gradient(135deg, rgba(255, 145, 115, 0.9) 0%, rgba(255, 138, 101, 0.9) 100%)';
-                  showChildPageBtn.style.boxShadow = '0 4px 12px rgba(255, 145, 115, 0.3)';
-                }
+                showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
+                showChildPageBtn.style.boxShadow = `0 4px 12px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
               showChildPageBtn.onclick = () => {
@@ -995,12 +964,14 @@
             `;
             link.onmouseover = () => link.style.textDecoration = 'underline';
             link.onmouseout = () => link.style.textDecoration = 'none';
-            
-            const viewBtn = document.createElement('button');
+              const viewBtn = document.createElement('button');
             viewBtn.textContent = '表示';
+            
+            // CSS変数を使用してテーマに対応
+            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+            
             viewBtn.style.cssText = `
               padding: 4px 8px;
-              background: rgba(255, 145, 115, 0.7);
               color: white;
               border: none;
               border-radius: 4px;
@@ -1008,6 +979,7 @@
               font-size: 12px;
               margin-left: 8px;
             `;
+            viewBtn.style.background = accentColor;
             viewBtn.onclick = () => {
               // Google Analytics: 子ページファイル表示イベントを追跡
               trackFileAction('child_file_view', file.name, file.url);
@@ -1618,7 +1590,7 @@
       
       // オーバーレイを表示
       if (overlay) {
-        overlay.classList.remove('hidden');
+        overlay.classList.add('active');
       }
       
       panel.classList.add('open');
@@ -1649,7 +1621,7 @@
       
       // オーバーレイを隠す
       if (overlay) {
-        overlay.classList.add('hidden');
+        overlay.classList.remove('active');
       }
       
       panel.classList.remove('open');
@@ -1659,23 +1631,21 @@
       
       // Google Analytics: パネル閉じるイベントを追跡
       sendGAEvent('close_search_panel', 'user_interaction', 'close_button');
-    }
-
-    // スライドボタンをリセットする関数
+    }    // スライドボタンをリセットする関数
     function resetSlideButton() {
-      const handle = document.getElementById('slideHandle');
+      const track = document.getElementById('slideTrack');
       const button = document.getElementById('slideSearchButton');
       
-      if (handle && button) {
-        handle.style.transform = 'translateX(0px)';
+      if (track && button) {
+        track.style.transform = 'translateX(0px)';
         button.classList.remove('slide-completed');
       }
     }    // 縦型オレンジスライダーの動作を初期化
     function initializeSlideButton() {
-      const handle = document.getElementById('slideHandle');
+      const track = document.getElementById('slideTrack');
       const button = document.getElementById('slideSearchButton');
       
-      if (!handle || !button) return;
+      if (!track || !button) return;
       
       let isDragging = false;
       let startX = 0;
@@ -1694,7 +1664,7 @@
         const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
         startX = clientX;
         
-        handle.style.transition = 'none';
+        track.style.transition = 'none';
         button.classList.add('dragging');
         
         // Google Analytics: スライド開始イベント
@@ -1712,8 +1682,8 @@
         // 左方向のみ許可（負の値のみ）
         currentX = Math.min(0, Math.max(currentX, getMaxSlideDistance()));
         
-        // ハンドルの位置を更新
-        handle.style.transform = `translateX(${currentX}px)`;
+        // トラックの位置を更新
+        track.style.transform = `translateX(${currentX}px)`;
         
         // プログレスに応じてスタイルを変更
         const progress = Math.abs(currentX) / Math.abs(getMaxSlideDistance());
@@ -1732,7 +1702,7 @@
       function handleEnd(e) {
         if (!isDragging) return;
           isDragging = false;
-        handle.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; /* より滑らかなease-in-out */
+        track.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; /* より滑らかなease-in-out */
         button.classList.remove('dragging');
         button.classList.remove('slide-threshold-reached');
         
@@ -1741,7 +1711,7 @@
         if (slideDistance >= slideThreshold) {
           // 60px以上スライド完了 - 検索パネルを開く
           const maxDistance = Math.abs(getMaxSlideDistance());
-          handle.style.transform = `translateX(${getMaxSlideDistance()}px)`;
+          track.style.transform = `translateX(${getMaxSlideDistance()}px)`;
           button.classList.add('slide-completed');
           
           // スムーズな遷移でパネルを開く
@@ -1753,7 +1723,7 @@
           sendGAEvent('slide_complete', 'user_interaction', 'orange_vertical_slider', slideDistance);
         } else {
           // スライド未完了 - 元に戻す
-          handle.style.transform = 'translateX(0px)';
+          track.style.transform = 'translateX(0px)';
           button.style.removeProperty('--slide-progress');
           
           // Google Analytics: スライドキャンセルイベント
@@ -1764,14 +1734,24 @@
       }
       
       // マウスイベント
-      handle.addEventListener('mousedown', handleStart);
+      track.addEventListener('mousedown', handleStart);
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handleEnd);
       
       // タッチイベント
-      handle.addEventListener('touchstart', handleStart, { passive: false });
+      track.addEventListener('touchstart', handleStart, { passive: false });
       document.addEventListener('touchmove', handleMove, { passive: false });
       document.addEventListener('touchend', handleEnd, { passive: false });
+
+      // 初回表示時の引っ張りアニメーション
+      const introPlayed = sessionStorage.getItem('slide_intro_played');
+      if (!introPlayed) {
+        button.classList.add('intro-animation');
+        setTimeout(() => {
+          button.classList.remove('intro-animation');
+        }, 800);
+        sessionStorage.setItem('slide_intro_played', 'true');
+      }
     }
 
     // 従来のトグル関数は互換性のため保持
@@ -1791,11 +1771,9 @@
     }
   </script>  <!-- Vertical Orange Slider for mobile -->
   <div id="slideSearchButton" class="slide-search-button vertical-slide">
-    <div class="slide-button-track">
-      <div class="slide-button-handle" id="slideHandle">
-        <span class="slide-icon">&lt;&lt;</span>
-      </div>
-      <div class="slide-button-text">スライドして検索</div>
+    <div class="slide-button-track" id="slideTrack">
+      <span class="slide-icon">&lt;&lt;</span>
+      <div class="slide-text">スライドして検索</div>
     </div>
   </div>
 
