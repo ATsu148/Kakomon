@@ -1489,13 +1489,13 @@
           fadeOutLoadingScreen();
         }, 2500); // エラー時の表示時間も短縮（3秒→2.5秒）
       });      // モバイルでの初期状態設定
-      if (window.innerWidth <= 767) {        const panel = document.getElementById('searchPanel');
-        const slideButton = document.getElementById('slideSearchButton');
-        if (panel && slideButton) {
-          // 初期状態: モバイルでパネルは開いている、スライドボタンは隠れている
+      if (window.innerWidth <= 767) {
+        const panel = document.getElementById('searchPanel');
+        const toggleBtn = document.getElementById('searchToggleButton');
+        if (panel && toggleBtn) {
+          // 初期状態: モバイルでパネルは開いている、ボタンは隠れている
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
-          initializeSlideButton(); // スライドボタンを初期化
+          toggleBtn.classList.add('hidden');
         }
       }
     });
@@ -1535,22 +1535,17 @@
     });    // ウィンドウリサイズ時の処理
     window.addEventListener('resize', function() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
-      
-      if (panel && slideButton) {
+      const toggleBtn = document.getElementById('searchToggleButton');
+
+      if (panel && toggleBtn) {
         if (window.innerWidth > 767) {
-          // デスクトップ: パネルを常に表示、スライドボタンを非表示
+          // デスクトップ: パネルを常に表示、ボタンを非表示
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
+          toggleBtn.classList.add('hidden');
         } else {
-          // モバイル: 初期状態はパネル開いている、スライドボタンは隠れている
+          // モバイル: 初期状態はパネル開いている、ボタンは隠れている
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
-          resetSlideButton();
-          if (!slideButton.hasAttribute('data-initialized')) {
-            initializeSlideButton();
-            slideButton.setAttribute('data-initialized', 'true');
-          }
+          toggleBtn.classList.add('hidden');
         }
       }
     });
@@ -1580,10 +1575,10 @@
       }
     }    function openSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
+      const toggleBtn = document.getElementById('searchToggleButton');
       const overlay = document.getElementById('searchPanelOverlay');
-      
-      if (!panel || !slideButton) {
+
+      if (!panel || !toggleBtn) {
         console.error('Required elements not found');
         return;
       }
@@ -1594,8 +1589,7 @@
       }
       
       panel.classList.add('open');
-      slideButton.classList.add('hidden'); // スライドボタンを右端に隠す
-      slideButton.classList.add('panel-open'); // パネル開いている状態を追加
+      toggleBtn.classList.add('hidden'); // ボタンを非表示
       
       // 検索入力にフォーカス（モバイルでは少し遅延）
       setTimeout(() => {
@@ -1606,15 +1600,15 @@
       }, 400);
       
       // Google Analytics: パネル開くイベントを追跡
-      sendGAEvent('open_search_panel', 'user_interaction', 'slide_button');
+      sendGAEvent('open_search_panel', 'user_interaction', 'toggle_button');
     }
 
     function closeSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
+      const toggleBtn = document.getElementById('searchToggleButton');
       const overlay = document.getElementById('searchPanelOverlay');
-      
-      if (!panel || !slideButton) {
+
+      if (!panel || !toggleBtn) {
         console.error('Required elements not found');
         return;
       }
@@ -1625,9 +1619,7 @@
       }
       
       panel.classList.remove('open');
-      slideButton.classList.remove('hidden'); // スライドボタンを表示
-      slideButton.classList.remove('panel-open'); // パネル開いている状態を削除
-      resetSlideButton(); // スライドボタンをリセット
+      toggleBtn.classList.remove('hidden'); // ボタンを表示
       
       // Google Analytics: パネル閉じるイベントを追跡
       sendGAEvent('close_search_panel', 'user_interaction', 'close_button');
@@ -1789,20 +1781,31 @@
       } else {
         openSearchPanel();
       }
-    }</script>
+    }
+
+    // スクロール方向に応じてボタンを表示/非表示
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      const btn = document.getElementById('searchToggleButton');
+      if (!btn) return;
+      if (st < lastScrollTop) {
+        btn.classList.remove('hidden');
+      } else {
+        btn.classList.add('hidden');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+    </script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
-  </script>  <!-- Vertical Orange Slider for mobile -->
-  <div id="slideSearchButton" class="slide-search-button vertical-slide">
-    <div class="slide-button-track" id="slideTrack">
-      <span class="slide-icon">&lt;&lt;</span>
-      <div class="slide-text">スライドして検索</div>
-    </div>
-  </div>
+  </script>
+  <!-- Floating search button -->
+  <button id="searchToggleButton" class="search-toggle-button" onclick="openSearchPanel()" aria-label="検索パネルを開く">&#128269;</button>
 
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>

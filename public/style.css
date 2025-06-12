@@ -1854,9 +1854,35 @@
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
       animation: none; /* 閾値到達時も点滅を停止 */
     }/* Search button styling for mobile */
-    .search-btn {
+  .search-btn {
       background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
       min-height: 50px;
+    }
+
+    .search-toggle-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px var(--accent-border);
+      cursor: pointer;
+      z-index: 1001;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .search-toggle-button.hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+      pointer-events: none;
     }
   }  /* ダークモード対応 */  @media (prefers-color-scheme: dark) and (max-width: 767px) {
     .search-panel {
@@ -1943,6 +1969,9 @@
 
   @media (min-width: 768px) {
     .slide-search-button {
+      display: none;
+    }
+    .search-toggle-button {
       display: none;
     }
     .search-panel {
