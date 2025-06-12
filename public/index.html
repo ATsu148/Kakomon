@@ -1649,8 +1649,11 @@
       
       let isDragging = false;
       let startX = 0;
+      let startY = 0;
       let currentX = 0;
-      let buttonRect = null;      const slideThreshold = 40; // 40px以上で自動完了
+      let buttonRect = null;
+      let horizontalActive = false;
+      const slideThreshold = 40; // 40px以上で自動完了
       
       function getMaxSlideDistance() {
         // 右から左に最大60px引っ張る
@@ -1658,25 +1661,52 @@
       }
       
       function handleStart(e) {
-        isDragging = true;
         buttonRect = button.getBoundingClientRect();
-        const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-        startX = clientX;
+        const point = e.type === 'mousedown' ? e : e.touches[0];
+
+        // 画面端のハンドル部分だけ反応させる
+        const activeZone = 15; // px
+        if (point.clientX < buttonRect.right - activeZone) {
+          return;
+        }
+
+        isDragging = true;
+        startX = point.clientX;
+        startY = point.clientY;
+        horizontalActive = false;
         
         track.style.transition = 'none';
         button.classList.add('dragging');
         
         // Google Analytics: スライド開始イベント
         sendGAEvent('slide_start', 'user_interaction', 'orange_vertical_slider');
-        
-        e.preventDefault();
       }
       
       function handleMove(e) {
         if (!isDragging) return;
-        
-        const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-        currentX = clientX - startX;
+
+        const point = e.type === 'mousemove' ? e : e.touches[0];
+        const deltaX = point.clientX - startX;
+        const deltaY = point.clientY - startY;
+
+        if (!horizontalActive) {
+          // 縦方向の移動が大きい場合はスクロールとみなしてキャンセル
+          if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 5) {
+            isDragging = false;
+            button.classList.remove('dragging');
+            track.style.transform = 'translateX(0px)';
+            button.style.removeProperty('--slide-progress');
+            return;
+          }
+
+          if (Math.abs(deltaX) > 5) {
+            horizontalActive = true;
+          } else {
+            return;
+          }
+        }
+
+        currentX = deltaX;
         
         // 左方向のみ許可（負の値のみ）
         currentX = Math.min(0, Math.max(currentX, getMaxSlideDistance()));
@@ -1695,7 +1725,9 @@
           button.classList.remove('slide-threshold-reached');
         }
         
-        e.preventDefault();
+        if (horizontalActive) {
+          e.preventDefault();
+        }
       }
       
       function handleEnd(e) {
@@ -1729,7 +1761,10 @@
           sendGAEvent('slide_cancel', 'user_interaction', 'orange_vertical_slider', slideDistance);
         }
         
-        e.preventDefault();
+        if (horizontalActive) {
+          e.preventDefault();
+        }
+        horizontalActive = false;
       }
       
       // マウスイベント
