@@ -1618,7 +1618,7 @@
       
       // オーバーレイを表示
       if (overlay) {
-        overlay.classList.remove('hidden');
+        overlay.classList.add('active');
       }
       
       panel.classList.add('open');
@@ -1649,7 +1649,7 @@
       
       // オーバーレイを隠す
       if (overlay) {
-        overlay.classList.add('hidden');
+        overlay.classList.remove('active');
       }
       
       panel.classList.remove('open');
@@ -1772,6 +1772,16 @@
       handle.addEventListener('touchstart', handleStart, { passive: false });
       document.addEventListener('touchmove', handleMove, { passive: false });
       document.addEventListener('touchend', handleEnd, { passive: false });
+
+      // 初回表示時の引っ張りアニメーション
+      const introPlayed = sessionStorage.getItem('slide_intro_played');
+      if (!introPlayed) {
+        button.classList.add('intro-animation');
+        setTimeout(() => {
+          button.classList.remove('intro-animation');
+        }, 800);
+        sessionStorage.setItem('slide_intro_played', 'true');
+      }
     }
 
     // 従来のトグル関数は互換性のため保持
