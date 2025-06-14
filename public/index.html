@@ -1501,10 +1501,16 @@
           const overlay = document.getElementById('searchPanelOverlay');
           overlay?.classList.add('active');
         }
+      } else {
+        // デスクトップでは初期状態でパネルを表示、FABは非表示
+        const panel = document.getElementById('searchPanel');
+        const fab = document.getElementById('fab');
+        if (panel && fab) {
+          panel.classList.add('open');
+          fab.style.display = 'none';
+        }
       }
-    });
-
-    // レスポンシブに応じた検索パネルの初期化
+    });    // レスポンシブに応じた検索パネルの初期化
     function initializeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
@@ -1519,10 +1525,13 @@
         panel.classList.add('open');
         fab.style.display = 'none';
       } else {
-        // モバイルでは非表示でスタート
-        panel.classList.remove('open');
-        fab.classList.remove('open');
-        icon.innerHTML = '&#128269;'; // 検索アイコン
+        // モバイルでは初期状態に基づいて設定
+        if (!panel.classList.contains('open')) {
+          // パネルが閉じている場合はFABを表示
+          fab.style.display = '';
+          fab.classList.add('show');
+          icon.innerHTML = '&#128269;'; // 検索アイコン
+        }
       }
     }
 
@@ -1614,9 +1623,7 @@
       
       // Google Analytics: パネル開くイベントを追跡
       sendGAEvent('open_search_panel', 'user_interaction', 'fab_button');
-    }
-
-    function closeSearchPanel() {
+    }    function closeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
       const icon = document.getElementById('fabIcon');
@@ -1634,6 +1641,7 @@
       
       panel.classList.remove('open');
       fab.classList.remove('open');
+      fab.classList.add('show'); // パネルを閉じたらFABを表示
       icon.innerHTML = '&#128269;';
       
       // Google Analytics: パネル閉じるイベントを追跡
@@ -1648,13 +1656,21 @@
       } else {
         openSearchPanel();
       }
-    }
-
-    // FAB show/hide on scroll
+    }    // FAB show/hide on scroll - パネルが閉じている時は常に表示
     let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
       const fab = document.getElementById('fab');
+      const panel = document.getElementById('searchPanel');
+      
       if (!fab || window.innerWidth >= 768) return;
+      
+      // パネルが閉じている場合は常に表示
+      if (!panel || !panel.classList.contains('open')) {
+        fab.classList.add('show');
+        return;
+      }
+      
+      // パネルが開いている場合は従来の処理
       if (window.scrollY < lastScrollY) {
         fab.classList.add('show');
       } else {
