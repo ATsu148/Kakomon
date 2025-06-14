@@ -1,0 +1,85 @@
+:root {
+  --glass-color: rgba(255, 255, 255, 0.1);
+  --blur-outer: 32px;
+  --blur-inner: 24px;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #111;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-content {
+  width: 100%;
+}
+
+.search-panel {
+  position: relative;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.search-panel .glass-layer {
+  position: relative;
+  border-radius: inherit;
+  padding: 2rem;
+  background: var(--glass-color);
+  backdrop-filter: blur(var(--blur-outer)) saturate(180%);
+}
+
+.search-panel .glass-layer.layer-2 {
+  backdrop-filter: blur(var(--blur-inner)) saturate(180%);
+  filter: url(#rippleFilter);
+}
+
+.glass-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.8), rgba(255,255,255,0));
+  mix-blend-mode: screen;
+  animation: drift 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes drift {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(50%); }
+}
+
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+input, select, button {
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+button {
+  cursor: pointer;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-group {
+  flex: 1 1 45%;
+}
