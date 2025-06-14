@@ -141,7 +141,8 @@
   <!-- メインコンテンツ -->
   <div id="mainContent" class="main-content">
     <div class="container">
-    <h1>過去問検索システム</h1>    <div id="searchPanel" class="search-panel open">
+    <h1>過去問検索システム</h1>
+    <div id="searchPanel" class="search-panel open">
       <!-- パネルヘッダー（モバイル用） -->
       <div class="panel-header">
         <h3 class="panel-title">検索・フィルター</h3>
@@ -1489,18 +1490,27 @@
           fadeOutLoadingScreen();
         }, 2500); // エラー時の表示時間も短縮（3秒→2.5秒）
       });      // モバイルでの初期状態設定
-      if (window.innerWidth <= 767) {        const panel = document.getElementById('searchPanel');
-        const slideButton = document.getElementById('slideSearchButton');
-        if (panel && slideButton) {
-          // 初期状態: モバイルでパネルは開いている、スライドボタンは隠れている
+      if (window.innerWidth <= 767) {
+        const panel = document.getElementById('searchPanel');
+        const fab = document.getElementById('fab');
+        const icon = document.getElementById('fabIcon');
+        if (panel && fab && icon) {
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
-          initializeSlideButton(); // スライドボタンを初期化
+          fab.classList.add('open');
+          icon.innerHTML = '✖';
+          const overlay = document.getElementById('searchPanelOverlay');
+          overlay?.classList.add('active');
+        }
+      } else {
+        // デスクトップでは初期状態でパネルを表示、FABは非表示
+        const panel = document.getElementById('searchPanel');
+        const fab = document.getElementById('fab');
+        if (panel && fab) {
+          panel.classList.add('open');
+          fab.style.display = 'none';
         }
       }
-    });
-
-    // レスポンシブに応じた検索パネルの初期化
+    });    // レスポンシブに応じた検索パネルの初期化
     function initializeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
@@ -1515,10 +1525,13 @@
         panel.classList.add('open');
         fab.style.display = 'none';
       } else {
-        // モバイルでは非表示でスタート
-        panel.classList.remove('open');
-        fab.classList.remove('open');
-        icon.innerHTML = '&#128269;'; // 検索アイコン
+        // モバイルでは初期状態に基づいて設定
+        if (!panel.classList.contains('open')) {
+          // パネルが閉じている場合はFABを表示
+          fab.style.display = '';
+          fab.classList.add('show');
+          icon.innerHTML = '&#128269;'; // 検索アイコン
+        }
       }
     }
 
@@ -1535,22 +1548,24 @@
     });    // ウィンドウリサイズ時の処理
     window.addEventListener('resize', function() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
-      
-      if (panel && slideButton) {
+      const fab = document.getElementById('fab');
+      const icon = document.getElementById('fabIcon');
+
+      if (panel && fab && icon) {
         if (window.innerWidth > 767) {
-          // デスクトップ: パネルを常に表示、スライドボタンを非表示
+          // デスクトップ: パネルを常に表示、FABを非表示
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
+          fab.style.display = 'none';
+          const overlay = document.getElementById('searchPanelOverlay');
+          overlay?.classList.remove('active');
         } else {
-          // モバイル: 初期状態はパネル開いている、スライドボタンは隠れている
+          // モバイル: パネルは開いた状態
           panel.classList.add('open');
-          slideButton.classList.add('hidden');
-          resetSlideButton();
-          if (!slideButton.hasAttribute('data-initialized')) {
-            initializeSlideButton();
-            slideButton.setAttribute('data-initialized', 'true');
-          }
+          fab.style.display = '';
+          fab.classList.add('open');
+          icon.innerHTML = '✖';
+          const overlay = document.getElementById('searchPanelOverlay');
+          overlay?.classList.add('active');
         }
       }
     });
@@ -1580,10 +1595,11 @@
       }
     }    function openSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
+      const fab = document.getElementById('fab');
+      const icon = document.getElementById('fabIcon');
       const overlay = document.getElementById('searchPanelOverlay');
-      
-      if (!panel || !slideButton) {
+
+      if (!panel || !fab || !icon) {
         console.error('Required elements not found');
         return;
       }
@@ -1594,8 +1610,8 @@
       }
       
       panel.classList.add('open');
-      slideButton.classList.add('hidden'); // スライドボタンを右端に隠す
-      slideButton.classList.add('panel-open'); // パネル開いている状態を追加
+      fab.classList.add('open');
+      icon.innerHTML = '✖';
       
       // 検索入力にフォーカス（モバイルでは少し遅延）
       setTimeout(() => {
@@ -1606,15 +1622,14 @@
       }, 400);
       
       // Google Analytics: パネル開くイベントを追跡
-      sendGAEvent('open_search_panel', 'user_interaction', 'slide_button');
-    }
-
-    function closeSearchPanel() {
+      sendGAEvent('open_search_panel', 'user_interaction', 'fab_button');
+    }    function closeSearchPanel() {
       const panel = document.getElementById('searchPanel');
-      const slideButton = document.getElementById('slideSearchButton');
+      const fab = document.getElementById('fab');
+      const icon = document.getElementById('fabIcon');
       const overlay = document.getElementById('searchPanelOverlay');
-      
-      if (!panel || !slideButton) {
+
+      if (!panel || !fab || !icon) {
         console.error('Required elements not found');
         return;
       }
@@ -1625,160 +1640,12 @@
       }
       
       panel.classList.remove('open');
-      slideButton.classList.remove('hidden'); // スライドボタンを表示
-      slideButton.classList.remove('panel-open'); // パネル開いている状態を削除
-      resetSlideButton(); // スライドボタンをリセット
+      fab.classList.remove('open');
+      fab.classList.add('show'); // パネルを閉じたらFABを表示
+      icon.innerHTML = '&#128269;';
       
       // Google Analytics: パネル閉じるイベントを追跡
-      sendGAEvent('close_search_panel', 'user_interaction', 'close_button');
-    }    // スライドボタンをリセットする関数
-    function resetSlideButton() {
-      const track = document.getElementById('slideTrack');
-      const button = document.getElementById('slideSearchButton');
-      
-      if (track && button) {
-        track.style.transform = 'translateX(0px)';
-        button.classList.remove('slide-completed');
-      }
-    }    // 縦型オレンジスライダーの動作を初期化
-    function initializeSlideButton() {
-      const track = document.getElementById('slideTrack');
-      const button = document.getElementById('slideSearchButton');
-      
-      if (!track || !button) return;
-      
-      let isDragging = false;
-      let startX = 0;
-      let startY = 0;
-      let currentX = 0;
-      let buttonRect = null;
-      let horizontalActive = false;
-      const slideThreshold = 40; // 40px以上で自動完了
-      
-      function getMaxSlideDistance() {
-        // 右から左に最大60px引っ張る
-        return -60;
-      }
-      
-      function handleStart(e) {
-        isDragging = true;
-        buttonRect = button.getBoundingClientRect();
-        const point = e.type === 'mousedown' ? e : e.touches[0];
-        startX = point.clientX;
-        startY = point.clientY;
-        horizontalActive = false;
-        
-        track.style.transition = 'none';
-        button.classList.add('dragging');
-        
-        // Google Analytics: スライド開始イベント
-        sendGAEvent('slide_start', 'user_interaction', 'orange_vertical_slider');
-      }
-      
-      function handleMove(e) {
-        if (!isDragging) return;
-
-        const point = e.type === 'mousemove' ? e : e.touches[0];
-        const deltaX = point.clientX - startX;
-        const deltaY = point.clientY - startY;
-
-        if (!horizontalActive) {
-          // 縦方向の移動が大きい場合はスクロールとみなしてキャンセル
-          if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 5) {
-            isDragging = false;
-            button.classList.remove('dragging');
-            track.style.transform = 'translateX(0px)';
-            button.style.removeProperty('--slide-progress');
-            return;
-          }
-
-          if (Math.abs(deltaX) > 5) {
-            horizontalActive = true;
-          } else {
-            return;
-          }
-        }
-
-        currentX = deltaX;
-        
-        // 左方向のみ許可（負の値のみ）
-        currentX = Math.min(0, Math.max(currentX, getMaxSlideDistance()));
-        
-        // トラックの位置を更新
-        track.style.transform = `translateX(${currentX}px)`;
-        
-        // プログレスに応じてスタイルを変更
-        const progress = Math.abs(currentX) / Math.abs(getMaxSlideDistance());
-        button.style.setProperty('--slide-progress', progress);
-        
-        // 40px以上スライドした場合の視覚的フィードバック
-        if (Math.abs(currentX) >= slideThreshold) {
-          button.classList.add('slide-threshold-reached');
-        } else {
-          button.classList.remove('slide-threshold-reached');
-        }
-        
-        if (horizontalActive) {
-          e.preventDefault();
-        }
-      }
-      
-      function handleEnd(e) {
-        if (!isDragging) return;
-          isDragging = false;
-        track.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)'; /* より滑らかなease-in-out */
-        button.classList.remove('dragging');
-        button.classList.remove('slide-threshold-reached');
-        
-        const slideDistance = Math.abs(currentX);
-        
-        if (slideDistance >= slideThreshold) {
-          // 40px以上スライド完了 - 検索パネルを開く
-          const maxDistance = Math.abs(getMaxSlideDistance());
-          track.style.transform = `translateX(${getMaxSlideDistance()}px)`;
-          button.classList.add('slide-completed');
-          
-          // スムーズな遷移でパネルを開く
-          setTimeout(() => {
-            openSearchPanel();
-          }, 200);
-          
-          // Google Analytics: スライド完了イベント
-          sendGAEvent('slide_complete', 'user_interaction', 'orange_vertical_slider', slideDistance);
-        } else {
-          // スライド未完了 - 元に戻す
-          track.style.transform = 'translateX(0px)';
-          button.style.removeProperty('--slide-progress');
-          
-          // Google Analytics: スライドキャンセルイベント
-          sendGAEvent('slide_cancel', 'user_interaction', 'orange_vertical_slider', slideDistance);
-        }
-        
-        if (horizontalActive) {
-          e.preventDefault();
-        }
-        horizontalActive = false;
-      }
-      
-      // マウスイベント
-      track.addEventListener('mousedown', handleStart);
-      document.addEventListener('mousemove', handleMove);
-      document.addEventListener('mouseup', handleEnd);
-      
-      // タッチイベント
-      track.addEventListener('touchstart', handleStart, { passive: false });
-      document.addEventListener('touchmove', handleMove, { passive: false });
-      document.addEventListener('touchend', handleEnd, { passive: false });
-
-      // 初回表示時の引っ張りアニメーション
-      const introPlayed = sessionStorage.getItem('slide_intro_played');
-      if (!introPlayed) {
-        button.classList.add('intro-animation');
-        setTimeout(() => {
-          button.classList.remove('intro-animation');
-        }, 800);
-        sessionStorage.setItem('slide_intro_played', 'true');
-      }
+      sendGAEvent('close_search_panel', 'user_interaction', 'fab_button');
     }
 
     // 従来のトグル関数は互換性のため保持
@@ -1789,20 +1656,41 @@
       } else {
         openSearchPanel();
       }
-    }</script>
+    }    // FAB show/hide on scroll - パネルが閉じている時は常に表示
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const fab = document.getElementById('fab');
+      const panel = document.getElementById('searchPanel');
+      
+      if (!fab || window.innerWidth >= 768) return;
+      
+      // パネルが閉じている場合は常に表示
+      if (!panel || !panel.classList.contains('open')) {
+        fab.classList.add('show');
+        return;
+      }
+      
+      // パネルが開いている場合は従来の処理
+      if (window.scrollY < lastScrollY) {
+        fab.classList.add('show');
+      } else {
+        fab.classList.remove('show');
+      }
+      lastScrollY = window.scrollY;
+    });
+    </script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js');
       });
     }
-  </script>  <!-- Vertical Orange Slider for mobile -->
-  <div id="slideSearchButton" class="slide-search-button vertical-slide">
-    <div class="slide-button-track" id="slideTrack">
-      <span class="slide-icon">&lt;&lt;</span>
-      <div class="slide-text">スライドして検索</div>
-    </div>
-  </div>
+  </script>
+
+  <!-- Floating Action Button -->
+  <button id="fab" class="fab" onclick="toggleSearchPanel()">
+    <span id="fabIcon">&#128269;</span>
+  </button>
 
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>
