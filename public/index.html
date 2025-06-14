@@ -77,6 +77,12 @@
   </script>
 </head>
 <body>
+<svg width="0" height="0">
+  <filter id="liquidRipple" filterUnits="userSpaceOnUse">
+    <feImage id="rippleImage" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3CradialGradient id='grad'%3E%3Cstop offset='0%25' stop-color='white'/%3E%3Cstop offset='100%25' stop-color='black'/%3E%3C/radialGradient%3E%3Crect width='100%25' height='100%25' fill='url(%23grad)'/%3E%3C/svg%3E" x="0" y="0" width="200" height="200" />
+    <feDisplacementMap in="SourceGraphic" in2="rippleImage" scale="40" />
+  </filter>
+</svg>
   <!-- ローディング画面 -->
   <div id="loadingScreen" class="loading-screen">
     <div class="rose-loading-container">
@@ -139,6 +145,7 @@
   </div>
 
   <!-- メインコンテンツ -->
+<div class="glass-outer"><div class="glass-inner">
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
@@ -1694,6 +1701,17 @@
 
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>
+</div></div>
   </div> <!-- メインコンテンツ終了 -->
+<script>
+// マウス位置に合わせてリップル画像を移動
+const ripple = document.getElementById('rippleImage');
+if (ripple) {
+  document.addEventListener('mousemove', e => {
+    ripple.setAttribute('x', e.clientX - 100);
+    ripple.setAttribute('y', e.clientY - 100);
+  });
+}
+</script>
 </body>
 </html>
