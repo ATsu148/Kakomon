@@ -139,8 +139,10 @@
   </div>
 
   <!-- メインコンテンツ -->
-  <div id="mainContent" class="main-content">
-    <div class="container">
+  <div id="mainContent" class="main-content glass-layer layer0">
+    <div class="glass-layer layer1">
+      <div class="glass-layer layer2">
+        <div class="container">
     <h1>過去問検索システム</h1>
     <div id="searchPanel" class="search-panel open">
       <!-- パネルヘッダー（モバイル用） -->
@@ -1694,6 +1696,33 @@
 
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>
+  <svg id="liquidSVG" style="position:absolute;width:0;height:0;">
+    <defs>
+      <filter id="liquidFilter">
+        <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="2"/>
+        <feDisplacementMap id="liquidDisplacement" in="SourceGraphic" in2="turbulence" scale="0"/>
+      </filter>
+    </defs>
+  </svg>
+  <script>
+    // マウス操作で液体ゆらぎの強さを変化させる
+    const displacement = document.getElementById('liquidDisplacement');
+    let target = 0;
+    let current = 0;
+    document.addEventListener('mousemove', () => {
+      target = 50; // 動かした瞬間に強いリップル
+    });
+    function updateRipple() {
+      // 徐々に目標値へ近づける
+      current += (target - current) * 0.1;
+      displacement.setAttribute('scale', current.toFixed(2));
+      target *= 0.9; // 時間と共に減衰
+      requestAnimationFrame(updateRipple);
+    }
+    updateRipple();
+  </script>
+      </div>
+    </div>
   </div> <!-- メインコンテンツ終了 -->
 </body>
 </html>
