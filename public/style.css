@@ -193,6 +193,27 @@
       opacity: 0.1;
       z-index: -1;
     }
+
+    .glass-fluid-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), rgba(255,255,255,0.1)) 0 0 / 200% 200%;
+      backdrop-filter: blur(20px) brightness(1.1);
+      mix-blend-mode: screen;
+      filter: url(#liquidDistortion);
+      opacity: 0.6;
+      z-index: 5;
+      animation: glassFlow 25s ease-in-out infinite alternate;
+    }
+
+    @keyframes glassFlow {
+      0% { background-position: 0 0; }
+      100% { background-position: 100% 100%; }
+    }
     
     .container {
       max-width: 1200px;
