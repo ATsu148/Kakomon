@@ -77,6 +77,7 @@
   </script>
 </head>
 <body>
+  <div class="glass-fluid-layer"></div>
   <!-- ローディング画面 -->
   <div id="loadingScreen" class="loading-screen">
     <div class="rose-loading-container">
@@ -1695,5 +1696,26 @@
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>
   </div> <!-- メインコンテンツ終了 -->
+
+  <svg id="fluidFilterDefs" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden;">
+    <filter id="liquidDistortion">
+      <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="3" seed="8" result="noise">
+        <animate attributeName="baseFrequency" values="0.01;0.03;0.01" dur="20s" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" xChannelSelector="R" yChannelSelector="B">
+        <animate attributeName="scale" values="15;25;15" dur="20s" repeatCount="indefinite" />
+      </feDisplacementMap>
+    </filter>
+  </svg>
+
+  <script>
+    const glassLayer = document.querySelector('.glass-fluid-layer');
+    document.addEventListener('mousemove', e => {
+      if (!glassLayer) return;
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      glassLayer.style.backgroundPosition = `${x}% ${y}%`;
+    });
+  </script>
 </body>
 </html>
