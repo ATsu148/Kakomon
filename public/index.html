@@ -77,6 +77,14 @@
   </script>
 </head>
 <body>
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
+    <filter id="liquid">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="2" result="turb">
+        <animate attributeName="baseFrequency" dur="30s" values="0.008;0.012;0.008" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
   <!-- ローディング画面 -->
   <div id="loadingScreen" class="loading-screen">
     <div class="rose-loading-container">
@@ -141,7 +149,9 @@
   <!-- メインコンテンツ -->
   <div id="mainContent" class="main-content">
     <div class="container">
-    <h1>過去問検索システム</h1>
+    <header class="glass">
+      <h1>過去問検索システム</h1>
+    </header>
     <div id="searchPanel" class="search-panel open">
       <!-- パネルヘッダー（モバイル用） -->
       <div class="panel-header">
@@ -153,7 +163,7 @@
       
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="科目名やキーワードを入力してください" />
-        <button onclick="search()" class="search-btn">検索</button>
+        <button onclick="search()" class="search-btn btn-primary glass">検索</button>
       </div>
 
       <!-- フィルタセクション -->
@@ -504,7 +514,7 @@
         
         for (const item of data) {
           const resultDiv = document.createElement('div');
-          resultDiv.className = 'result-item';
+          resultDiv.className = 'result-item card glass';
           resultDiv.dataset.pageId = item.id;
           observer.observe(resultDiv);
           
