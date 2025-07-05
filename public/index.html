@@ -6,7 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="color-scheme" content="light dark" />
+  <meta name="color-scheme" content="light" />
   <title>過去問検索システム</title>
   
   <!-- Favicon -->
@@ -1240,7 +1240,6 @@
       }
 
       applyThemeToGradients();
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyThemeToGradients);
       
       // SVGのviewBoxを画面サイズに応じて動的に調整
       function adjustSVGViewBox() {
