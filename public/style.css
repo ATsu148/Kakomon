@@ -1,19 +1,20 @@
     :root {
-      --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      /* Updated palette for a more vibrant "liquid glass" look */
+      --bg-grad: linear-gradient(135deg, #a9c9ff 0%, #ffbbec 100%);
       --text-color: #2c3e50;
-      --panel-bg: rgba(255, 255, 255, 0.25);
-      --panel-hover-bg: rgba(255, 255, 255, 0.4);
-      --input-bg: rgba(255, 255, 255, 0.95);
-      --input-focus-bg: rgba(255, 255, 255, 1);
-      --badge-bg: rgba(255, 255, 255, 0.5);
-      --badge-hover-bg: rgba(255, 255, 255, 0.6);
-      --file-bg: rgba(255, 255, 255, 0.4);
-      --file-hover-bg: rgba(255, 255, 255, 0.5);
-      --accent-color: rgba(255, 145, 115, 0.85);
-      --accent-color-end: rgba(255, 138, 101, 0.85);
-      --accent-border: rgba(255, 145, 115, 0.4);
-      --accent-border-focus: rgba(255, 145, 115, 0.6);
-      --accent-option-bg: rgba(255, 145, 115, 0.2);
+      --panel-bg: rgba(255, 255, 255, 0.2);
+      --panel-hover-bg: rgba(255, 255, 255, 0.3);
+      --input-bg: rgba(255, 255, 255, 0.8);
+      --input-focus-bg: rgba(255, 255, 255, 0.9);
+      --badge-bg: rgba(255, 255, 255, 0.4);
+      --badge-hover-bg: rgba(255, 255, 255, 0.5);
+      --file-bg: rgba(255, 255, 255, 0.35);
+      --file-hover-bg: rgba(255, 255, 255, 0.45);
+      --accent-color: rgba(134, 159, 255, 0.85);
+      --accent-color-end: rgba(236, 133, 255, 0.85);
+      --accent-border: rgba(134, 159, 255, 0.4);
+      --accent-border-focus: rgba(134, 159, 255, 0.6);
+      --accent-option-bg: rgba(134, 159, 255, 0.2);
     }
     * {
       box-sizing: border-box;
@@ -29,6 +30,8 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg-grad);
+      background-size: 400% 400%;
+      animation: backgroundMove 25s ease infinite;
       min-height: 100vh;
       color: var(--text-color);
       line-height: 1.6;
@@ -46,6 +49,8 @@
       width: 100vw;
       height: 100vh;
       background: var(--bg-grad);
+      background-size: 400% 400%;
+      animation: backgroundMove 25s ease infinite;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -238,6 +243,19 @@
       }
       50% {
         transform: translateY(-5px);
+      }
+    }
+
+    /* Slow movement for the animated gradient background */
+    @keyframes backgroundMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
       }
     }
     
@@ -1247,6 +1265,8 @@
       /* ローディング画面の調整 */
       .loading-screen {
         background: var(--bg-grad);
+        background-size: 400% 400%;
+        animation: backgroundMove 25s ease infinite;
       }
     }
 
@@ -1262,6 +1282,8 @@
       
       .loading-screen {
         background: var(--bg-grad);
+        background-size: 400% 400%;
+        animation: backgroundMove 25s ease infinite;
       }
     }
 
@@ -1278,6 +1300,8 @@
       /* 高解像度ディスプレイでのアニメーション品質向上 */
       .loading-screen {
         background: var(--bg-grad);
+        background-size: 400% 400%;
+        animation: backgroundMove 25s ease infinite;
       }
       
       #roseSVG {
