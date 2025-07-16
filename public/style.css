@@ -274,7 +274,7 @@
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
         radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
         linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      background-size: 100% 100%, 100% 100%, 100% 100%;
       color: rgba(44, 62, 80, 0.9);
       border: none;
       border-radius: 18px;
@@ -867,7 +867,6 @@
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
         radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
         linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     }
     
     .pdf-viewer {
@@ -1411,6 +1410,7 @@
       }
 
 
+
     /* 中画面チE��イス向け調整 */
     @media (min-width: 768px) and (max-width: 1024px) {
       .container {
@@ -1420,10 +1420,11 @@
       h1 {
         font-size: 3rem;
       }
-      
-      }
     }
 
+    /* 大画面デバイス向け調整 */
+    @media (min-width: 1025px) {
+      .container {
         padding: 40px;
       }
       
@@ -1431,13 +1432,12 @@
         font-size: 3.5rem;
       }
       
-      /* 高解像度チE��スプレイでのアニメーション品質向丁E*/
-      }
-      
+      /* 高解像度ディスプレイでのアニメーション品質向上 */
       #roseSVG {
         image-rendering: crisp-edges;
         image-rendering: -webkit-optimize-contrast;
       }
+    }
     .result-item:nth-child(even) {
       animation-delay: 0.1s;
     }
@@ -1527,13 +1527,17 @@
       position: sticky;
       top: 0;
       z-index: 10;
-    }.panel-title {
+    }
+    
+    .panel-title {
       font-size: 16px;
       font-weight: 600;
       color: var(--text-color);
       margin: 0;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    }    .close-panel-btn {
+    }
+    
+    .close-panel-btn {
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -1553,8 +1557,9 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       min-height: auto;
       padding: 0;
-      
-    }.close-panel-btn:hover {
+    }
+    
+    .close-panel-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
       background: 
@@ -1567,7 +1572,9 @@
 
     .close-panel-btn:active {
       transform: scale(1.05);
-    }    .close-icon {
+    }
+    
+    .close-icon {
       font-size: 14px;
       font-weight: bold;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -1687,7 +1694,7 @@
     }.slide-search-button.vertical-slide .slide-button-track {
       position: relative;
       width: 100%;
-      height: 100%;
+           height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1837,181 +1844,103 @@
     .panel-header {
       display: none;
     }
-  }    /* 詳細表示ボタン */
-    .show-details-btn,
-    .liquid-glass-button {
-      display: block !important;
-      padding: 16px 30px !important;
-      color: rgba(44, 62, 80, 0.9) !important;
-      font-size: 16px !important;
-      font-weight: 600 !important;
-      cursor: pointer !important;
-      border: 2px solid rgba(255, 255, 255, 0.4) !important;
-      border-radius: 15px !important;
-      background: 
-        var(--glass-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
-      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
-      backdrop-filter: blur(15px) !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.1),
-        inset 0 2px 8px rgba(255, 255, 255, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      margin-top: 20px !important;
-      text-align: center !important;
-      text-decoration: none !important;
-      transform: translateY(0) !important;
-    }
-    
-    /* インラインスタイルを含むすべてのスタイルをオーバーライド */
-    [style*="background"] a.show-details-btn,
-    a.show-details-btn[style],
-    a[style].show-details-btn,
-    [style*="background"] a.liquid-glass-button,
-    a.liquid-glass-button[style],
-    a[style].liquid-glass-button,
-    [data-liquid-glass="true"] {
-      background: 
-        var(--glass-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
-      color: rgba(44, 62, 80, 0.9) !important;
-      border: 2px solid rgba(255, 255, 255, 0.4) !important;
-      backdrop-filter: blur(15px) !important;
-      display: block !important;
-      padding: 16px 30px !important;
-      border-radius: 15px !important;
-      text-decoration: none !important;
-      position: relative !important;
-      overflow: hidden !important;
-      margin-top: 20px !important;
-      text-align: center !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.1),
-        inset 0 2px 8px rgba(255, 255, 255, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2) !important;
-    }
-    
-    .show-details-btn::before,
-    .liquid-glass-button::before {
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: -100% !important;
-      width: 100% !important;
-      height: 100% !important;
-      background: var(--glass-gradient) !important;
-      transition: left 0.4s ease !important;
-      pointer-events: none !important;
-    }
-    
-    .show-details-btn:hover::before,
-    .liquid-glass-button:hover::before {
-      left: 100% !important;
-    }
-    
-    .show-details-btn:hover,
-    .liquid-glass-button:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.15),
-        inset 0 3px 10px rgba(255, 255, 255, 0.5),
-        0 0 40px rgba(255, 255, 255, 0.3) !important;
-      background: 
-        var(--glass-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
-    }
-    
-    .show-details-btn:active,
-    .liquid-glass-button:active {
-      transform: translateY(-1px) !important;
-      box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.1),
-        inset 0 2px 8px rgba(255, 255, 255, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2) !important;
-    }
   }
   
-  /* PC版専用のshow-details-btnスタイル強化 */
-  @media (min-width: 768px) {
-    .show-details-btn,
-    .liquid-glass-button,
-    [data-liquid-glass="true"] {
-      display: block !important;
-      padding: 16px 30px !important;
-      color: rgba(44, 62, 80, 0.9) !important;
-      font-size: 16px !important;
-      font-weight: 600 !important;
-      cursor: pointer !important;
-      border: 2px solid rgba(255, 255, 255, 0.4) !important;
-      border-radius: 15px !important;
-      background: 
-        var(--glass-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
-      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
-      backdrop-filter: blur(15px) !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.1),
-        inset 0 2px 8px rgba(255, 255, 255, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.2) !important;
-      position: relative !important;
-      overflow: hidden !important;
-      margin-top: 20px !important;
-      text-align: center !important;
-      text-decoration: none !important;
-      transform: translateY(0) !important;
-    }
-    
-    .show-details-btn::before,
-    .liquid-glass-button::before,
-    [data-liquid-glass="true"]::before {
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: -100% !important;
-      width: 100% !important;
-      height: 100% !important;
-      background: var(--glass-gradient) !important;
-      transition: left 0.4s ease !important;
-      pointer-events: none !important;
-    }
-    
-    .show-details-btn:hover::before,
-    .liquid-glass-button:hover::before,
-    [data-liquid-glass="true"]:hover::before {
-      left: 100% !important;
-    }
-    
-    .show-details-btn:hover,
-    .liquid-glass-button:hover,
-    [data-liquid-glass="true"]:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.15),
-        inset 0 3px 10px rgba(255, 255, 255, 0.5),
-        0 0 40px rgba(255, 255, 255, 0.3) !important;
-      background: 
-        var(--glass-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+  /* 詳細表示ボタン */
+  .show-details-btn,
+  .liquid-glass-button {
+    display: block !important;
+    padding: 16px 30px !important;
+    color: rgba(44, 62, 80, 0.9) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 15px !important;
+    background: 
+      var(--glass-button),
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+      radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100% !important;
+    backdrop-filter: blur(15px) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.1),
+      inset 0 2px 8px rgba(255, 255, 255, 0.4),
+      0 0 30px rgba(255, 255, 255, 0.2) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin-top: 20px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+  }
+  
+  /* インラインスタイルを含むすべてのスタイルをオーバーライド */
+  [style*="background"] a.show-details-btn,
+  a.show-details-btn[style],
+  a[style].show-details-btn,
+  [style*="background"] a.liquid-glass-button,
+  a.liquid-glass-button[style],
+  a[style].liquid-glass-button,
+  [data-liquid-glass="true"] {
+    background: 
+      var(--glass-button),
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+      radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+    color: rgba(44, 62, 80, 0.9) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(15px) !important;
+    display: block !important;
+    padding: 16px 30px !important;
+    border-radius: 15px !important;
+    text-decoration: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin-top: 20px !important;
+    text-align: center !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.1),
+      inset 0 2px 8px rgba(255, 255, 255, 0.4),
+      0 0 30px rgba(255, 255, 255, 0.2) !important;
+  }
+  
+  .show-details-btn::before,
+  .liquid-glass-button::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: var(--glass-gradient) !important;
+    transition: left 0.4s ease !important;
+    pointer-events: none !important;
+  }
+  
+  .show-details-btn:hover::before,
+  .liquid-glass-button:hover::before {
+    left: 100% !important;
+  }
+  
+  .show-details-btn:hover,
+  .liquid-glass-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 
+      0 15px 35px rgba(0, 0, 0, 0.15),
+      inset 0 3px 10px rgba(255, 255, 255, 0.5),
+      0 0 40px rgba(255, 255, 255, 0.3) !important;
+    background: 
+      var(--glass-button),
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+      radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
   }
   
   .show-details-btn:active,
-  .liquid-glass-button:active,
-  [data-liquid-glass="true"]:active {
+  .liquid-glass-button:active {
     transform: translateY(-1px) !important;
     box-shadow: 
       0 8px 25px rgba(0, 0, 0, 0.1),
@@ -2019,3 +1948,4 @@
       0 0 30px rgba(255, 255, 255, 0.2) !important;
   }
 }
+    }
