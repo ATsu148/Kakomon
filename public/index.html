@@ -547,28 +547,15 @@
           resultDiv.appendChild(titleDiv);
           resultDiv.appendChild(metaDiv);
           
-          // クリックして詳細を表示するリンク
-          const showDetailsLink = document.createElement('a');
-          showDetailsLink.textContent = 'クリックしてファイルを表示';
-          showDetailsLink.href = '#';
-          showDetailsLink.className = 'show-details-btn';
-          showDetailsLink.onclick = (e) => {
-            e.preventDefault();
-            
-            // 既に詳細が表示されている場合、処理中の場合、または削除済みの場合は何もしない
-            if (showDetailsLink.style.display === 'none' || 
-                showDetailsLink.style.pointerEvents === 'none' ||
-                showDetailsLink.textContent === '読み込み中...' ||
-                !showDetailsLink.parentNode) {
-              return;
-            }
-            
-            // Google Analytics: ページ詳細表示イベントを追跡
-            trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
-            showPageDetails(item.id, resultDiv, showDetailsLink);
+          // 詳細ページを開くボタン
+          const openBtn = document.createElement('button');
+          openBtn.textContent = '開く';
+          openBtn.className = 'show-details-btn';
+          openBtn.onclick = () => {
+            window.location.href = '/page.html?pageId=' + item.id;
           };
-          
-          resultDiv.appendChild(showDetailsLink);
+
+          resultDiv.appendChild(openBtn);
           resultsDiv.appendChild(resultDiv);
           
           // IntersectionObserverが表示を検知した際にプリロードされます
