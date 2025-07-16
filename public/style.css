@@ -1642,8 +1642,8 @@
       min-height: 70vh;
       padding: 0;
       background: var(--panel-bg);
-      backdrop-filter: blur(25px);      border-radius: 20px 20px 0 0;      transform: translateY(100%);
-      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      backdrop-filter: blur(25px);      border-radius: 20px 20px 0 0;      transform: translateY(100%); opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
       box-shadow: 0 -8px 32px var(--accent-border), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       z-index: 1000;
       border: 1px solid rgba(255, 255, 255, 0.4);
@@ -1653,6 +1653,7 @@
 
     .search-panel.open {
       transform: translateY(0);
+      opacity: 1;
     }    /* Panel header styling */
     .panel-header {
       display: flex;
@@ -1965,6 +1966,7 @@
     .search-panel {
       position: static;
       transform: none;
+      opacity: 1;
       padding: 0;
       box-shadow: none;
       border-radius: 20px;
