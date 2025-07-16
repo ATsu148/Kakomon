@@ -58,6 +58,18 @@
         rgba(221, 160, 221, 0.3) 85.7%,
         rgba(255, 182, 193, 0.3) 100%
       );
+      --fab-bg:
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      --fab-hover-bg:
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      --fab-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      --fab-hover-shadow: 0 15px 35px rgba(0,0,0,0.15), inset 0 2px 10px rgba(255, 255, 255, 0.5), 0 0 40px rgba(255, 255, 255, 0.3);
     }
     * {
       box-sizing: border-box;
@@ -1726,19 +1738,15 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background: var(--fab-bg);
       background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
       color: rgba(100, 100, 100, 0.9);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      box-shadow: var(--fab-shadow);
+      transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
       opacity: 0;
       z-index: 1002;
       pointer-events: none;
@@ -1755,6 +1763,11 @@
       transform: translate(-50%, 0);
       opacity: 1;
       pointer-events: auto;
+    }
+    .fab:hover, .fab:active {
+      transform: translate(-50%, -3px);
+      background: var(--fab-hover-bg);
+      box-shadow: var(--fab-hover-shadow);
     }
 
     /* Vertical Rainbow Slider */
@@ -1896,7 +1909,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.15);
       z-index: 999;
       transition: opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
       opacity: 0;
