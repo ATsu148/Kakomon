@@ -554,6 +554,15 @@
           showDetailsLink.className = 'show-details-btn';
           showDetailsLink.onclick = (e) => {
             e.preventDefault();
+            
+            // 既に詳細が表示されている場合、処理中の場合、または削除済みの場合は何もしない
+            if (showDetailsLink.style.display === 'none' || 
+                showDetailsLink.style.pointerEvents === 'none' ||
+                showDetailsLink.textContent === '読み込み中...' ||
+                !showDetailsLink.parentNode) {
+              return;
+            }
+            
             // Google Analytics: ページ詳細表示イベントを追跡
             trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
             showPageDetails(item.id, resultDiv, showDetailsLink);
@@ -564,6 +573,12 @@
           
           // IntersectionObserverが表示を検知した際にプリロードされます
         }
+        
+        // 検索結果生成後、すべてのshow-details-btnを強制的にクリーンアップ
+        setTimeout(() => {
+          cleanupShowDetailsButtons();
+        }, 100);
+        
       } catch (error) {
         console.error('検索エラー:', error);
         resultsDiv.innerHTML = '<div class="error">検索中にエラーが発生しました。</div>';
@@ -588,6 +603,19 @@
 
     // キャッシュされたページ詳細を即座に表示
     async function showPageDetails(pageId, resultDiv, link) {
+      // 既にファイルセクションが存在する場合は何もしない
+      const existingFilesSection = resultDiv.querySelector('.files-section');
+      if (existingFilesSection) {
+        link.remove();
+        return;
+      }
+      
+      // リンクの元の状態を保存
+      const originalText = link.textContent;
+      const originalPointerEvents = link.style.pointerEvents;
+      const originalOpacity = link.style.opacity;
+      const originalDisplay = link.style.display;
+      
       // リンクを無効化してローディング表示
       link.style.pointerEvents = 'none';
       link.style.opacity = '0.6';
@@ -599,6 +627,9 @@
         // キャッシュにない場合は即座に取得
         if (!data) {
           const response = await fetch(`/page/${pageId}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
           data = await response.json();
           pageDetailsCache.set(pageId, data);
         }
@@ -721,6 +752,13 @@
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
               showChildPageBtn.onclick = () => {
+                // 既に処理中の場合は何もしない
+                if (showChildPageBtn.style.pointerEvents === 'none' ||
+                    showChildPageBtn.textContent === '読み込み中...' ||
+                    !showChildPageBtn.parentNode) {
+                  return;
+                }
+                
                 // Google Analytics: 子ページ表示イベントを追跡
                 sendGAEvent('child_page_view', 'user_interaction', childPage.title);
                 showChildPageDetails(childPage.id, childPageDiv, showChildPageBtn);
@@ -821,14 +859,16 @@
           filesSection.innerHTML = '<div style="color: var(--text-color); font-style: italic; text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; border: 1px dashed rgba(44, 62, 80, 0.3);">ファイルとページ内容はありません</div>';
         }
         
-        // リンクを非表示にする
-        link.style.display = 'none';
+        // 成功時はリンクを完全に削除
+        link.remove();
         
       } catch (error) {
         console.error('ページ詳細の表示中にエラーが発生しました:', error);
+        // エラー時はボタンの状態を元に戻す
         link.style.pointerEvents = 'auto';
         link.style.opacity = '1';
-        link.textContent = 'クリックしてファイルを表示';
+        link.textContent = originalText || 'クリックしてファイルを表示';
+        link.style.display = originalDisplay || 'block';
         
         let filesSection = resultDiv.querySelector('.files-section');
         if (!filesSection) {
@@ -838,10 +878,19 @@
         }
         filesSection.innerHTML = '<div style="color: #ff6b6b;">エラー: 詳細を取得できませんでした</div>';
       }
-    }
-
-    // 子ページの詳細を表示する関数
+    }        // 子ページの詳細を表示する関数
     async function showChildPageDetails(childPageId, container, button) {
+      // 既に子ページ詳細セクションが存在する場合は何もしない
+      const existingChildDetailsSection = container.querySelector('.child-page-details');
+      if (existingChildDetailsSection) {
+        return;
+      }
+      
+      // ボタンの元の状態を保存
+      const originalText = button.textContent;
+      const originalPointerEvents = button.style.pointerEvents;
+      const originalOpacity = button.style.opacity;
+      
       // ボタンを無効化してローディング表示
       button.style.pointerEvents = 'none';
       button.style.opacity = '0.6';
@@ -849,6 +898,9 @@
       
       try {
         const response = await fetch(`/child-page/${childPageId}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         
         // 子ページ詳細セクションを作成
@@ -1046,6 +1098,7 @@
         
       } catch (error) {
         console.error('子ページ詳細の表示中にエラーが発生しました:', error);
+        // エラー時はボタンの状態を元に戻す
         button.style.pointerEvents = 'auto';
         button.style.opacity = '1';
         button.textContent = '子ページを表示';
@@ -1054,6 +1107,13 @@
         if (!childDetailsSection) {
           childDetailsSection = document.createElement('div');
           childDetailsSection.className = 'child-page-details';
+          childDetailsSection.style.cssText = `
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+          `;
           container.appendChild(childDetailsSection);
         }
         childDetailsSection.innerHTML = '<div style="color: #e74c3c; font-size: 14px;">エラー: 子ページの詳細を取得できませんでした</div>';
@@ -1620,6 +1680,62 @@
       }
       lastScrollY = window.scrollY;
     });
+    
+    // Liquid Glass効果を適用するためのインラインスタイル削除
+    function cleanupShowDetailsButtons() {
+      const buttons = document.querySelectorAll('.show-details-btn');
+      buttons.forEach(button => {
+        // インラインスタイルを削除
+        button.removeAttribute('style');
+        // liquid glassクラスを追加
+        button.classList.add('liquid-glass-button');
+        
+        // 強制的にスタイルをリセット（PC版対応）
+        button.style.cssText = '';
+        
+        // 重要なスタイル属性を強制的に設定
+        button.setAttribute('data-liquid-glass', 'true');
+      });
+      
+      // デバッグ用ログ
+      console.log(`Cleaned up ${buttons.length} show-details-btn elements`);
+    }
+    
+    // MutationObserverを使用してDOM変更を監視
+    const styleObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) { // Element node
+              const buttons = node.querySelectorAll ? node.querySelectorAll('.show-details-btn') : [];
+              buttons.forEach(button => {
+                button.removeAttribute('style');
+                button.classList.add('liquid-glass-button');
+                button.style.cssText = '';
+                button.setAttribute('data-liquid-glass', 'true');
+              });
+              
+              // ノード自体がshow-details-btnかチェック
+              if (node.classList && node.classList.contains('show-details-btn')) {
+                node.removeAttribute('style');
+                node.classList.add('liquid-glass-button');
+                node.style.cssText = '';
+                node.setAttribute('data-liquid-glass', 'true');
+              }
+            }
+          });
+        }
+      });
+    });
+    
+    // 観察を開始
+    styleObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    // 初期化時にも実行
+    document.addEventListener('DOMContentLoaded', cleanupShowDetailsButtons);
     </script>
   <script>
     if ('serviceWorker' in navigator) {
