@@ -76,69 +76,9 @@
   </script>
 </head>
 <body>
-  <!-- ローディング画面 -->
-  <div id="loadingScreen" class="loading-screen">
-    <div class="rose-loading-container">
-      <svg id="roseSVG" viewBox="-400 -400 800 800" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- 青基調メイングラデーション -->
-          <linearGradient id="roseGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:1" />
-            <stop offset="50%" style="stop-color: var(--accent-color-end); stop-opacity:1" />
-            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:1" />
-          </linearGradient>
-          
-          <!-- 3Dシャドウ用グラデーション -->
-          <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:0.4" />
-            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:0.2" />
-          </linearGradient>
-          
-          <!-- ハイライト用グラデーション -->
-          <linearGradient id="highlightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color: var(--accent-color); stop-opacity:0.8" />
-            <stop offset="100%" style="stop-color: var(--accent-color-end); stop-opacity:0.4" />
-          </linearGradient>
-          
-          <!-- ソフトブラーフィルター -->
-          <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
-            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.2 0"/>
-          </filter>
-          
-          <!-- グロー効果 -->
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge> 
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        
-        <!-- シャドウレイヤー（奥行き感のため） -->
-        <path id="roseShadowPath" d="" stroke="url(#shadowGradient)" stroke-width="3" fill="none" 
-              stroke-linecap="round" stroke-linejoin="round" opacity="0.3" 
-              transform="translate(2, 2)" style="filter: url(#softBlur)"/>
-        
-        <!-- メインパス -->
-        <path id="rosePath" d="" stroke="url(#roseGradient)" stroke-width="2.5" fill="none" 
-              stroke-linecap="round" stroke-linejoin="round" style="filter: url(#glow)"/>
-        
-        <!-- ハイライトレイヤー（光の反射感） -->
-        <path id="roseHighlightPath" d="" stroke="url(#highlightGradient)" stroke-width="1" fill="none" 
-              stroke-linecap="round" stroke-linejoin="round" opacity="0.6" 
-              transform="translate(-1, -1)" style="filter: url(#softBlur)"/>
-      </svg>
-    </div>
-    <div class="spinner-container" id="spinnerContainer">
-      <div class="spinner"></div>
-      <div class="spinner-text">ラスト...</div>
-    </div>
-  </div>
 
   <!-- メインコンテンツ -->
-  <div id="mainContent" class="main-content">
+  <div id="mainContent">
     <div class="container">
     <h1>過去問検索システム</h1>
     <div id="searchPanel" class="search-panel open">
@@ -1198,321 +1138,31 @@
       }
     }
 
-    // ローディング画面表示中のスクロール制御
-    function disableScroll() {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    }
-    
-    function enableScroll() {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-
-    // 正葉曲線ローディングアニメーション
-    function startRoseLoadingAnimation() {
-      const svg = document.getElementById('roseSVG');
-      const path = document.getElementById('rosePath');
-      const gradient = document.getElementById('roseGradient');
-      const shadowPath = document.getElementById('roseShadowPath');
-      const highlightPath = document.getElementById('roseHighlightPath');
-
-      function applyThemeToGradients() {
-        const styles = getComputedStyle(document.documentElement);
-        const accentStart = styles.getPropertyValue('--accent-color').trim();
-        const accentEnd = styles.getPropertyValue('--accent-color-end').trim();
-
-        const roseStops = gradient.querySelectorAll('stop');
-        if (roseStops.length >= 3) {
-          roseStops[0].setAttribute('stop-color', accentStart);
-          roseStops[1].setAttribute('stop-color', accentEnd);
-          roseStops[2].setAttribute('stop-color', accentEnd);
-        }
-
-        const shadowStops = document.querySelectorAll('#shadowGradient stop');
-        if (shadowStops.length >= 2) {
-          shadowStops[0].setAttribute('stop-color', accentStart);
-          shadowStops[1].setAttribute('stop-color', accentEnd);
-        }
-
-        const highlightStops = document.querySelectorAll('#highlightGradient stop');
-        if (highlightStops.length >= 2) {
-          highlightStops[0].setAttribute('stop-color', accentStart);
-          highlightStops[1].setAttribute('stop-color', accentEnd);
-        }
-      }
-
-      applyThemeToGradients();
-      
-      // SVGのviewBoxを画面サイズに応じて動的に調整
-      function adjustSVGViewBox() {
-        const containerWidth = window.innerWidth;
-        const containerHeight = window.innerHeight;
-        const size = Math.min(containerWidth, containerHeight);
-        
-        // viewBoxのサイズを大幅に拡大して見切れを防止
-        let viewBoxSize = 500; // デフォルトを大幅に増加（400→500）
-        
-        if (size <= 480) {
-          viewBoxSize = 450; // スマートフォン（350→450）
-        } else if (size <= 1024) {
-          viewBoxSize = 475; // タブレット（375→475）
+      window.addEventListener('DOMContentLoaded', () => {
+        initializeSearchPanel();
+        initializeFilters().catch((error) => {
+          console.error('初期化エラー:', error);
+        });
+        if (window.innerWidth <= 767) {
+          const panel = document.getElementById('searchPanel');
+          const fab = document.getElementById('fab');
+          const icon = document.getElementById('fabIcon');
+          if (panel && fab && icon) {
+            panel.classList.add('open');
+            fab.classList.add('open');
+            icon.innerHTML = '✖';
+            const overlay = document.getElementById('searchPanelOverlay');
+            overlay?.classList.add('active');
+          }
         } else {
-          viewBoxSize = 500; // デスクトップ（400→500）
-        }
-        
-        svg.setAttribute('viewBox', `-${viewBoxSize} -${viewBoxSize} ${viewBoxSize * 2} ${viewBoxSize * 2}`);
-      }
-      
-      // 初期調整
-      adjustSVGViewBox();
-      
-      // ウィンドウリサイズ時の調整
-      window.addEventListener('resize', adjustSVGViewBox);
-      
-      // アニメーション変数
-      let startTime = Date.now();
-      const minDuration = 3500; // 最小4.5秒間のアニメーション（6→4.5秒に短縮）
-      const maxDuration = 5500; // 最大6秒間のアニメーション（8→6秒に短縮）
-      let animationId;
-      
-      // 正葉曲線のパラメータ: r = a * cos(n * θ)
-      const n = 3; // 葉の数（3枚葉で優雅に）
-      const a = 1; // 基準半径
-      const baseRadius = 150; // SVG座標系での基準半径（120→150に拡大）
-      
-      // イージング関数（よりゆっくりとした変化）
-      function easeInOutQuart(t) {
-        return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
-      }
-      
-      // より穏やかなイージング関数（最初と最後をゆっくり）
-      function gentleEasing(t) {
-        // カスタムイージング：最初と最後を非常にゆっくり、中間を滑らかに
-        return t * t * (3 - 2 * t); // スムーズステップ関数
-      }
-      
-      // 正葉曲線の座標を計算する関数
-      function getRoseCoordinates(theta, amplitude = 1, frequency = 1, offset = 0) {
-        const r = amplitude * Math.cos(frequency * theta) * baseRadius;
-        const x = r * Math.cos(theta + offset);
-        const y = r * Math.sin(theta + offset);
-        return { x, y };
-      }
-      
-      // SVGパス文字列を生成する関数（左端から流れるように）
-      function generateRosePath(progress, amplitude, frequency, offset = 0, startAngle = -Math.PI, endAngle = Math.PI) {
-        let pathData = '';
-        const totalRange = endAngle - startAngle;
-        const currentRange = totalRange * progress;
-        const steps = Math.max(300, Math.floor(currentRange * 150)); // ステップ数増加で滑らかに
-        
-        if (steps <= 0) return '';
-        
-        for (let i = 0; i <= steps; i++) {
-          const theta = startAngle + (currentRange * i) / steps;
-          const { x, y } = getRoseCoordinates(theta, amplitude, frequency, offset);
-          
-          if (i === 0) {
-            pathData += `M ${x} ${y}`;
-          } else {
-            pathData += ` L ${x} ${y}`;
+          const panel = document.getElementById('searchPanel');
+          const fab = document.getElementById('fab');
+          if (panel && fab) {
+            panel.classList.add('open');
+            fab.style.display = 'none';
           }
         }
-        
-        return pathData;
-      }
-      
-      function animate() {
-        const currentTime = Date.now();
-        const elapsed = currentTime - startTime;
-        
-        // 動的な継続時間計算
-        const loadComplete = document.readyState === 'complete';
-        const duration = loadComplete ? minDuration : maxDuration;
-        const rawProgress = Math.min(elapsed / duration, 1);
-        const progress = gentleEasing(rawProgress); // より穏やかなイージング適用
-        
-        if (progress <= 0.2) {
-          // 0-20%: 左端から正葉曲線が速やかに流れ始める（25%→20%に短縮）
-          const phaseProgress = progress / 0.2;
-          const smoothPhase = gentleEasing(phaseProgress); // フェーズ内でもイージング適用
-          const amplitude = 0.3 + (0.4 * smoothPhase); // より早い振幅変化
-          const frequency = n; // 基本周波数
-          
-          const mainPath = generateRosePath(smoothPhase, amplitude, frequency);
-          path.setAttribute('d', mainPath);
-          path.setAttribute('stroke-width', '1.5');
-          path.setAttribute('opacity', '0.7');
-          
-          // シャドウとハイライトも同期
-          shadowPath.setAttribute('d', mainPath);
-          highlightPath.setAttribute('d', mainPath);
-          
-        } else if (progress <= 0.45) {
-          // 20-45%: 振幅が急速に大きく、周期が短く変化（ピークを早く）
-          const phaseProgress = (progress - 0.2) / 0.25;
-          const smoothPhase = gentleEasing(phaseProgress);
-          const amplitude = 0.7 + (1.4 * smoothPhase); // より急速な増加でピークを早く
-          const frequency = n + (2.2 * smoothPhase); // 周期変化も急速
-          
-          // 右側からカーブが重なり合い始める
-          const leftPath = generateRosePath(1, amplitude, frequency, 0, -Math.PI, 0);
-          const rightPath = generateRosePath(smoothPhase, amplitude, frequency, Math.PI, 0, Math.PI);
-          
-          const combinedPath = leftPath + ' ' + rightPath;
-          path.setAttribute('d', combinedPath);
-          path.setAttribute('stroke-width', '2.5');
-          path.setAttribute('opacity', '0.85');
-          
-          // シャドウとハイライトも同期
-          shadowPath.setAttribute('d', combinedPath);
-          highlightPath.setAttribute('d', combinedPath);
-          
-        } else if (progress <= 0.65) {
-          // 45-65%: 画面全体が正葉曲線の密なラインで埋め尽くされる（ピーク維持）
-          const phaseProgress = (progress - 0.45) / 0.2;
-          const smoothPhase = gentleEasing(phaseProgress);
-          const amplitude = 2.1 + (0.3 * smoothPhase); // ピーク振幅を早く到達・維持
-          const frequency = n + 2.2 + (0.3 * smoothPhase); // 高周波数を維持
-          
-          // 複数の重なりで密度を上げる
-          let combinedPath = '';
-          for (let layer = 0; layer < 3; layer++) {
-            const layerOffset = (layer * Math.PI * 2) / 3;
-            const layerPath = generateRosePath(1, amplitude, frequency, layerOffset);
-            combinedPath += layerPath + ' ';
-          }
-          
-          path.setAttribute('d', combinedPath);
-          path.setAttribute('stroke-width', '2.5');
-          path.setAttribute('opacity', '0.95');
-          
-          // シャドウとハイライトも同期
-          shadowPath.setAttribute('d', combinedPath);
-          highlightPath.setAttribute('d', combinedPath);
-          
-        } else {
-          // 65-100%: 振幅減少、周期延長、右端からゆっくりと消失
-          const phaseProgress = (progress - 0.65) / 0.35;
-          const smoothPhase = gentleEasing(phaseProgress); // ゆっくりとしたフェードアウト
-          const amplitude = 2.4 * (1 - smoothPhase * 0.75); // より穏やかな振幅減少
-          const frequency = (n + 2.5) * (1 - smoothPhase * 0.3); // 周期延長をゆっくり
-          
-          // 右端から消えていく効果（ゆっくりとしたフェード）
-          const visibleRange = 1 - (smoothPhase * 0.60);
-          const fadePath = generateRosePath(visibleRange, amplitude, frequency, 0, -Math.PI, Math.PI * visibleRange);
-          
-          path.setAttribute('d', fadePath);
-          path.setAttribute('stroke-width', `${2.5 * (1 - smoothPhase * 0.6)}`);
-          path.setAttribute('opacity', `${0.95 * (1 - smoothPhase * 0.7)}`);
-          
-          // シャドウとハイライトも同期（ゆっくりとしたフェード）
-          shadowPath.setAttribute('d', fadePath);
-          highlightPath.setAttribute('d', fadePath);
-          shadowPath.setAttribute('opacity', `${0.3 * (1 - smoothPhase * 0.6)}`);
-          highlightPath.setAttribute('opacity', `${0.6 * (1 - smoothPhase * 0.6)}`);
-        }
-        
-        if (progress < 1) {
-          animationId = requestAnimationFrame(animate);
-        } else {
-          // アニメーション完了 - 全要素をフェードアウト
-          path.setAttribute('opacity', '0');
-          shadowPath.setAttribute('opacity', '0');
-          highlightPath.setAttribute('opacity', '0');
-          
-          // ローディング画面を完全にフェードアウト
-          setTimeout(() => {
-            fadeOutLoadingScreen();
-          }, 100);
-        }
-      }
-      
-      // アニメーション開始
-      animate();
-    }
-    
-    // ローディング画面のフェードアウト
-    function fadeOutLoadingScreen() {
-      const loadingScreen = document.getElementById('loadingScreen');
-      const mainContent = document.getElementById('mainContent');
-      
-      // 300ms ease-out フェード
-      loadingScreen.style.transition = 'opacity 0.3s ease-out, visibility 0.3s ease-out';
-      loadingScreen.classList.add('hidden');
-      
-      // スクロールを有効にする
-      enableScroll();
-      
-      // メインコンテンツをフェードイン
-      setTimeout(() => {
-        mainContent.classList.add('visible');
-      }, 50); // 150ms → 50ms
-    }    // ページ読み込み時の初期化
-    window.addEventListener('DOMContentLoaded', () => {
-      // スクロールを無効にする
-      disableScroll();
-
-      // レスポンシブに応じた検索パネルの初期状態設定
-      initializeSearchPanel();
-
-      const isSmallScreen = window.matchMedia('(max-width: 480px)').matches;
-
-      // 正葉曲線アニメーションまたはスピナーを開始
-      if (isSmallScreen) {
-        const spinner = document.getElementById('spinnerContainer');
-        if (spinner) {
-          spinner.style.display = 'flex';
-        }
-      } else {
-        startRoseLoadingAnimation();
-      }
-      
-      // 初期化完了後のローディング画面制御
-      initializeFilters().then(() => {
-        // アニメーションの最小表示時間を確保（時間短縮）
-        const loadingStartTime = Date.now();
-        const minDisplayTime = 700; // 1.5秒 → 700ミリ秒に短縮
-        
-        setTimeout(() => {
-          const elapsedTime = Date.now() - loadingStartTime;
-          const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
-
-          setTimeout(() => {
-            if (isSmallScreen) {
-              fadeOutLoadingScreen();
-            }
-            // 大画面ではアニメーションの終了を待つ
-          }, remainingTime);
-        }, 100);      }).catch((error) => {
-        console.error('初期化エラー:', error);
-        // エラーが発生してもローディング画面は適切なタイミングで非表示にする
-        setTimeout(() => {
-          fadeOutLoadingScreen();
-        }, 2500); // エラー時の表示時間も短縮（3秒→2.5秒）
-      });      // モバイルでの初期状態設定
-      if (window.innerWidth <= 767) {
-        const panel = document.getElementById('searchPanel');
-        const fab = document.getElementById('fab');
-        const icon = document.getElementById('fabIcon');
-        if (panel && fab && icon) {
-          panel.classList.add('open');
-          fab.classList.add('open');
-          icon.innerHTML = '✖';
-          const overlay = document.getElementById('searchPanelOverlay');
-          overlay?.classList.add('active');
-        }
-      } else {
-        // デスクトップでは初期状態でパネルを表示、FABは非表示
-        const panel = document.getElementById('searchPanel');
-        const fab = document.getElementById('fab');
-        if (panel && fab) {
-          panel.classList.add('open');
-          fab.style.display = 'none';
-        }
-      }
-    });    // レスポンシブに応じた検索パネルの初期化
+      });
     function initializeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
