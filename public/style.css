@@ -58,6 +58,16 @@
         rgba(221, 160, 221, 0.3) 85.7%,
         rgba(255, 182, 193, 0.3) 100%
       );
+      --iridescent-border: linear-gradient(45deg,
+        #ffb6c1,
+        #ffd8b9,
+        #ffffba,
+        #baffc9,
+        #bae1ff,
+        #babaff,
+        #dda0dd,
+        #ffb6c1
+      );
       --fab-bg:
         var(--iridescent-button),
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
@@ -399,11 +409,15 @@
       flex-direction: column;
       gap: 15px;
       margin-bottom: 25px;
-      background: var(--panel-bg);
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
       backdrop-filter: blur(25px);
       border-radius: 25px;
       padding: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid transparent;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.1),
         inset 0 2px 10px rgba(255, 255, 255, 0.3),
@@ -421,11 +435,15 @@
     
     .search-box:hover {
       transform: translateY(-3px);
-      box-shadow: 
+      box-shadow:
         0 20px 45px rgba(0, 0, 0, 0.15),
         inset 0 2px 15px rgba(255, 255, 255, 0.4),
         0 0 60px rgba(135, 206, 235, 0.3);
-      background: var(--panel-hover-bg);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
     }
     
     #searchInput {
@@ -460,14 +478,13 @@
     }
     
     button {
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       color: rgba(100, 100, 100, 0.9);
-      border: none;
+      border: 2px solid transparent;
       border-radius: 18px;
       cursor: pointer;
       font-size: 16px;
@@ -478,8 +495,7 @@
       position: relative;
       backdrop-filter: blur(20px);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 
+      box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.1),
         inset 0 2px 8px rgba(255, 255, 255, 0.4),
         0 0 30px rgba(255, 255, 255, 0.2);
@@ -489,17 +505,23 @@
     button::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--iridescent-gradient);
-      transition: left 0.5s ease;
+      inset: 0;
+      padding: 2px;
+      border-radius: inherit;
+      background: var(--iridescent-border);
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
       pointer-events: none;
+      transition: background-position 0.5s ease;
     }
-    
+
     button:hover::before {
-      left: 100%;
+      background-position: 100% 50%;
     }
     
     button:hover, button:active {
@@ -508,11 +530,7 @@
         0 15px 35px rgba(0, 0, 0, 0.15),
         inset 0 2px 10px rgba(255, 255, 255, 0.5),
         0 0 40px rgba(255, 255, 255, 0.3);
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      background: var(--panel-hover-bg);
     }
     
     button:active {
@@ -550,9 +568,13 @@
     }
     
     .result-item {
-      background: var(--panel-bg);
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
       backdrop-filter: blur(25px);
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid transparent;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       margin: 15px 0;
       padding: 20px;
       border-radius: 25px;
@@ -571,11 +593,15 @@
     }
     
     .result-item:hover {
-      box-shadow: 
+      box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.15),
         inset 0 3px 15px rgba(255, 255, 255, 0.4),
         0 0 70px rgba(135, 206, 235, 0.3);
-      background: var(--panel-hover-bg);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
     }
     
     .result-title {
@@ -1235,10 +1261,14 @@
       gap: 18px;
       margin-bottom: 25px;
       padding: 20px;
-      background: var(--panel-bg);
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
       backdrop-filter: blur(25px);
       border-radius: 25px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid transparent;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.1),
         inset 0 2px 10px rgba(255, 255, 255, 0.3),
@@ -1256,10 +1286,15 @@
     
     .filters:hover {
       transform: translateY(-3px);
-      box-shadow: 
+      box-shadow:
         0 20px 45px rgba(0, 0, 0, 0.15),
         inset 0 3px 15px rgba(255, 255, 255, 0.4),
         0 0 60px rgba(135, 206, 235, 0.3);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
     }
       .filter-row {
       display: flex;
@@ -1364,14 +1399,13 @@
     }
       .clear-filters {
       padding: 12px 18px;
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       color: rgba(100, 100, 100, 0.9);
-      border: none;
+      border: 2px solid transparent;
       border-radius: 18px;
       cursor: pointer;
       font-size: 15px;
@@ -1380,8 +1414,7 @@
       backdrop-filter: blur(15px);
       margin-top: 12px;
       transition: all 0.3s ease;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 
+      box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.1),
         inset 0 2px 8px rgba(255, 255, 255, 0.4),
         0 0 30px rgba(255, 255, 255, 0.2);
@@ -1390,31 +1423,36 @@
       animation: iridescent 9s ease-in-out infinite;
     }
     
-    .clear-filters::before {
+      .clear-filters::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--iridescent-gradient);
-      transition: left 0.5s ease;
+      inset: 0;
+      padding: 2px;
+      border-radius: inherit;
+      background: var(--iridescent-border);
+      background-size: 200% 200%;
+      background-position: 0% 50%;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
       pointer-events: none;
+      transition: background-position 0.5s ease;
     }
-    
+
     .clear-filters:hover::before {
-      left: 100%;
+      background-position: 100% 50%;
     }
     
     .clear-filters:hover, .clear-filters:active {
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       transform: translateY(-3px);
-      box-shadow: 
+      box-shadow:
         0 15px 35px rgba(0, 0, 0, 0.15),
         inset 0 2px 10px rgba(255, 255, 255, 0.5),
         0 0 40px rgba(255, 255, 255, 0.3);
@@ -1653,12 +1691,16 @@
       max-height: 90vh;
       min-height: 70vh;
       padding: 0;
-      background: var(--panel-bg);
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       backdrop-filter: blur(25px);      border-radius: 20px 20px 0 0;      transform: translateY(100%); opacity: 0;
       transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
       box-shadow: 0 -8px 32px var(--accent-border), inset 0 1px 0 rgba(255, 255, 255, 0.3);
       z-index: 1000;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid transparent;
       border-bottom: none;
       overflow-y: auto;
     }
@@ -1688,13 +1730,12 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
+      border: 2px solid transparent;
       color: rgba(100, 100, 100, 0.9);
       cursor: pointer;
       display: flex;
@@ -1708,12 +1749,11 @@
     }.close-panel-btn:hover {
       transform: scale(1.1);
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
     }
 
     .close-panel-btn:active {
@@ -1739,10 +1779,13 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: var(--fab-bg);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       color: rgba(100, 100, 100, 0.9);
-      border: none;
+      border: 2px solid transparent;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1767,7 +1810,11 @@
     }
     .fab:hover, .fab:active {
       transform: translate(-50%, -3px);
-      background: var(--fab-hover-bg);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       box-shadow: var(--fab-hover-shadow);
     }
 
@@ -1780,11 +1827,12 @@
       height: 140px;
       transform: translateY(-50%) translateX(25px); /* 初期状態で10pxだけ見える (35px - 25px = 10px) */
       background:
-        var(--iridescent-button),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
-      background-size: 200% 200%, 100% 100%;
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       border-radius: 20px 0 0 20px;
-      border: 1px solid rgba(255, 255, 255, 0.4);      box-shadow:
+      border: 1px solid transparent;      box-shadow:
         -6px 0 24px rgba(0, 0, 0, 0.1),
         -3px 0 12px rgba(0, 0, 0, 0.08),
         -1px 0 6px rgba(0, 0, 0, 0.06),
@@ -1808,6 +1856,11 @@
         -2px 0 9px rgba(0, 0, 0, 0.08),
         inset 2px 2px 12px rgba(255, 255, 255, 0.3),
         inset -2px -2px 12px rgba(0, 0, 0, 0.1);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       cursor: grab;
     }    .slide-search-button.vertical-slide.hidden {
       transform: translateY(-50%) translateX(50px); /* 完全に隠れる */
@@ -1961,14 +2014,14 @@
       animation: none; /* 閾値到達時も点滅を停止 */
     }/* Search button styling for mobile */
     .search-btn {
-      background: 
-        var(--iridescent-button),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
-        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-border) border-box;
+      background-size: 100% 100%, 200% 200%;
+      background-clip: padding-box, border-box;
       min-height: 50px;
       color: rgba(100, 100, 100, 0.9);
+      border: 2px solid transparent;
       animation: iridescent 8s ease-in-out infinite;
     }
 
