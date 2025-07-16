@@ -1564,13 +1564,28 @@
         content: attr(data-label);
         font-weight: bold;
         margin-right: 8px;
-      }      .filters {
+      }
+
+      .filters {
         padding: 18px;
         gap: 14px;
       }
-      
+
+      .filter-row {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
       .filter-group {
+        flex-direction: row;
+        align-items: center;
+        flex: 1 1 45%;
         gap: 6px;
+      }
+
+      .filter-label {
+        margin: 0 8px 0 0;
+        display: inline-block;
       }
       
       select {
