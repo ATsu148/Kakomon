@@ -446,6 +446,40 @@
       });
     }
 
+    function saveSearchState() {
+      sessionStorage.setItem('searchQuery', document.getElementById('searchInput').value);
+      sessionStorage.setItem('searchSubject', document.getElementById('subjectFilter').value);
+      sessionStorage.setItem('searchGrade', document.getElementById('gradeFilter').value);
+      sessionStorage.setItem('searchPeriod', document.getElementById('periodFilter').value);
+      sessionStorage.setItem('searchResults', document.getElementById('results').innerHTML);
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+      sessionStorage.setItem('returnFromPage', 'true');
+    }
+
+    function restoreSearchState() {
+      if (sessionStorage.getItem('returnFromPage') === 'true') {
+        document.getElementById('searchInput').value = sessionStorage.getItem('searchQuery') || '';
+        document.getElementById('subjectFilter').value = sessionStorage.getItem('searchSubject') || '';
+        document.getElementById('gradeFilter').value = sessionStorage.getItem('searchGrade') || '';
+        document.getElementById('periodFilter').value = sessionStorage.getItem('searchPeriod') || '';
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = sessionStorage.getItem('searchResults') || '';
+        cleanupShowDetailsButtons();
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(sessionStorage.getItem('scrollPosition') || '0'));
+        }, 0);
+        sessionStorage.removeItem('returnFromPage');
+
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+        loadingScreen.classList.add('hidden');
+        enableScroll();
+        mainContent.classList.add('visible');
+        return true;
+      }
+      return false;
+    }
+
     function clearFilters() {
       // Google Analytics: フィルタークリアイベントを追跡
       sendGAEvent('clear_filters', 'user_interaction', 'filter_controls');
@@ -552,6 +586,7 @@
           openBtn.textContent = '開く';
           openBtn.className = 'show-details-btn';
           openBtn.onclick = () => {
+            saveSearchState();
             window.location.href = '/page.html?pageId=' + item.id;
           };
 
@@ -565,7 +600,9 @@
         setTimeout(() => {
           cleanupShowDetailsButtons();
         }, 100);
-        
+
+        saveSearchState();
+
       } catch (error) {
         console.error('検索エラー:', error);
         resultsDiv.innerHTML = '<div class="error">検索中にエラーが発生しました。</div>';
@@ -1438,6 +1475,11 @@
       }, 50); // 150ms → 50ms
     }    // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
+      if (restoreSearchState()) {
+        initializeFilters().catch(console.error);
+        return;
+      }
+
       // スクロールを無効にする
       disableScroll();
 

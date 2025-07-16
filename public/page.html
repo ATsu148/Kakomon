@@ -10,9 +10,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a href="index.html" class="child-page-btn" style="margin:20px; display:inline-block;">戻る</a>
+  <a href="index.html" onclick="event.preventDefault(); goBack();" class="child-page-btn" style="margin:20px; display:inline-block;">戻る</a>
   <div id="pageDetails" class="files-section"></div>
 <script>
+function goBack() {
+  window.location.href = 'index.html';
+}
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const pageId = params.get('pageId');
