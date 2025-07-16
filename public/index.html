@@ -552,39 +552,7 @@
           showDetailsLink.textContent = 'クリックしてファイルを表示';
           showDetailsLink.href = '#';
           showDetailsLink.className = 'show-details-btn';
-          showDetailsLink.style.cssText = `
-            display: block;
-            margin-top: 20px;
-            padding: 16px 30px;
-            color: white;
-            text-decoration: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-          `;          // CSS変数を使用してテーマに対応
-          const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
-          const accentColorEnd = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-end').trim();
-          
-          showDetailsLink.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
-          showDetailsLink.style.boxShadow = `0 4px 16px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.2)')}`;
-          
-          showDetailsLink.onmouseover = () => {
-            showDetailsLink.style.background = `linear-gradient(135deg, ${accentColorEnd} 0%, ${accentColor} 100%)`;
-            showDetailsLink.style.boxShadow = `0 8px 25px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
-            showDetailsLink.style.transform = 'translateY(-3px)';
-          };
-          showDetailsLink.onmouseout = () => {
-            showDetailsLink.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
-            showDetailsLink.style.boxShadow = `0 4px 16px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.2)')}`;
-            showDetailsLink.style.transform = 'translateY(0)';
-          };
+          // ボタンのスタイルは CSS で制御
           showDetailsLink.onclick = (e) => {
             e.preventDefault();
             // Google Analytics: ページ詳細表示イベントを追跡

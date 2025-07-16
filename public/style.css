@@ -763,13 +763,39 @@
     }
     
     .file-btn.open-tab {
-      background: 
+      background:
         var(--iridescent-button),
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35) 0%, transparent 70%),
         radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.25) 0%, transparent 70%),
         linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 100%);
       background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
       animation: iridescent 11s ease-in-out infinite;
+    }
+
+    .show-details-btn {
+      display: block;
+      margin-top: 20px;
+      padding: 16px 30px;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      box-shadow: 0 4px 16px var(--accent-color);
+    }
+
+    .show-details-btn:hover {
+      background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
+      box-shadow: 0 8px 25px var(--accent-color);
+      transform: translateY(-3px);
     }
     
     /* 子ページ関連のスタイル */
