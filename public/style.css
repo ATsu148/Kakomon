@@ -1,19 +1,63 @@
     :root {
-      --bg-grad: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      --text-color: #2c3e50;
-      --panel-bg: rgba(255, 255, 255, 0.25);
-      --panel-hover-bg: rgba(255, 255, 255, 0.4);
-      --input-bg: rgba(255, 255, 255, 0.95);
-      --input-focus-bg: rgba(255, 255, 255, 1);
-      --badge-bg: rgba(255, 255, 255, 0.5);
-      --badge-hover-bg: rgba(255, 255, 255, 0.6);
-      --file-bg: rgba(255, 255, 255, 0.4);
-      --file-hover-bg: rgba(255, 255, 255, 0.5);
-      --accent-color: rgba(255, 145, 115, 0.85);
-      --accent-color-end: rgba(255, 138, 101, 0.85);
-      --accent-border: rgba(255, 145, 115, 0.4);
-      --accent-border-focus: rgba(255, 145, 115, 0.6);
-      --accent-option-bg: rgba(255, 145, 115, 0.2);
+      --bg-grad: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(135, 206, 235, 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+      --text-color: rgba(44, 62, 80, 0.9);
+      --panel-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(135, 206, 235, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+      --panel-hover-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(135, 206, 235, 0.4) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.15) 100%);
+      --input-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
+      --input-focus-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 100%);
+      --badge-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 100%);
+      --badge-hover-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
+      --file-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+      --file-hover-bg: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.55) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.15) 100%);
+      --accent-color: rgba(52, 152, 219, 0.85);
+      --accent-color-end: rgba(41, 128, 185, 0.85);
+      --accent-border: rgba(52, 152, 219, 0.4);
+      --accent-border-focus: rgba(52, 152, 219, 0.6);
+      --accent-option-bg: rgba(52, 152, 219, 0.2);
+      --glass-shimmer: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%);
+      --glass-reflection: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+      --iridescent-button: linear-gradient(135deg,
+        rgba(255, 182, 193, 0.15) 0%,
+        rgba(255, 218, 185, 0.15) 12.5%,
+        rgba(255, 255, 186, 0.15) 25%,
+        rgba(186, 255, 201, 0.15) 37.5%,
+        rgba(186, 225, 255, 0.15) 50%,
+        rgba(186, 186, 255, 0.15) 62.5%,
+        rgba(221, 160, 221, 0.15) 75%,
+        rgba(255, 182, 193, 0.15) 87.5%,
+        rgba(255, 218, 185, 0.15) 100%
+      );
+      --iridescent-gradient: linear-gradient(45deg,
+        rgba(255, 182, 193, 0.3) 0%,
+        rgba(255, 218, 185, 0.3) 14.3%,
+        rgba(255, 255, 186, 0.3) 28.6%,
+        rgba(186, 255, 201, 0.3) 42.9%,
+        rgba(186, 225, 255, 0.3) 57.1%,
+        rgba(186, 186, 255, 0.3) 71.4%,
+        rgba(221, 160, 221, 0.3) 85.7%,
+        rgba(255, 182, 193, 0.3) 100%
+      );
     }
     * {
       box-sizing: border-box;
@@ -36,6 +80,36 @@
       position: relative;
       width: 100%;
       max-width: 100vw;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(135, 206, 235, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+      animation: liquidMotion 6s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(135, 206, 235, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+      animation: liquidMotion 8s ease-in-out infinite reverse;
     }
 
     /* ローディング画面のスタイル */
@@ -75,6 +149,44 @@
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @keyframes iridescent {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes glassReflection {
+      0% {
+        transform: rotate(0deg) translateX(-200px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(0deg) translateX(200px);
+        opacity: 0;
+      }
+    }
+
+    @keyframes liquidMotion {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-5px) scale(1.02);
       }
     }
 
@@ -181,19 +293,6 @@
       opacity: 1;
     }
     
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="grain"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="50" cy="50" r="1" fill="url(%23grain)"/></svg>') repeat;
-      pointer-events: none;
-      opacity: 0.1;
-      z-index: -1;
-    }
-    
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -246,12 +345,42 @@
       margin-bottom: 30px;
       font-size: 2.5rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #2c3e50 0%, #4a5568 100%);
+      background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(52, 152, 219, 0.8) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      animation: slideIn 1s ease-out 0.2s both;
+      position: relative;
+    }
+
+    h1::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -20px;
+      right: -20px;
+      bottom: -10px;
+      background: var(--glass-reflection);
+      border-radius: 25px;
+      backdrop-filter: blur(15px);
+      z-index: -1;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3);
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -20px;
+      right: -20px;
+      bottom: -10px;
+      background: var(--glass-shimmer);
+      border-radius: 25px;
+      pointer-events: none;
+      z-index: -1;
     }
       .search-box {
       display: flex;
@@ -259,49 +388,75 @@
       gap: 15px;
       margin-bottom: 25px;
       background: var(--panel-bg);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
       padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.1),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        0 0 50px rgba(135, 206, 235, 0.2);
       animation: slideIn 1s ease-out 0.4s both;
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .search-box > * {
+      position: relative;
+      z-index: 1;
     }
     
     .search-box:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.15),
+        inset 0 2px 15px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(135, 206, 235, 0.3);
       background: var(--panel-hover-bg);
     }
     
     #searchInput {
       padding: 16px 20px;
       border: 2px solid rgba(255, 255, 255, 0.4);
-      border-radius: 15px;
+      border-radius: 18px;
       font-size: 16px;
       background: var(--input-bg);
       color: var(--text-color);
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
     }
     
     #searchInput:focus {
       outline: none;
-      border-color: rgba(255, 145, 115, 0.6);
+      border-color: var(--accent-border-focus);
       background: var(--input-focus-bg);
-      box-shadow: 0 0 20px rgba(255, 145, 115, 0.2);
+      box-shadow: 
+        0 0 25px var(--accent-border-focus),
+        0 12px 35px rgba(0, 0, 0, 0.15),
+        inset 0 2px 10px rgba(255, 255, 255, 0.4);
       transform: scale(1.02);
     }
     
     #searchInput::placeholder {
-      color: #718096;
+      color: rgba(113, 128, 150, 0.7);
     }
     
     button {
-      background: linear-gradient(135deg, rgba(255, 145, 115, 0.85) 0%, rgba(255, 138, 101, 0.85) 100%);
-      color: white;
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      color: rgba(100, 100, 100, 0.9);
       border: none;
-      border-radius: 15px;
+      border-radius: 18px;
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
@@ -309,9 +464,14 @@
       touch-action: manipulation;
       transition: all 0.3s ease;
       position: relative;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(20px);
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.2);
+      animation: iridescent 8s ease-in-out infinite;
     }
     
     button::before {
@@ -321,8 +481,9 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background: var(--iridescent-gradient);
       transition: left 0.5s ease;
+      pointer-events: none;
     }
     
     button:hover::before {
@@ -330,13 +491,20 @@
     }
     
     button:hover, button:active {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 145, 115, 0.3);
-      background: linear-gradient(135deg, rgba(255, 134, 101, 0.9) 0%, rgba(255, 114, 86, 0.9) 100%);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        inset 0 2px 10px rgba(255, 255, 255, 0.5),
+        0 0 40px rgba(255, 255, 255, 0.3);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
     }
     
     button:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
     
     /* タブレット以上のサイズ */
@@ -371,19 +539,30 @@
     
     .result-item {
       background: var(--panel-bg);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(25px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
       margin: 15px 0;
       padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.1),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        0 0 50px rgba(135, 206, 235, 0.2);
       transition: all 0.3s ease;
-      animation: slideIn 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .result-item > * {
+      position: relative;
+      z-index: 1;
     }
     
     .result-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.15),
+        inset 0 3px 15px rgba(255, 255, 255, 0.4),
+        0 0 70px rgba(135, 206, 235, 0.3);
       background: var(--panel-hover-bg);
     }
     
@@ -401,8 +580,8 @@
     }
     
     .result-title:hover, .result-title:active {
-      color: #667eea;
-      text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+      color: var(--accent-color);
+      text-shadow: 0 3px 6px rgba(52, 152, 219, 0.3);
     }
     
     .result-meta {
@@ -415,20 +594,28 @@
     .meta-item {
       padding: 8px 12px;
       background: var(--badge-bg);
-      border-radius: 20px;
+      border-radius: 25px;
       font-size: 13px;
       font-weight: 500;
       white-space: nowrap;
       transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3),
+        0 0 25px rgba(135, 206, 235, 0.2);
+      position: relative;
+      overflow: hidden;
     }
     
     .meta-item:hover {
-      transform: scale(1.05);
+      transform: scale(1.08) translateY(-2px);
       background: var(--badge-hover-bg);
-      box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 12px 25px rgba(0, 0, 0, 0.15),
+        inset 0 3px 10px rgba(255, 255, 255, 0.4),
+        0 0 35px rgba(135, 206, 235, 0.3);
     }
     
     /* タブレット以上のサイズ */
@@ -479,18 +666,26 @@
       gap: 12px;
       padding: 15px;
       background: var(--file-bg);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 15px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 20px;
       margin: 10px 0;
       transition: all 0.3s ease;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3),
+        0 0 30px rgba(135, 206, 235, 0.2);
+      position: relative;
+      overflow: hidden;
     }
     
     .file-item:hover {
       background: var(--file-hover-bg);
-      transform: translateX(5px);
-      box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateX(8px) translateY(-2px);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        inset 0 3px 10px rgba(255, 255, 255, 0.4),
+        0 0 40px rgba(135, 206, 235, 0.3);
     }
     
     .pdf-icon {
@@ -514,7 +709,7 @@
     
     .file-link:hover, .file-link:active {
       text-decoration: underline;
-      color: rgba(255, 145, 115, 0.9);
+      color: var(--accent-color);
     }
     
     .file-actions {
@@ -525,22 +720,56 @@
     
     .file-btn {
       padding: 10px 14px;
-      background: linear-gradient(135deg, rgba(255, 167, 132, 0.8) 0%, rgba(255, 152, 121, 0.8) 100%);
-      color: white;
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      color: rgba(100, 100, 100, 0.9);
       border: none;
-      border-radius: 10px;
+      border-radius: 15px;
       cursor: pointer;
       font-size: 13px;
       min-height: 40px;
       white-space: nowrap;
       font-weight: 600;
       transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.1),
+        inset 0 2px 6px rgba(255, 255, 255, 0.4),
+        0 0 25px rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      animation: iridescent 10s ease-in-out infinite;
+    }
+    
+    .file-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--iridescent-gradient);
+      transition: left 0.4s ease;
+      pointer-events: none;
+    }
+    
+    .file-btn:hover::before {
+      left: 100%;
     }
     
     .file-btn.open-tab {
-      background: linear-gradient(135deg, rgba(255, 193, 125, 0.8) 0%, rgba(255, 183, 107, 0.8) 100%);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.25) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      animation: iridescent 11s ease-in-out infinite;
     }
     
     /* 子ページ関連のスタイル */
@@ -564,7 +793,13 @@
       left: 0;
       width: 4px;
       height: 100%;
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      animation: iridescent 8s ease-in-out infinite;
       border-radius: 0 2px 2px 0;
     }
     
@@ -644,7 +879,13 @@
       left: 0;
       width: 3px;
       height: 100%;
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      animation: iridescent 8s ease-in-out infinite;
       border-radius: 0 2px 2px 0;
     }
     
@@ -721,7 +962,7 @@
     }
     
     .child-page-text th {
-      background: linear-gradient(135deg, rgba(255, 145, 115, 0.25) 0%, rgba(255, 138, 101, 0.2) 100%);
+      background: linear-gradient(135deg, rgba(52, 152, 219, 0.25) 0%, rgba(41, 128, 185, 0.2) 100%);
       font-weight: 600;
       color: var(--text-color);
       text-transform: uppercase;
@@ -740,8 +981,17 @@
     }
     
     .file-btn:hover, .file-btn:active {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.15),
+        inset 0 2px 8px rgba(255, 255, 255, 0.5),
+        0 0 35px rgba(255, 255, 255, 0.3);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
     }
     
     .pdf-viewer {
@@ -870,12 +1120,12 @@
     }
     
     .table-container::-webkit-scrollbar-thumb {
-      background: rgba(255, 145, 115, 0.6);
+      background: rgba(52, 152, 219, 0.6);
       border-radius: 4px;
     }
     
     .table-container::-webkit-scrollbar-thumb:hover {
-      background: rgba(255, 145, 115, 0.8);
+      background: rgba(52, 152, 219, 0.8);
     }
     
     .page-text th,
@@ -887,7 +1137,7 @@
     }
     
     .page-text th {
-      background: rgba(255, 145, 115, 0.8);
+      background: rgba(52, 152, 219, 0.8);
       font-weight: bold;
       color: var(--text-color);
       border-bottom: 2px solid rgba(44, 62, 80, 0.4);
@@ -974,17 +1224,30 @@
       margin-bottom: 25px;
       padding: 20px;
       background: var(--panel-bg);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(25px);
+      border-radius: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.1),
+        inset 0 2px 10px rgba(255, 255, 255, 0.3),
+        0 0 50px rgba(135, 206, 235, 0.2);
       animation: slideIn 1s ease-out 0.6s both;
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .filters > * {
+      position: relative;
+      z-index: 1;
     }
     
     .filters:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.15),
+        inset 0 3px 15px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(135, 206, 235, 0.3);
     }
       .filter-row {
       display: flex;
@@ -1001,7 +1264,7 @@
     }
     
     .filter-group:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
       .filter-label {
       font-size: 14px;
@@ -1020,7 +1283,7 @@
       select {
       padding: 12px 18px;
       border: 2px solid var(--accent-border);
-      border-radius: 15px;
+      border-radius: 18px;
       font-size: 16px;
       background: var(--input-bg);
       color: var(--text-color);
@@ -1029,11 +1292,14 @@
       -moz-appearance: none;
       appearance: none;
       transition: all 0.3s ease;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3),
+        0 0 25px rgba(135, 206, 235, 0.2);
       cursor: pointer;
       position: relative;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff9173' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat;
       background-position: right 15px center;
       background-size: 16px;
@@ -1044,15 +1310,21 @@
       outline: none;
       border-color: var(--accent-border-focus);
       background: var(--input-focus-bg);
-      box-shadow: 0 0 20px var(--accent-border-focus), 0 6px 20px rgba(31, 38, 135, 0.15);
+      box-shadow: 
+        0 0 25px var(--accent-border-focus),
+        0 12px 35px rgba(0, 0, 0, 0.15),
+        inset 0 2px 10px rgba(255, 255, 255, 0.4);
       transform: scale(1.02);
     }
     
     select:hover {
       border-color: var(--accent-border);
       background: var(--input-bg);
-      box-shadow: 0 6px 16px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      transform: translateY(-1px);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.15),
+        inset 0 2px 8px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(135, 206, 235, 0.3);
+      transform: translateY(-2px);
     }
     
     /* FirefoxのSelectドロップダウンのカスタマイズ */
@@ -1080,21 +1352,30 @@
     }
       .clear-filters {
       padding: 12px 18px;
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
-      color: white;
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      color: rgba(100, 100, 100, 0.9);
       border: none;
-      border-radius: 15px;
+      border-radius: 18px;
       cursor: pointer;
       font-size: 15px;
       font-weight: 600;
       min-height: 44px;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
       margin-top: 12px;
       transition: all 0.3s ease;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 12px rgba(31, 38, 135, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.1),
+        inset 0 2px 8px rgba(255, 255, 255, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.2);
       position: relative;
       overflow: hidden;
+      animation: iridescent 9s ease-in-out infinite;
     }
     
     .clear-filters::before {
@@ -1104,8 +1385,9 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background: var(--iridescent-gradient);
       transition: left 0.5s ease;
+      pointer-events: none;
     }
     
     .clear-filters:hover::before {
@@ -1113,13 +1395,21 @@
     }
     
     .clear-filters:hover, .clear-filters:active {
-      background: linear-gradient(135deg, var(--accent-color-end) 0%, var(--accent-color) 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        inset 0 2px 10px rgba(255, 255, 255, 0.5),
+        0 0 40px rgba(255, 255, 255, 0.3);
     }
     
     .clear-filters:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
     
     .pagination-controls {
@@ -1385,21 +1675,32 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255, 145, 115, 0.8) 0%, rgba(255, 138, 101, 0.8) 100%);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
       border: 2px solid rgba(255, 255, 255, 0.4);
-      color: white;
+      color: rgba(100, 100, 100, 0.9);
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      box-shadow: 0 4px 12px rgba(255, 145, 115, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       min-height: auto;
       padding: 0;
+      animation: iridescent 7s ease-in-out infinite;
     }.close-panel-btn:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 18px var(--accent-border);
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
     }
 
     .close-panel-btn:active {
@@ -1425,8 +1726,13 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
-      color: #fff;
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      color: rgba(100, 100, 100, 0.9);
       border: none;
       display: flex;
       align-items: center;
@@ -1436,6 +1742,7 @@
       opacity: 0;
       z-index: 1002;
       pointer-events: none;
+      animation: iridescent 6s ease-in-out infinite;
     }
 
     .fab.open {
@@ -1450,7 +1757,7 @@
       pointer-events: auto;
     }
 
-    /* Vertical Orange Slider */
+    /* Vertical Rainbow Slider */
     .slide-search-button.vertical-slide {
       position: fixed;
       top: 70%;
@@ -1459,13 +1766,14 @@
       height: 140px;
       transform: translateY(-50%) translateX(25px); /* 初期状態で10pxだけ見える (35px - 25px = 10px) */
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%),
-        linear-gradient(180deg, rgba(255, 140, 66, 0.7) 0%, rgba(255, 107, 26, 0.6) 50%, rgba(229, 90, 0, 0.5) 100%);
+        var(--iridescent-button),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+      background-size: 200% 200%, 100% 100%;
       border-radius: 20px 0 0 20px;
       border: 1px solid rgba(255, 255, 255, 0.4);      box-shadow:
-        -6px 0 24px rgba(255, 140, 66, 0.3),
-        -3px 0 12px rgba(255, 107, 26, 0.25),
-        -1px 0 6px rgba(229, 90, 0, 0.2),
+        -6px 0 24px rgba(0, 0, 0, 0.1),
+        -3px 0 12px rgba(0, 0, 0, 0.08),
+        -1px 0 6px rgba(0, 0, 0, 0.06),
         inset 2px 2px 8px rgba(255, 255, 255, 0.25),
         inset -2px -2px 8px rgba(0, 0, 0, 0.08);
       backdrop-filter: blur(12px);
@@ -1478,11 +1786,12 @@
       align-items: center;
       justify-content: center;
       --slide-progress: 0;
+      animation: iridescent 12s ease-in-out infinite;
     }    .slide-search-button.vertical-slide:hover {
       transform: translateY(-50%) translateX(20px); /* ホバーで少し出てくる */box-shadow:
-        -9px 0 30px rgba(255, 140, 66, 0.4),
-        -4px 0 15px rgba(255, 107, 26, 0.3),
-        -2px 0 9px rgba(229, 90, 0, 0.25),
+        -9px 0 30px rgba(0, 0, 0, 0.15),
+        -4px 0 15px rgba(0, 0, 0, 0.1),
+        -2px 0 9px rgba(0, 0, 0, 0.08),
         inset 2px 2px 12px rgba(255, 255, 255, 0.3),
         inset -2px -2px 12px rgba(0, 0, 0, 0.1);
       cursor: grab;
@@ -1638,8 +1947,15 @@
       animation: none; /* 閾値到達時も点滅を停止 */
     }/* Search button styling for mobile */
     .search-btn {
-      background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-end) 100%);
+      background: 
+        var(--iridescent-button),
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.2) 0%, transparent 70%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
       min-height: 50px;
+      color: rgba(100, 100, 100, 0.9);
+      animation: iridescent 8s ease-in-out infinite;
     }
 
   @media (min-width: 768px) {
@@ -1657,4 +1973,5 @@
     .panel-header {
       display: none;
     }
+  }
   }
