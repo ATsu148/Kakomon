@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, createGlobalStyle } from 'styled-components';
 
 const fadeInText = keyframes`
   from {
@@ -28,17 +28,17 @@ const liquidGlassShimmer = keyframes`
 
 const glassReflection = keyframes`
   0% {
-    transform: rotate(0deg) translateX(-200px);
+    transform: translateX(-250px);
     opacity: 0;
   }
-  10% {
+  20% {
     opacity: 1;
   }
-  90% {
+  80% {
     opacity: 1;
   }
   100% {
-    transform: rotate(0deg) translateX(200px);
+    transform: translateX(250px);
     opacity: 0;
   }
 `;
@@ -48,7 +48,18 @@ const liquidMotion = keyframes`
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-8px) scale(1.03);
+  }
+`;
+
+export const ColorVariables = createGlobalStyle`
+  :root {
+    --panel-bg:
+      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 70%),
+      radial-gradient(circle at 70% 70%, rgba(135, 206, 235, 0.3) 0%, transparent 70%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+    --glass-shimmer: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%);
+    --glass-reflection: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
   }
 `;
 
@@ -102,7 +113,7 @@ export const LoadingScreenWrapper = styled.div`
     background: 
       radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
       radial-gradient(circle at 75% 75%, rgba(135, 206, 235, 0.2) 0%, transparent 50%);
-    animation: ${liquidMotion} 4s ease-in-out infinite;
+    animation: ${liquidMotion} 8s ease-in-out infinite;
     pointer-events: none;
   }
 
@@ -168,16 +179,7 @@ export const RoseLoadingContainer = styled.div`
     transform: translate(-50%, -50%);
     width: 500px;
     height: 500px;
-    background: 
-      radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 60%),
-      radial-gradient(circle at 70% 70%, rgba(135, 206, 235, 0.3) 0%, transparent 60%),
-      linear-gradient(45deg, 
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.05) 25%,
-        rgba(135, 206, 235, 0.1) 50%,
-        rgba(255, 255, 255, 0.05) 75%,
-        rgba(255, 255, 255, 0.2) 100%
-      );
+    background: var(--panel-bg);
     border-radius: 50%;
     backdrop-filter: blur(15px);
     border: 2px solid rgba(255, 255, 255, 0.3);
@@ -185,7 +187,7 @@ export const RoseLoadingContainer = styled.div`
       0 8px 32px rgba(0, 0, 0, 0.1),
       inset 0 2px 10px rgba(255, 255, 255, 0.3),
       0 0 50px rgba(135, 206, 235, 0.2);
-    animation: ${liquidMotion} 3s ease-in-out infinite;
+    animation: ${liquidMotion} 8s ease-in-out infinite;
   }
   
   &::after {
@@ -196,13 +198,9 @@ export const RoseLoadingContainer = styled.div`
     transform: translate(-50%, -50%);
     width: 520px;
     height: 520px;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(255, 255, 255, 0.6) 50%, 
-      transparent 70%
-    );
+    background: var(--glass-shimmer);
     border-radius: 50%;
-    animation: ${glassReflection} 4s ease-in-out infinite;
+    animation: ${glassReflection} 6s ease-in-out infinite;
     pointer-events: none;
   }
 
@@ -216,16 +214,7 @@ export const RoseSVG = styled.svg`
   height: 450px;
   max-width: 90vmin;
   max-height: 90vmin;
-  background: 
-    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
-    radial-gradient(circle at 65% 65%, rgba(135, 206, 235, 0.4) 0%, transparent 70%),
-    linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.1) 25%,
-      rgba(135, 206, 235, 0.2) 50%,
-      rgba(255, 255, 255, 0.1) 75%,
-      rgba(255, 255, 255, 0.3) 100%
-    );
+  background: var(--panel-bg);
   border-radius: 50%;
   backdrop-filter: blur(20px);
   border: 3px solid rgba(255, 255, 255, 0.4);
@@ -243,11 +232,7 @@ export const RoseSVG = styled.svg`
     left: -20%;
     width: 140%;
     height: 200%;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(255, 255, 255, 0.8) 50%, 
-      transparent 70%
-    );
+    background: var(--glass-shimmer);
     animation: ${liquidGlassShimmer} 3s ease-in-out infinite;
     pointer-events: none;
   }
@@ -357,12 +342,8 @@ export const Spinner = styled.div`
     right: -4px;
     bottom: -4px;
     border-radius: 50%;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(255, 255, 255, 0.8) 50%, 
-      transparent 70%
-    );
-    animation: ${glassReflection} 3s ease-in-out infinite;
+    background: var(--glass-shimmer);
+    animation: ${glassReflection} 6s ease-in-out infinite;
     z-index: -1;
   }
 `;
@@ -384,15 +365,18 @@ export const SpinnerText = styled.div`
 
 export default function LoadingScreen() {
   return (
-    <LoadingScreenWrapper>
-      <RoseLoadingContainer>
-        <RoseSVG id="roseSVG" />
-      </RoseLoadingContainer>
-      <SpinnerContainer>
-        <Spinner />
-        <SpinnerText>Loading...</SpinnerText>
-      </SpinnerContainer>
-      <LoadingText>Loading...</LoadingText>
-    </LoadingScreenWrapper>
+    <>
+      <ColorVariables />
+      <LoadingScreenWrapper>
+        <RoseLoadingContainer>
+          <RoseSVG id="roseSVG" />
+        </RoseLoadingContainer>
+        <SpinnerContainer>
+          <Spinner />
+          <SpinnerText>Loading...</SpinnerText>
+        </SpinnerContainer>
+        <LoadingText>Loading...</LoadingText>
+      </LoadingScreenWrapper>
+    </>
   );
 }
