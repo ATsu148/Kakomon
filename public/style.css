@@ -58,6 +58,9 @@
         rgba(221, 160, 221, 0.3) 85.7%,
         rgba(255, 182, 193, 0.3) 100%
       );
+      --rainbow-border-gradient: var(--iridescent-gradient);
+      --fab-border-gradient: var(--rainbow-border-gradient);
+      --slide-border-gradient: var(--rainbow-border-gradient);
       --fab-bg:
         var(--iridescent-button),
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 70%),
@@ -1763,10 +1766,12 @@
       width: 56px;
       height: 56px;
       border-radius: 50%;
-      background: var(--fab-bg);
-      background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
+      border: 2px solid transparent;
+      background:
+        var(--panel-bg) padding-box,
+        var(--fab-border-gradient) border-box;
+      background-size: 100% 100%, 200% 200%;
       color: rgba(100, 100, 100, 0.9);
-      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1791,7 +1796,9 @@
     }
     .fab:hover, .fab:active {
       transform: translate(-50%, -3px);
-      background: var(--fab-hover-bg);
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--fab-border-gradient) border-box;
       box-shadow: var(--fab-hover-shadow);
     }
 
@@ -1803,12 +1810,13 @@
       width: 35px;
       height: 140px;
       transform: translateY(-50%) translateX(25px); /* 初期状態で10pxだけ見える (35px - 25px = 10px) */
-      background:
-        var(--iridescent-button),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
-      background-size: 200% 200%, 100% 100%;
       border-radius: 20px 0 0 20px;
-      border: 1px solid rgba(255, 255, 255, 0.4);      box-shadow:
+      border: 1px solid transparent;
+      background:
+        var(--panel-bg) padding-box,
+        var(--slide-border-gradient) border-box;
+      background-size: 100% 100%, 200% 200%;
+      box-shadow:
         -6px 0 24px rgba(0, 0, 0, 0.1),
         -3px 0 12px rgba(0, 0, 0, 0.08),
         -1px 0 6px rgba(0, 0, 0, 0.06),
@@ -1826,13 +1834,18 @@
       --slide-progress: 0;
       animation: iridescent 12s ease-in-out infinite;
     }    .slide-search-button.vertical-slide:hover {
-      transform: translateY(-50%) translateX(20px); /* ホバーで少し出てくる */box-shadow:
+      transform: translateY(-50%) translateX(20px); /* ホバーで少し出てくる */
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--slide-border-gradient) border-box;
+      box-shadow:
         -9px 0 30px rgba(0, 0, 0, 0.15),
         -4px 0 15px rgba(0, 0, 0, 0.1),
         -2px 0 9px rgba(0, 0, 0, 0.08),
         inset 2px 2px 12px rgba(255, 255, 255, 0.3),
         inset -2px -2px 12px rgba(0, 0, 0, 0.1);
       cursor: grab;
+    }
     }    .slide-search-button.vertical-slide.hidden {
       transform: translateY(-50%) translateX(50px); /* 完全に隠れる */
       pointer-events: none;
@@ -1848,12 +1861,18 @@
       opacity: 1;
     }
 
-    .slide-search-button.vertical-slide.dragging {      cursor: grabbing;      box-shadow: 
+    .slide-search-button.vertical-slide.dragging {
+      cursor: grabbing;
+      background:
+        var(--panel-hover-bg) padding-box,
+        var(--slide-border-gradient) border-box;
+      box-shadow:
         -12px 0 36px rgba(255, 140, 66, 0.5),
         -6px 0 18px rgba(255, 107, 26, 0.4),
         -3px 0 12px rgba(229, 90, 0, 0.3),
         inset 2px 2px 16px rgba(255, 255, 255, 0.35),
         inset -2px -2px 16px rgba(0, 0, 0, 0.15);
+    }
     }    .slide-search-button.vertical-slide.slide-completed {
       background: linear-gradient(180deg, #ffaa6b 0%, #ff8c42 50%, #ff6b1a 100%);      box-shadow: 
         -15px 0 45px rgba(255, 140, 66, 0.6),
