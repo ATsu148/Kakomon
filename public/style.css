@@ -775,13 +775,37 @@
     }
     
     .file-btn.open-tab {
-      background: 
+      background:
         var(--iridescent-button),
         radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35) 0%, transparent 70%),
         radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.25) 0%, transparent 70%),
         linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.06) 100%);
       background-size: 200% 200%, 100% 100%, 100% 100%, 100% 100%;
       animation: iridescent 11s ease-in-out infinite;
+    }
+
+    /* 子ページ表示ボタン */
+    .child-page-btn {
+      padding: 12px 20px;
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      background:
+        var(--panel-bg) padding-box,
+        var(--iridescent-button) border-box;
+      background-size: 100% 100%, 200% 200%;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.1),
+        inset 0 2px 6px rgba(255, 255, 255, 0.4),
+        0 0 25px rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      animation: iridescent 10s ease-in-out infinite;
     }
     
     /* 子ページ関連のスタイル */

@@ -744,36 +744,13 @@
               // 子ページの詳細を表示するボタン
               const showChildPageBtn = document.createElement('button');
               showChildPageBtn.textContent = '子ページを表示';
-                showChildPageBtn.style.cssText = `
-                padding: 12px 20px;
-                color: white;
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                font-size: 14px;
-                font-weight: 500;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                position: relative;
-                overflow: hidden;
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-              `;
-              
-              // CSS変数を使用してテーマに対応
-              const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
-              const accentColorEnd = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-end').trim();
-              
-              showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
-              showChildPageBtn.style.boxShadow = `0 4px 12px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
-              
+              showChildPageBtn.classList.add('child-page-btn');
+
+              // ホバー時のアニメーションはJSで制御
               showChildPageBtn.onmouseover = () => {
-                showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColorEnd} 0%, ${accentColor} 100%)`;
-                showChildPageBtn.style.boxShadow = `0 8px 20px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.4)')}`;
                 showChildPageBtn.style.transform = 'translateY(-3px) scale(1.02)';
               };
               showChildPageBtn.onmouseout = () => {
-                showChildPageBtn.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${accentColorEnd} 100%)`;
-                showChildPageBtn.style.boxShadow = `0 4px 12px ${accentColor.replace(/rgba\([^,]+,[^,]+,[^,]+,[^)]+\)/, 'rgba(52, 152, 219, 0.3)')}`;
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
               showChildPageBtn.onclick = () => {
