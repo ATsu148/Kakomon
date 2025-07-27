@@ -1776,7 +1776,7 @@
       position: fixed;
       bottom: 20px;
       left: 50%;
-      transform: translate(-50%, 100px);
+      transform: translate(-50%, 0);
       width: 56px;
       height: 56px;
       border-radius: 50%;
@@ -1789,10 +1789,10 @@
       justify-content: center;
       box-shadow: var(--fab-shadow);
       transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-      opacity: 0;
+      opacity: 1;
       z-index: 1002;
-      pointer-events: none;
-      
+      pointer-events: auto;
+
     }
 
     .fab.open {
@@ -1805,6 +1805,10 @@
       transform: translate(-50%, 0);
       opacity: 1;
       pointer-events: auto;
+    }
+
+    .fab.hidden {
+      display: none;
     }
     .fab:hover, .fab:active {
       transform: translate(-50%, -3px);
