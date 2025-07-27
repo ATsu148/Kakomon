@@ -76,6 +76,7 @@
   </script>
 </head>
 <body>
+  <div id="app-wrapper">
   <!-- ローディング画面 -->
   <div id="loadingScreen" class="loading-screen">
     <div class="rose-loading-container">
@@ -500,7 +501,9 @@
           resultsDiv.innerHTML = '<div class="error">検索結果が見つかりませんでした。</div>';
           return;
         }
-        
+
+        const fragment = document.createDocumentFragment();
+
         for (const item of data) {
           const resultDiv = document.createElement('div');
           resultDiv.className = 'result-item';
@@ -552,28 +555,17 @@
           showDetailsLink.textContent = 'クリックしてファイルを表示';
           showDetailsLink.href = '#';
           showDetailsLink.className = 'show-details-btn';
-          showDetailsLink.onclick = (e) => {
-            e.preventDefault();
-            
-            // 既に詳細が表示されている場合、処理中の場合、または削除済みの場合は何もしない
-            if (showDetailsLink.style.display === 'none' || 
-                showDetailsLink.style.pointerEvents === 'none' ||
-                showDetailsLink.textContent === '読み込み中...' ||
-                !showDetailsLink.parentNode) {
-              return;
-            }
-            
-            // Google Analytics: ページ詳細表示イベントを追跡
-            trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
-            showPageDetails(item.id, resultDiv, showDetailsLink);
-          };
+          showDetailsLink.dataset.pageId = item.id;
+          showDetailsLink.dataset.title = item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page';
           
           resultDiv.appendChild(showDetailsLink);
-          resultsDiv.appendChild(resultDiv);
-          
+          fragment.appendChild(resultDiv);
+
           // IntersectionObserverが表示を検知した際にプリロードされます
         }
-        
+
+        resultsDiv.appendChild(fragment);
+
         // 検索結果生成後、すべてのshow-details-btnを強制的にクリーンアップ
         setTimeout(() => {
           cleanupShowDetailsButtons();
@@ -751,18 +743,8 @@
               showChildPageBtn.onmouseout = () => {
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
-              showChildPageBtn.onclick = () => {
-                // 既に処理中の場合は何もしない
-                if (showChildPageBtn.style.pointerEvents === 'none' ||
-                    showChildPageBtn.textContent === '読み込み中...' ||
-                    !showChildPageBtn.parentNode) {
-                  return;
-                }
-                
-                // Google Analytics: 子ページ表示イベントを追跡
-                sendGAEvent('child_page_view', 'user_interaction', childPage.title);
-                showChildPageDetails(childPage.id, childPageDiv, showChildPageBtn);
-              };
+              showChildPageBtn.dataset.childPageId = childPage.id;
+              showChildPageBtn.dataset.title = childPage.title;
               
               childPageDiv.appendChild(showChildPageBtn);
             }
@@ -1658,27 +1640,33 @@
       } else {
         openSearchPanel();
       }
-    }    // FAB show/hide on scroll - パネルが閉じている時は常に表示
-    let lastScrollY = window.scrollY;
+    }
+    // FAB show/hide on scroll - スクロール停止後に少し上方向へ動いたら表示
+    let lastScrollEndY = window.scrollY;
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
       const fab = document.getElementById('fab');
       const panel = document.getElementById('searchPanel');
-      
+
       if (!fab || window.innerWidth >= 768) return;
-      
+
       // パネルが閉じている場合は常に表示
       if (!panel || !panel.classList.contains('open')) {
         fab.classList.add('show');
+        lastScrollEndY = window.scrollY;
         return;
       }
-      
-      // パネルが開いている場合は従来の処理
-      if (window.scrollY < lastScrollY) {
-        fab.classList.add('show');
-      } else {
-        fab.classList.remove('show');
-      }
-      lastScrollY = window.scrollY;
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const endY = window.scrollY;
+        if (lastScrollEndY - endY > 5) {
+          fab.classList.add('show');
+        } else {
+          fab.classList.remove('show');
+        }
+        lastScrollEndY = endY;
+      }, 150);
     });
     
     // Liquid Glass効果を適用するためのインラインスタイル削除
@@ -1735,7 +1723,41 @@
     });
     
     // 初期化時にも実行
-    document.addEventListener('DOMContentLoaded', cleanupShowDetailsButtons);
+    document.addEventListener('DOMContentLoaded', () => {
+      cleanupShowDetailsButtons();
+
+      const results = document.getElementById('results');
+      if (results) {
+        results.addEventListener('click', (event) => {
+          const detailsBtn = event.target.closest('.show-details-btn');
+          if (detailsBtn) {
+            event.preventDefault();
+            if (detailsBtn.style.display === 'none' ||
+                detailsBtn.style.pointerEvents === 'none' ||
+                detailsBtn.textContent === '読み込み中...' ||
+                !detailsBtn.parentNode) {
+              return;
+            }
+            const resultDiv = detailsBtn.closest('.result-item');
+            trackPageDetailsView(detailsBtn.dataset.title || 'Unknown Page');
+            showPageDetails(detailsBtn.dataset.pageId, resultDiv, detailsBtn);
+            return;
+          }
+
+          const childBtn = event.target.closest('.child-page-btn');
+          if (childBtn) {
+            if (childBtn.style.pointerEvents === 'none' ||
+                childBtn.textContent === '読み込み中...' ||
+                !childBtn.parentNode) {
+              return;
+            }
+            const container = childBtn.closest('.child-page-item');
+            sendGAEvent('child_page_view', 'user_interaction', childBtn.dataset.title);
+            showChildPageDetails(childBtn.dataset.childPageId, container, childBtn);
+          }
+        });
+      }
+    });
     </script>
   <script>
     if ('serviceWorker' in navigator) {
@@ -1753,5 +1775,6 @@
   <!-- Search Panel Overlay -->
   <div id="searchPanelOverlay" class="search-panel-overlay"></div>
   </div> <!-- メインコンテンツ終了 -->
+  </div>
 </body>
 </html>
