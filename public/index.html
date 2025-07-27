@@ -552,21 +552,8 @@
           showDetailsLink.textContent = 'クリックしてファイルを表示';
           showDetailsLink.href = '#';
           showDetailsLink.className = 'show-details-btn';
-          showDetailsLink.onclick = (e) => {
-            e.preventDefault();
-            
-            // 既に詳細が表示されている場合、処理中の場合、または削除済みの場合は何もしない
-            if (showDetailsLink.style.display === 'none' || 
-                showDetailsLink.style.pointerEvents === 'none' ||
-                showDetailsLink.textContent === '読み込み中...' ||
-                !showDetailsLink.parentNode) {
-              return;
-            }
-            
-            // Google Analytics: ページ詳細表示イベントを追跡
-            trackPageDetailsView(item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page');
-            showPageDetails(item.id, resultDiv, showDetailsLink);
-          };
+          showDetailsLink.dataset.pageId = item.id;
+          showDetailsLink.dataset.title = item.properties.Name?.title?.[0]?.text?.content || 'Unknown Page';
           
           resultDiv.appendChild(showDetailsLink);
           resultsDiv.appendChild(resultDiv);
@@ -751,18 +738,8 @@
               showChildPageBtn.onmouseout = () => {
                 showChildPageBtn.style.transform = 'translateY(0) scale(1)';
               };
-              showChildPageBtn.onclick = () => {
-                // 既に処理中の場合は何もしない
-                if (showChildPageBtn.style.pointerEvents === 'none' ||
-                    showChildPageBtn.textContent === '読み込み中...' ||
-                    !showChildPageBtn.parentNode) {
-                  return;
-                }
-                
-                // Google Analytics: 子ページ表示イベントを追跡
-                sendGAEvent('child_page_view', 'user_interaction', childPage.title);
-                showChildPageDetails(childPage.id, childPageDiv, showChildPageBtn);
-              };
+              showChildPageBtn.dataset.childPageId = childPage.id;
+              showChildPageBtn.dataset.title = childPage.title;
               
               childPageDiv.appendChild(showChildPageBtn);
             }
@@ -1735,7 +1712,41 @@
     });
     
     // 初期化時にも実行
-    document.addEventListener('DOMContentLoaded', cleanupShowDetailsButtons);
+    document.addEventListener('DOMContentLoaded', () => {
+      cleanupShowDetailsButtons();
+
+      const results = document.getElementById('results');
+      if (results) {
+        results.addEventListener('click', (event) => {
+          const detailsBtn = event.target.closest('.show-details-btn');
+          if (detailsBtn) {
+            event.preventDefault();
+            if (detailsBtn.style.display === 'none' ||
+                detailsBtn.style.pointerEvents === 'none' ||
+                detailsBtn.textContent === '読み込み中...' ||
+                !detailsBtn.parentNode) {
+              return;
+            }
+            const resultDiv = detailsBtn.closest('.result-item');
+            trackPageDetailsView(detailsBtn.dataset.title || 'Unknown Page');
+            showPageDetails(detailsBtn.dataset.pageId, resultDiv, detailsBtn);
+            return;
+          }
+
+          const childBtn = event.target.closest('.child-page-btn');
+          if (childBtn) {
+            if (childBtn.style.pointerEvents === 'none' ||
+                childBtn.textContent === '読み込み中...' ||
+                !childBtn.parentNode) {
+              return;
+            }
+            const container = childBtn.closest('.child-page-item');
+            sendGAEvent('child_page_view', 'user_interaction', childBtn.dataset.title);
+            showChildPageDetails(childBtn.dataset.childPageId, container, childBtn);
+          }
+        });
+      }
+    });
     </script>
   <script>
     if ('serviceWorker' in navigator) {
