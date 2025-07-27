@@ -73,7 +73,7 @@
     
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--bg-grad);
+      background: #e6f3ff;
       min-height: 100vh;
       color: var(--text-color);
       line-height: 1.6;
@@ -83,7 +83,16 @@
       max-width: 100vw;
     }
 
-    body::before {
+    #app-wrapper {
+      background: var(--bg-grad);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    #app-wrapper::before {
       content: '';
       position: fixed;
       top: 0;
@@ -98,7 +107,7 @@
       animation: liquidMotion 6s ease-in-out infinite;
     }
 
-    body::after {
+    #app-wrapper::after {
       content: '';
       position: fixed;
       top: -50%;
