@@ -142,7 +142,7 @@
   <div id="mainContent" class="main-content">
     <div class="container">
     <h1>過去問検索システム</h1>
-    <div id="searchPanel" class="search-panel open">
+    <div id="searchPanel" class="search-panel">
       <!-- パネルヘッダー（モバイル用） -->
       <div class="panel-header">
         <h3 class="panel-title">検索・フィルター</h3>
@@ -1473,49 +1473,19 @@
         setTimeout(() => {
           fadeOutLoadingScreen();
         }, 2500); // エラー時の表示時間も短縮（3秒→2.5秒）
-      });      // モバイルでの初期状態設定
-      if (window.innerWidth <= 767) {
-        const panel = document.getElementById('searchPanel');
-        const fab = document.getElementById('fab');
-        const icon = document.getElementById('fabIcon');
-        if (panel && fab && icon) {
-          panel.classList.add('open');
-          fab.classList.add('open');
-          icon.innerHTML = '✖';
-          const overlay = document.getElementById('searchPanelOverlay');
-          overlay?.classList.add('active');
-        }
-      } else {
-        // デスクトップでは初期状態でパネルを表示、FABは非表示
-        const panel = document.getElementById('searchPanel');
-        const fab = document.getElementById('fab');
-        if (panel && fab) {
-          panel.classList.add('open');
-          fab.style.display = 'none';
-        }
-      }
+      });
     });    // レスポンシブに応じた検索パネルの初期化
     function initializeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
       const icon = document.getElementById('fabIcon');
-      
+
       if (!panel || !fab || !icon) return;
-      
-      const isDesktop = window.innerWidth >= 768;
-      
-      if (isDesktop) {
-        // デスクトップでは常に表示
-        panel.classList.add('open');
-        fab.style.display = 'none';
-      } else {
-        // モバイルでは初期状態に基づいて設定
-        if (!panel.classList.contains('open')) {
-          // パネルが閉じている場合はFABを表示
-          fab.style.display = '';
-          icon.innerHTML = '&#128269;'; // 検索アイコン
-        }
-      }
+
+      panel.classList.remove('open');
+      fab.classList.remove('hidden');
+      fab.style.display = '';
+      icon.innerHTML = '&#128269;';
     }
 
     // ウィンドウリサイズ時の対応
@@ -1530,27 +1500,7 @@
       }
     });    // ウィンドウリサイズ時の処理
     window.addEventListener('resize', function() {
-      const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-
-      if (panel && fab && icon) {
-        if (window.innerWidth > 767) {
-          // デスクトップ: パネルを常に表示、FABを非表示
-          panel.classList.add('open');
-          fab.style.display = 'none';
-          const overlay = document.getElementById('searchPanelOverlay');
-          overlay?.classList.remove('active');
-        } else {
-          // モバイル: パネルは開いた状態
-          panel.classList.add('open');
-          fab.style.display = '';
-          fab.classList.add('open');
-          icon.innerHTML = '✖';
-          const overlay = document.getElementById('searchPanelOverlay');
-          overlay?.classList.add('active');
-        }
-      }
+      initializeSearchPanel();
     });
 
     // initializeFilters関数をPromiseを返すように修正
@@ -1593,7 +1543,7 @@
       }
       
       panel.classList.add('open');
-      fab.classList.add('open');
+      fab.classList.add('hidden');
       icon.innerHTML = '✖';
       
       // 検索入力にフォーカス（モバイルでは少し遅延）
@@ -1623,7 +1573,7 @@
       }
       
       panel.classList.remove('open');
-      fab.classList.remove('open');
+      fab.classList.remove('hidden');
       icon.innerHTML = '&#128269;';
       
       // Google Analytics: パネル閉じるイベントを追跡
@@ -1639,26 +1589,7 @@
         openSearchPanel();
       }
     }
-    // FAB show/hide on scroll - スクロール停止後に少し上方向へ動いたら表示
-    let lastScrollEndY = window.scrollY;
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-      const fab = document.getElementById('fab');
-      const panel = document.getElementById('searchPanel');
 
-      if (!fab || window.innerWidth >= 768) return;
-
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        const endY = window.scrollY;
-        if (lastScrollEndY - endY > 5) {
-          fab.classList.add('show');
-        } else {
-          fab.classList.remove('show');
-        }
-        lastScrollEndY = endY;
-      }, 150);
-    });
     
     // Liquid Glass効果を適用するためのインラインスタイル削除
     function cleanupShowDetailsButtons() {
