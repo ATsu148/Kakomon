@@ -1658,27 +1658,33 @@
       } else {
         openSearchPanel();
       }
-    }    // FAB show/hide on scroll - パネルが閉じている時は常に表示
-    let lastScrollY = window.scrollY;
+    }
+    // FAB show/hide on scroll - スクロール停止後に少し上方向へ動いたら表示
+    let lastScrollEndY = window.scrollY;
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
       const fab = document.getElementById('fab');
       const panel = document.getElementById('searchPanel');
-      
+
       if (!fab || window.innerWidth >= 768) return;
-      
+
       // パネルが閉じている場合は常に表示
       if (!panel || !panel.classList.contains('open')) {
         fab.classList.add('show');
+        lastScrollEndY = window.scrollY;
         return;
       }
-      
-      // パネルが開いている場合は従来の処理
-      if (window.scrollY < lastScrollY) {
-        fab.classList.add('show');
-      } else {
-        fab.classList.remove('show');
-      }
-      lastScrollY = window.scrollY;
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const endY = window.scrollY;
+        if (lastScrollEndY - endY > 5) {
+          fab.classList.add('show');
+        } else {
+          fab.classList.remove('show');
+        }
+        lastScrollEndY = endY;
+      }, 150);
     });
     
     // Liquid Glass効果を適用するためのインラインスタイル削除
