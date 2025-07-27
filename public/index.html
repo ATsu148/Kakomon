@@ -1513,7 +1513,6 @@
         if (!panel.classList.contains('open')) {
           // パネルが閉じている場合はFABを表示
           fab.style.display = '';
-          fab.classList.add('show');
           icon.innerHTML = '&#128269;'; // 検索アイコン
         }
       }
@@ -1625,7 +1624,6 @@
       
       panel.classList.remove('open');
       fab.classList.remove('open');
-      fab.classList.add('show'); // パネルを閉じたらFABを表示
       icon.innerHTML = '&#128269;';
       
       // Google Analytics: パネル閉じるイベントを追跡
@@ -1649,13 +1647,6 @@
       const panel = document.getElementById('searchPanel');
 
       if (!fab || window.innerWidth >= 768) return;
-
-      // パネルが閉じている場合は常に表示
-      if (!panel || !panel.classList.contains('open')) {
-        fab.classList.add('show');
-        lastScrollEndY = window.scrollY;
-        return;
-      }
 
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
