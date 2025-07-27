@@ -500,7 +500,9 @@
           resultsDiv.innerHTML = '<div class="error">検索結果が見つかりませんでした。</div>';
           return;
         }
-        
+
+        const fragment = document.createDocumentFragment();
+
         for (const item of data) {
           const resultDiv = document.createElement('div');
           resultDiv.className = 'result-item';
@@ -569,11 +571,13 @@
           };
           
           resultDiv.appendChild(showDetailsLink);
-          resultsDiv.appendChild(resultDiv);
-          
+          fragment.appendChild(resultDiv);
+
           // IntersectionObserverが表示を検知した際にプリロードされます
         }
-        
+
+        resultsDiv.appendChild(fragment);
+
         // 検索結果生成後、すべてのshow-details-btnを強制的にクリーンアップ
         setTimeout(() => {
           cleanupShowDetailsButtons();
