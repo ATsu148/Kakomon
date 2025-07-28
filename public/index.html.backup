@@ -370,7 +370,7 @@
           const caption = fileData.caption ? fileData.caption.map(c => c.plain_text).join('') : '';
           const fileType = block.type;
           
-          const icon = '�';
+          const icon = '📎';
           
           html += `<div class="inline-file-container" style="
             margin: 15px 0;
@@ -1076,11 +1076,11 @@
             const icon = document.createElement('span');
             // ファイルタイプに応じてアイコンを設定
             if (file.type === 'image') {
-              icon.textContent = '🖼️';
+              icon.textContent = '�️';
             } else if (file.type === 'pdf') {
-              icon.textContent = '📄';
+              icon.textContent = '�📄';
             } else {
-              icon.textContent = '�';
+              icon.textContent = '📎';
             }
             icon.style.marginRight = '8px';
             
