@@ -68,7 +68,7 @@ export const LoadingScreenWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: 
     linear-gradient(135deg, 
       rgba(255, 255, 255, 0.1) 0%,
@@ -164,7 +164,7 @@ export const RoseLoadingContainer = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   justify-content: center;
