@@ -338,6 +338,12 @@ app.get('/page/:pageId', async (req, res) => {
       console.log(`Block ${index}: type=${block.type}, has_children=${block.has_children}, id=${block.id}`);
       if (block.type === 'child_page') {
         console.log(`  Child page title: ${block.child_page?.title}`);
+      } else if (block.type === 'image') {
+        console.log(`  Image URL: ${block.image?.type === 'external' ? block.image.external?.url : block.image?.file?.url}`);
+      } else if (block.type === 'file') {
+        console.log(`  File: ${block.file?.name}, URL: ${block.file?.type === 'external' ? block.file.external?.url : block.file?.file?.url}`);
+      } else if (block.type === 'pdf') {
+        console.log(`  PDF: ${block.pdf?.name}, URL: ${block.pdf?.type === 'external' ? block.pdf.external?.url : block.pdf?.file?.url}`);
       }
     });
     
@@ -357,7 +363,7 @@ app.get('/page/:pageId', async (req, res) => {
     // 親ページのコンテンツのみを取得（子ページを除外）
     const parentBlocks = blocks.results.filter(block => block.type !== 'child_page');
     
-    // 親ページのブロックのみを処理
+    // 親ページのブロックのみを処理（順序を保持）
     const allBlocks = [];
     
     for (const block of parentBlocks) {
@@ -387,11 +393,11 @@ app.get('/page/:pageId', async (req, res) => {
       }
     }
     
-    // ファイルブロックを抽出
+    // ファイルのみを抽出（画像は別途コンテンツ内で処理）
     const files = allBlocks.filter(block => 
       block.type === 'file' || block.type === 'pdf'
     ).map(block => {
-      console.log(`Processing block type: ${block.type}`);
+      console.log(`Processing file block type: ${block.type}`);
       if (block.type === 'file' && block.file) {
         return {
           type: 'file',
@@ -420,21 +426,27 @@ app.get('/page/:pageId', async (req, res) => {
     for (const block of childPageBlocks) {
       try {
         console.log(`Found child_page block: ${block.id}, title: ${block.child_page?.title}`);
+        console.log(`Child page block structure:`, JSON.stringify(block, null, 2));
+        
+        // 子ページブロック自体のIDではなく、child_page.id が存在する場合はそれを使用
+        const childPageId = block.child_page?.id || block.id;
+        console.log(`Using child page ID: ${childPageId}`);
         
         // 子ページの詳細を取得
-        const childPage = await notion.pages.retrieve({ page_id: block.id });
+        const childPage = await notion.pages.retrieve({ page_id: childPageId });
         childPages.push({
-          id: block.id,
+          id: childPageId,
           title: block.child_page.title,
           properties: childPage.properties
         });
       } catch (error) {
         console.error(`Error fetching child page ${block.id}:`, error);
+        console.error(`Error details:`, error.message);
         
         // エラーが発生した場合でもタイトルだけは表示
         childPages.push({
           id: block.id,
-          title: block.child_page.title,
+          title: block.child_page?.title || 'Untitled',
           properties: null,
           error: 'アクセスできません'
         });
@@ -445,6 +457,7 @@ app.get('/page/:pageId', async (req, res) => {
     const parentPageContent = allBlocks;
      console.log(`Final child pages count: ${childPages.length}`);
     console.log(`Parent page content blocks: ${parentPageContent.length}`);
+    console.log(`Child pages details:`, childPages.map(cp => ({ id: cp.id, title: cp.title, hasError: !!cp.error })));
     
     const result = {
       page: {
@@ -505,7 +518,7 @@ app.get('/child-page/:pageId', async (req, res) => {
       }
     }
     
-    // ファイルブロックを抽出
+    // ファイルのみを抽出（画像は別途コンテンツ内で処理）
     const files = allBlocks.filter(block => 
       block.type === 'file' || block.type === 'pdf'
     ).map(block => {
