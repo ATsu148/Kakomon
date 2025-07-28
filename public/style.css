@@ -74,7 +74,8 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: #e6f3ff;
-      min-height: 100vh;
+      min-height: 100dvh;
+      padding-bottom: env(safe-area-inset-bottom);
       color: var(--text-color);
       line-height: 1.6;
       overflow-x: hidden;
@@ -85,7 +86,7 @@
 
     #app-wrapper {
       background: var(--bg-grad);
-      min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
       position: relative;
       width: 100%;
@@ -128,7 +129,7 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background: var(--bg-grad);
       display: flex;
       flex-direction: column;
@@ -199,7 +200,7 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       overflow: hidden; /* クリチE��ングを制御 */
       display: flex;
       justify-content: center;
@@ -258,7 +259,7 @@
         justify-content: center;
         align-items: center;
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         flex-direction: column;
       }
     }
@@ -1660,7 +1661,7 @@
     .wave-loading-container {
       position: relative;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
 
@@ -1935,7 +1936,7 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background: rgba(0, 0, 0, 0.25);
       z-index: 999;
       transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -1954,7 +1955,7 @@
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       background: rgba(0, 0, 0, 0.15);
       z-index: 999;
       transition: opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
