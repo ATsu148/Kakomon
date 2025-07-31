@@ -5,6 +5,9 @@
       periods: new Set()
     };
 
+    // 検索パネルの状態を保持
+    let isSearchPanelOpen = false;
+
     // ページ詳細のキャッシュ
     const pageDetailsCache = new Map();
 
@@ -1362,26 +1365,29 @@
       const icon = document.getElementById('fabIcon');
 
       if (!panel || !fab || !icon) return;
-
-      panel.classList.remove('open');
-      fab.classList.remove('hidden');
-      fab.style.display = '';
-      icon.innerHTML = '&#128269;';
+      if (isSearchPanelOpen) {
+        panel.classList.add('open');
+        fab.classList.add('hidden');
+        icon.innerHTML = '✖';
+      } else {
+        panel.classList.remove('open');
+        fab.classList.remove('hidden');
+        fab.style.display = '';
+        icon.innerHTML = '&#128269;';
+      }
     }
 
     // ウィンドウリサイズ時の対応
     window.addEventListener('resize', () => {
       initializeSearchPanel();
-    });    // Enterキーで検索
+    });
+    // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         // Google Analytics: Enterキーによる検索イベントを追跡
         sendGAEvent('search_enter_key', 'user_interaction', 'search_input');
         search();
       }
-    });    // ウィンドウリサイズ時の処理
-    window.addEventListener('resize', function() {
-      initializeSearchPanel();
     });
 
     // initializeFilters関数をPromiseを返すように修正
@@ -1426,6 +1432,9 @@
       panel.classList.add('open');
       fab.classList.add('hidden');
       icon.innerHTML = '✖';
+
+      // 状態を更新
+      isSearchPanelOpen = true;
       
       // 検索入力にフォーカス（モバイルでは少し遅延）
       setTimeout(() => {
@@ -1456,6 +1465,9 @@
       panel.classList.remove('open');
       fab.classList.remove('hidden');
       icon.innerHTML = '&#128269;';
+
+      // 状態を更新
+      isSearchPanelOpen = false;
       
       // Google Analytics: パネル閉じるイベントを追跡
       sendGAEvent('close_search_panel', 'user_interaction', 'fab_button');
