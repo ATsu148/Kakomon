@@ -1334,6 +1334,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       disableScroll();
       initializeSearchPanel();
+      handleSearchPanelOnScroll();
 
       const spinner = document.getElementById('spinnerContainer');
       if (spinner) {
@@ -1381,7 +1382,37 @@
     // ウィンドウリサイズ時の対応
     window.addEventListener('resize', () => {
       initializeSearchPanel();
+      handleSearchPanelOnScroll();
     });
+
+    // モバイル向け: スクロール位置に応じて検索パネル表示を切り替え
+    window.addEventListener('scroll', handleSearchPanelOnScroll);
+
+    function handleSearchPanelOnScroll() {
+      const panel = document.getElementById('searchPanel');
+      const fab = document.getElementById('fab');
+      const overlay = document.getElementById('searchPanelOverlay');
+
+      if (!panel || !fab) return;
+
+      // 非モバイル環境またはモーダル表示中は何もしない
+      if (window.innerWidth > 767 || isSearchPanelOpen) {
+        panel.classList.remove('search-panel-inline');
+        return;
+      }
+
+      if (window.scrollY <= 10) {
+        panel.classList.add('search-panel-inline', 'open');
+        fab.classList.add('hidden');
+        if (overlay) overlay.classList.remove('active');
+      } else {
+        panel.classList.remove('search-panel-inline');
+        panel.classList.remove('open');
+        fab.classList.remove('hidden');
+        if (overlay) overlay.classList.remove('active');
+        isSearchPanelOpen = false;
+      }
+    }
     // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
