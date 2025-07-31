@@ -494,7 +494,7 @@
           
           // クリックして詳細を表示するリンク
           const showDetailsLink = document.createElement('a');
-          showDetailsLink.textContent = 'クリックしてファイルを表示';
+          showDetailsLink.textContent = '展開';
           showDetailsLink.href = '#';
           showDetailsLink.className = 'show-details-btn';
           showDetailsLink.dataset.pageId = item.id;
@@ -614,10 +614,10 @@
             const actionsDiv = document.createElement('div');
             actionsDiv.className = 'file-actions';
             
-            const viewBtn = document.createElement('button');
-            viewBtn.className = 'file-btn';
-            viewBtn.textContent = '表示';
-            viewBtn.onclick = () => {
+            const expandBtn = document.createElement('button');
+            expandBtn.className = 'file-btn expand-btn';
+            expandBtn.textContent = '展開';
+            expandBtn.onclick = () => {
               // Google Analytics: ファイル表示イベントを追跡
               trackFileAction('file_view', file.name, file.url);
               
@@ -634,23 +634,8 @@
                 }
               }
             };
-            
-            const openTabBtn = document.createElement('button');
-            openTabBtn.className = 'file-btn open-tab';
-            openTabBtn.textContent = '新しいタブで開く';
-            openTabBtn.onclick = () => {
-              // Google Analytics: ファイル新しいタブで開くイベントを追跡
-              trackFileAction('file_open_new_tab', file.name, file.url);
-              window.open(file.url, '_blank', 'noopener,noreferrer');
-            };
-            
-            actionsDiv.appendChild(viewBtn);
-            
-            // iOS の場合は「新しいタブで開く」ボタンを非表示にする
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            if (!isIOS) {
-              actionsDiv.appendChild(openTabBtn);
-            }
+
+            actionsDiv.appendChild(expandBtn);
             
             fileDiv.appendChild(icon);
             fileDiv.appendChild(link);
@@ -803,7 +788,7 @@
         // エラー時はボタンの状態を元に戻す
         link.style.pointerEvents = 'auto';
         link.style.opacity = '1';
-        link.textContent = originalText || 'クリックしてファイルを表示';
+        link.textContent = originalText || '展開';
         link.style.display = originalDisplay || 'block';
         
         let filesSection = resultDiv.querySelector('.files-section');
@@ -909,13 +894,13 @@
             link.onmouseover = () => link.style.textDecoration = 'underline';
             link.onmouseout = () => link.style.textDecoration = 'none';
             
-            const viewBtn = document.createElement('button');
-            viewBtn.textContent = '表示';
+            const expandBtn = document.createElement('button');
+            expandBtn.textContent = '展開';
             
             // CSS変数を使用してテーマに対応
             const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
             
-            viewBtn.style.cssText = `
+            expandBtn.style.cssText = `
               padding: 4px 8px;
               color: white;
               border: none;
@@ -924,8 +909,8 @@
               font-size: 12px;
               margin-left: 8px;
             `;
-            viewBtn.style.background = accentColor;
-            viewBtn.onclick = () => {
+            expandBtn.style.background = accentColor;
+            expandBtn.onclick = () => {
               // Google Analytics: 子ページファイル表示イベントを追跡
               trackFileAction('child_file_view', file.name, file.url);
               
@@ -944,7 +929,7 @@
             
             fileDiv.appendChild(icon);
             fileDiv.appendChild(link);
-            fileDiv.appendChild(viewBtn);
+            fileDiv.appendChild(expandBtn);
             childDetailsSection.appendChild(fileDiv);
             
             // キャプション表示
