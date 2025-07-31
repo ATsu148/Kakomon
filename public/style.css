@@ -242,6 +242,14 @@ select {
   .search-panel.open {
     display: block;
   }
+  .search-panel-inline {
+    position: static;
+    transform: none;
+    display: block;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: auto;
+  }
   #results {
     padding-bottom: 80px;
   }

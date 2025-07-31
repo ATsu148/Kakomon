@@ -8,6 +8,35 @@
     // 検索パネルの状態を保持
     let isSearchPanelOpen = false;
 
+    function updateSearchPanelDisplay() {
+      const panel = document.getElementById('searchPanel');
+      const fab = document.getElementById('fab');
+      const overlay = document.getElementById('searchPanelOverlay');
+      const icon = document.getElementById('fabIcon');
+
+      if (!panel || !fab || !icon) return;
+
+      const isMobile = window.innerWidth <= 767;
+      const atTop = window.scrollY <= 10;
+
+      if (isMobile && atTop) {
+        panel.classList.add('search-panel-inline');
+        panel.classList.remove('open');
+        fab.classList.add('hidden');
+        if (overlay) overlay.classList.remove('active');
+        icon.innerHTML = '&#128269;';
+        isSearchPanelOpen = false;
+      } else if (isMobile) {
+        panel.classList.remove('search-panel-inline');
+        if (!isSearchPanelOpen) panel.classList.remove('open');
+        fab.classList.remove('hidden');
+      } else {
+        panel.classList.remove('search-panel-inline');
+        fab.classList.add('hidden');
+        if (!isSearchPanelOpen) panel.classList.remove('open');
+      }
+    }
+
     // ページ詳細のキャッシュ
     const pageDetailsCache = new Map();
 
@@ -1333,7 +1362,7 @@
     }    // ページ読み込み時の初期化
     window.addEventListener('DOMContentLoaded', () => {
       disableScroll();
-      initializeSearchPanel();
+      updateSearchPanelDisplay();
 
       const spinner = document.getElementById('spinnerContainer');
       if (spinner) {
@@ -1361,26 +1390,17 @@
     });
    // レスポンシブに応じた検索パネルの初期化
     function initializeSearchPanel() {
-      const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
-
-      if (!panel || !fab || !icon) return;
-      if (isSearchPanelOpen) {
-        panel.classList.add('open');
-        fab.classList.add('hidden');
-        icon.innerHTML = '✖';
-      } else {
-        panel.classList.remove('open');
-        fab.classList.remove('hidden');
-        fab.style.display = '';
-        icon.innerHTML = '&#128269;';
-      }
+      updateSearchPanelDisplay();
     }
 
     // ウィンドウリサイズ時の対応
     window.addEventListener('resize', () => {
-      initializeSearchPanel();
+      updateSearchPanelDisplay();
+    });
+    window.addEventListener('scroll', () => {
+      if (window.innerWidth <= 767) {
+        updateSearchPanelDisplay();
+      }
     });
     // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
@@ -1435,7 +1455,8 @@
       if (overlay) {
         overlay.classList.add('active');
       }
-      
+
+      panel.classList.remove('search-panel-inline');
       panel.classList.add('open');
       fab.classList.add('hidden');
       icon.innerHTML = '✖';
@@ -1475,7 +1496,9 @@
 
       // 状態を更新
       isSearchPanelOpen = false;
-      
+
+      updateSearchPanelDisplay();
+
       // Google Analytics: パネル閉じるイベントを追跡
       sendGAEvent('close_search_panel', 'user_interaction', 'fab_button');
     }
