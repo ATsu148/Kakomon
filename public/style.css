@@ -125,14 +125,18 @@ select {
 .file-link:hover {
   text-decoration: underline;
 }
+.file-actions {
+  display: flex;
+  gap: 8px;
+}
 .file-btn {
-  margin-left: 8px;
   padding: 4px 8px;
   border: 1px solid var(--main-color);
   background: #fff;
   color: var(--main-color);
   border-radius: 4px;
   cursor: pointer;
+  transition: background 0.3s, color 0.3s;
 }
 .file-btn:hover {
   background: var(--main-color);

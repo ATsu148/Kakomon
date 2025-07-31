@@ -613,44 +613,31 @@
             
             const actionsDiv = document.createElement('div');
             actionsDiv.className = 'file-actions';
-            
+
             const viewBtn = document.createElement('button');
             viewBtn.className = 'file-btn';
-            viewBtn.textContent = '表示';
+            viewBtn.textContent = '展開';
             viewBtn.onclick = () => {
               // Google Analytics: ファイル表示イベントを追跡
               trackFileAction('file_view', file.name, file.url);
-              
+
               // iOS の場合は新しいタブで開く
               const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
               if (isIOS) {
                 window.open(file.url, '_blank', 'noopener,noreferrer');
+                return;
+              }
+
+              if (file.type === 'image') {
+                showImage(file.url, file.name, resultDiv);
+              } else if (file.type === 'pdf') {
+                showPDF(file.url, file.name, resultDiv);
               } else {
-                // ファイルタイプに応じて表示方法を変更
-                if (file.type === 'image') {
-                  showImage(file.url, file.name, resultDiv);
-                } else {
-                  showPDF(file.url, file.name, resultDiv);
-                }
+                window.open(file.url, '_blank', 'noopener,noreferrer');
               }
             };
-            
-            const openTabBtn = document.createElement('button');
-            openTabBtn.className = 'file-btn open-tab';
-            openTabBtn.textContent = '新しいタブで開く';
-            openTabBtn.onclick = () => {
-              // Google Analytics: ファイル新しいタブで開くイベントを追跡
-              trackFileAction('file_open_new_tab', file.name, file.url);
-              window.open(file.url, '_blank', 'noopener,noreferrer');
-            };
-            
+
             actionsDiv.appendChild(viewBtn);
-            
-            // iOS の場合は「新しいタブで開く」ボタンを非表示にする
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-            if (!isIOS) {
-              actionsDiv.appendChild(openTabBtn);
-            }
             
             fileDiv.appendChild(icon);
             fileDiv.appendChild(link);
