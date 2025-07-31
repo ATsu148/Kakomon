@@ -1408,6 +1408,12 @@
         populateFilterOptions('subjectFilter', data.subjects);
         populateFilterOptions('gradeFilter', data.grades);
         populateFilterOptions('periodFilter', data.periods);
+
+        // 時期フィルタはデフォルトで「前期期末」を選択
+        const periodSelect = document.getElementById('periodFilter');
+        if (periodSelect) {
+          periodSelect.value = '前期期末';
+        }
         
         console.log('フィルタの初期化が完了しました');
       } catch (error) {
