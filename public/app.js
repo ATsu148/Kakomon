@@ -1334,6 +1334,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       disableScroll();
       initializeSearchPanel();
+      updateSearchPanelOnScroll();
 
       const spinner = document.getElementById('spinnerContainer');
       if (spinner) {
@@ -1360,28 +1361,53 @@
       });
     });
    // レスポンシブに応じた検索パネルの初期化
-    function initializeSearchPanel() {
-      const panel = document.getElementById('searchPanel');
-      const fab = document.getElementById('fab');
-      const icon = document.getElementById('fabIcon');
+function initializeSearchPanel() {
+  const panel = document.getElementById('searchPanel');
+  const fab = document.getElementById('fab');
+  const icon = document.getElementById('fabIcon');
 
-      if (!panel || !fab || !icon) return;
-      if (isSearchPanelOpen) {
-        panel.classList.add('open');
-        fab.classList.add('hidden');
-        icon.innerHTML = '✖';
-      } else {
-        panel.classList.remove('open');
-        fab.classList.remove('hidden');
-        fab.style.display = '';
-        icon.innerHTML = '&#128269;';
-      }
-    }
+  if (!panel || !fab || !icon) return;
+  if (isSearchPanelOpen) {
+    panel.classList.add('open');
+    fab.classList.add('hidden');
+    icon.innerHTML = '✖';
+  } else {
+    panel.classList.remove('open');
+    fab.classList.remove('hidden');
+    fab.style.display = '';
+    icon.innerHTML = '&#128269;';
+  }
+}
 
-    // ウィンドウリサイズ時の対応
-    window.addEventListener('resize', () => {
-      initializeSearchPanel();
-    });
+// Update search panel visibility based on scroll position for mobile
+function updateSearchPanelOnScroll() {
+  const panel = document.getElementById('searchPanel');
+  const fab = document.getElementById('fab');
+  const overlay = document.getElementById('searchPanelOverlay');
+
+  if (!panel || !fab) return;
+  if (window.innerWidth > 767) return;
+
+  if (window.scrollY <= 10 && !isSearchPanelOpen) {
+    panel.classList.add('search-panel-inline');
+    panel.classList.add('open');
+    fab.classList.add('hidden');
+    if (overlay) overlay.classList.remove('active');
+  } else if (window.scrollY > 10) {
+    panel.classList.remove('search-panel-inline');
+    if (!isSearchPanelOpen) panel.classList.remove('open');
+    fab.classList.remove('hidden');
+    if (overlay) overlay.classList.remove('active');
+  }
+}
+
+// ウィンドウリサイズ時の対応
+window.addEventListener('resize', () => {
+  initializeSearchPanel();
+  updateSearchPanelOnScroll();
+});
+
+window.addEventListener('scroll', updateSearchPanelOnScroll);
     // Enterキーで検索
     document.getElementById('searchInput')?.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
