@@ -399,16 +399,17 @@
       document.getElementById('subjectFilter').value = '';
       document.getElementById('gradeFilter').value = '';
       document.getElementById('periodFilter').value = '';
-      search(); // フィルタクリア後に再検索
+      // フィルタをクリアしても自動検索は実行しない
     }
 
     function onFilterChange(filterType, filterValue) {
       // Google Analytics: フィルター使用イベントを追跡
       trackFilterUsage(filterType, filterValue);
       
-      // フィルター変更後に自動検索
-      search();
-    }   async function search() {
+      // フィルタ変更後も検索は自動実行しない
+    }
+
+    async function search() {
      const query = document.getElementById('searchInput').value;
      const subject = document.getElementById('subjectFilter').value;
      const grade = document.getElementById('gradeFilter').value;
