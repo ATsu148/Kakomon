@@ -1,7 +1,7 @@
 {
   "name": "kakomon",
   "version": "1.0.0",
-  "description": "",
+  "description": "This example uses Node.js with Express and the Notion API to query a specific Notion database.\r The application exposes a `/search` endpoint that can be called from the included HTML page.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -24,5 +24,13 @@
   },
   "devDependencies": {
     "jest": "^30.0.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ATsu148/Kakomon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ATsu148/Kakomon/issues"
+  },
+  "homepage": "https://github.com/ATsu148/Kakomon#readme"
 }
