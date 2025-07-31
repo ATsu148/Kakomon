@@ -1355,7 +1355,7 @@
         }, 1500);
       });
     });
-    });    // レスポンシブに応じた検索パネルの初期化
+   // レスポンシブに応じた検索パネルの初期化
     function initializeSearchPanel() {
       const panel = document.getElementById('searchPanel');
       const fab = document.getElementById('fab');
