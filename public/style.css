@@ -1,14 +1,14 @@
 :root {
-  --base-color: #f2f2f2;
-  --main-color: #007bff;
-  --accent-color: #333;
+  --base-color: #f8fafc;
+  --main-color: #3498db;
+  --accent-color: #2c3e50;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background: var(--base-color);
   color: var(--accent-color);
   line-height: 1.5;
@@ -54,12 +54,14 @@ button:active {
 .search-btn,
 .file-btn,
 .child-page-btn,
-.show-details-btn {
+.show-details-btn,
+.close-content-btn {
   padding: 8px 16px;
   background: var(--main-color);
   color: #fff;
   border: none;
   border-radius: 4px;
+  margin-top: 4px;
 }
 .filters {
   display: flex;
@@ -105,7 +107,11 @@ select {
   transition: opacity 0.2s ease;
 }
 
-.file-btn.expand-btn:hover {
+.file-btn.expand-btn:hover,
+.search-btn:hover,
+.child-page-btn:hover,
+.show-details-btn:hover,
+.close-content-btn:hover {
   opacity: 0.85;
 }
 .result-item {
@@ -152,6 +158,13 @@ select {
 }
 .file-link:hover {
   text-decoration: underline;
+}
+.page-content {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 .loading-screen {
   position: fixed;

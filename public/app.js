@@ -573,7 +573,6 @@
       // 既にファイルセクションが存在する場合は何もしない
       const existingFilesSection = resultDiv.querySelector('.files-section');
       if (existingFilesSection) {
-        link.remove();
         return;
       }
       
@@ -582,6 +581,10 @@
       const originalPointerEvents = link.style.pointerEvents;
       const originalOpacity = link.style.opacity;
       const originalDisplay = link.style.display;
+      link.dataset.originalText = originalText;
+      link.dataset.originalPointer = originalPointerEvents;
+      link.dataset.originalOpacity = originalOpacity;
+      link.dataset.originalDisplay = originalDisplay;
       
       // リンクを無効化してローディング表示
       link.style.pointerEvents = 'none';
@@ -813,8 +816,21 @@
           console.log('Content exists (files, content, or child pages) - not showing empty message');
         }
         
-        // 成功時はリンクを完全に削除
-        link.remove();
+        // 閉じるボタンを追加
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '内容を閉じる';
+        closeBtn.className = 'close-content-btn';
+        closeBtn.onclick = () => {
+          filesSection.remove();
+          link.style.pointerEvents = originalPointerEvents;
+          link.style.opacity = originalOpacity;
+          link.textContent = originalText || '展開';
+          link.style.display = originalDisplay || 'block';
+        };
+        filesSection.prepend(closeBtn);
+
+        // 元のリンクは非表示にする
+        link.style.display = 'none';
         
       } catch (error) {
         console.error('ページ詳細の表示中にエラーが発生しました:', error);
